@@ -6,7 +6,7 @@
   <title>Μενού με Καλάθι - Crepe de France</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
   <style>
- :root {
+:root {
   --primary-color: #ff7a00;
   --secondary-color: #e64a19;
   --accent-color: #28a745;
@@ -32,6 +32,11 @@
 
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-y: auto; /* Ensure the page can scroll */
 }
 
 body {
@@ -172,6 +177,7 @@ header h1 {
   max-width: 1200px;
   margin: 20px auto;
   padding: 10px;
+  overflow-y: visible; /* Ensure the container can grow and scroll */
 }
 
 .category-container {
@@ -418,6 +424,7 @@ h2.menu-section-title {
   align-items: center;
   justify-content: center;
   z-index: 2000;
+  overflow-y: auto; /* Enable scrolling within the modal */
 }
 
 .customization-modal.active {
@@ -433,6 +440,8 @@ h2.menu-section-title {
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease-in-out;
+  max-height: 90vh; /* Prevent modal from exceeding viewport height */
+  overflow-y: auto; /* Enable scrolling within modal if content is too long */
 }
 
 @keyframes fadeIn {
@@ -533,6 +542,7 @@ h2.menu-section-title {
   align-items: center;
   justify-content: center;
   z-index: 2500;
+  overflow-y: auto; /* Enable scrolling within the modal */
 }
 
 .login-modal.active {
@@ -548,6 +558,8 @@ h2.menu-section-title {
   position: relative;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   animation: fadeIn 0.3s ease-in-out;
+  max-height: 90vh; /* Prevent modal from exceeding viewport height */
+  overflow-y: auto; /* Enable scrolling within modal if content is too long */
 }
 
 .login-modal .modal-content h2 {
@@ -588,6 +600,7 @@ h2.menu-section-title {
   margin-top: 20px;
 }
 
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .menu-item {
     flex-direction: column;
@@ -687,6 +700,7 @@ h2.menu-section-title {
     max-width: 95%;
   }
 }
+
 
   </style>
 </head>
