@@ -1,8 +1,9 @@
 {
   "name": "crepes_de_france1",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -11,7 +12,9 @@
   "description": "",
   "dependencies": {
     "connect-flash": "^0.1.1",
-    "crepes_de_france1": "file:",
+    "dotenv": "^16.4.7",
+    "express": "^4.18.2",
+    "body-parser": "^1.20.1",
     "express-session": "^1.18.1"
   }
 }
