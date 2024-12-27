@@ -1,20 +1,19 @@
-// server.js
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
-const flash = require('connect-flash'); // Optional for flash messages
+const flash = require('connect-flash');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // Use the Render-provided PORT
 
 // Hardcoded users and passwords
 const hardcodedUsers = {
     admin: 'admin123',
     john_doe: 'password1',
     jane_smith: 'mysecretpass',
-    dashboard_user: 'dashboardpass', // New user for redirecting to dashboard.html
+    dashboard_user: 'dashboardpass', // User for dashboard access
 };
 
 // Middleware
@@ -24,27 +23,27 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Configure session middleware
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'your_secret_key', // Use a strong secret in production
+    secret: process.env.SESSION_SECRET || 'your_secret_key', // Use a secure secret in production
     resave: false,
     saveUninitialized: false,
     cookie: {
-        httpOnly: true, // Mitigates XSS attacks
-        secure: process.env.NODE_ENV === 'production', // Ensures the browser only sends the cookie over HTTPS
+        httpOnly: true, // Helps mitigate XSS attacks
+        secure: process.env.NODE_ENV === 'production', // Ensures HTTPS-only cookies in production
         maxAge: 1000 * 60 * 60 * 24, // 1 day
     },
 }));
 
-// Initialize flash middleware
+// Flash message middleware
 app.use(flash());
 
-// Middleware to make flash messages available in all templates (if using template engines)
+// Middleware to make flash messages available globally
 app.use((req, res, next) => {
     res.locals.success_messages = req.flash('success');
     res.locals.error_messages = req.flash('error');
     next();
 });
 
-// Middleware to authenticate users
+// Authentication middleware
 function authenticate(req, res, next) {
     if (!req.session.user) {
         return res.redirect('/login.html'); // Redirect to login if not authenticated
@@ -52,7 +51,7 @@ function authenticate(req, res, next) {
     next();
 }
 
-// Middleware to authorize access to dashboard.html
+// Authorization middleware for dashboard access
 function authorizeDashboard(req, res, next) {
     if (req.session.user && req.session.user.username === 'dashboard_user') {
         return next();
@@ -65,22 +64,22 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-// Serve login.html explicitly for clarity
+// Serve login explicitly
 app.get('/login.html', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-// Serve menuel.html (accessible by all authenticated users)
+// Serve menu for authenticated users
 app.get('/menuel.html', authenticate, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'menuel.html'));
 });
 
-// Serve dashboard.html (restricted to 'dashboard_user')
+// Serve dashboard for authorized users
 app.get('/dashboard.html', authenticate, authorizeDashboard, (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'dashboard.html'));
 });
 
-// Route to handle login
+// Handle login
 app.post('/login', (req, res) => {
     const { username, password } = req.body;
 
@@ -97,6 +96,7 @@ app.post('/login', (req, res) => {
     // Establish session
     req.session.user = { username };
 
+    // Redirect based on user type
     if (username === 'dashboard_user') {
         return res.redirect('/dashboard.html');
     } else {
@@ -104,7 +104,7 @@ app.post('/login', (req, res) => {
     }
 });
 
-// Route to handle logout
+// Handle logout
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {
         if (err) {
