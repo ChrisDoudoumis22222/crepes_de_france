@@ -1,0 +1,1958 @@
+<!DOCTYPE html>
+<html lang="gr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Μενού με Καλάθι - Crepe de France</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Icons8 Icons (Removed Font Awesome Icons) -->
+    <style>
+        /* CSS Variables for Consistent Theming */
+        :root {
+            --primary-color: #ff7a00;
+            --secondary-color: #e64a19;
+            --accent-color: #28a745;
+            --background-color: #f5f5f5;
+            --text-color: #121212;
+            --light-text: #555555;
+            --card-bg: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+            --border-radius: 15px;
+            --font-family: 'Montserrat', sans-serif;
+            --icon-size: 60px;
+            --btn-hover-scale: 1.05;
+            --modal-bg: rgba(0, 0, 0, 0.6);
+            --modal-content-bg: #ffffff;
+            --notification-bg: #28a745;
+            --notification-text: #ffffff;
+            --notification-padding: 10px 20px;
+            --notification-border-radius: 5px;
+            --notification-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            --notification-font-size: 1em;
+        }
+
+        /* Reset and Basic Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--card-bg);
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        header h1 {
+            margin: 10px 0;
+            font-size: 2.5em;
+            color: var(--primary-color);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* Back Button Styles */
+        .back-button {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--primary-color);
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .back-button:hover,
+        .back-button:focus {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        /* Cart Button Styles */
+        .cart-button {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-button img {
+            width: 35px;
+            height: 35px;
+        }
+
+        .cart-button:hover,
+        .cart-button:focus {
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        /* Login Button Styles */
+        .login-button {
+            position: absolute;
+            right: 80px;
+            top: 20px;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            transition: transform var(--transition-speed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login-button img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .login-button:hover,
+        .login-button:focus {
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        /* Notification Container Styles */
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3000;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Notification Styles */
+        .notification {
+            background: var(--notification-bg);
+            color: var(--notification-text);
+            padding: var(--notification-padding);
+            border-radius: var(--notification-border-radius);
+            box-shadow: var(--notification-box-shadow);
+            font-size: var(--notification-font-size);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {opacity: 1; transform: translateY(0);}
+            to {opacity: 0; transform: translateY(-10px);}
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        /* Container Styles */
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 10px;
+        }
+
+        /* Category Container and Cards */
+        .category-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .category-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            text-align: center;
+            transition: transform var(--transition-speed) ease-in-out, box-shadow var(--transition-speed);
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .category-card h2 {
+            color: var(--primary-color);
+            font-size: 1.2em;
+            margin-top: 10px;
+            text-transform: capitalize;
+        }
+
+        /* Menu Section Styles */
+        .menu-section {
+            margin-bottom: 40px;
+        }
+
+        h2.menu-section-title {
+            color: var(--primary-color);
+            font-size: 2em;
+            padding: 10px 0;
+            margin-bottom: 20px;
+            text-align: left;
+            border-bottom: 2px solid var(--primary-color);
+            text-transform: capitalize;
+            font-weight: 600;
+        }
+
+        /* Menu Item Styles */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            transition: transform var(--transition-speed) ease-in-out;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            transform: scale(1.02);
+        }
+
+        .menu-item img {
+            width: 120px;
+            height: 120px;
+            border-radius: var(--border-radius);
+            object-fit: cover;
+            transition: transform var(--transition-speed);
+        }
+
+        .menu-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .menu-item-info {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+
+        .menu-item-info h3 {
+            color: var(--text-color);
+            font-size: 1.4em;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .menu-item-info p {
+            color: var(--light-text);
+            font-size: 1em;
+            margin: 5px 0;
+        }
+
+        .menu-item-info a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: bold;
+            transition: color var(--transition-speed);
+        }
+
+        .menu-item-info a:hover,
+        .menu-item-info a:focus {
+            color: var(--secondary-color);
+            outline: none;
+        }
+
+        /* Add to Cart Button Styles */
+        .add-to-cart-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--accent-color);
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            position: relative;
+        }
+
+        .add-to-cart-btn::after {
+            content: '+';
+            color: #ffffff;
+            font-size: 24px;
+            line-height: 24px;
+            font-weight: bold;
+        }
+
+        .add-to-cart-btn:hover,
+        .add-to-cart-btn:focus {
+            background-color: var(--secondary-color);
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        /* Cart Popup Styles */
+        .cart-popup {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s;
+            z-index: 1000;
+        }
+
+        .cart-popup.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .cart-popup h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            text-align: center;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: color var(--transition-speed);
+        }
+
+        .close-popup:hover,
+        .close-popup:focus {
+            color: var(--secondary-color);
+            outline: none;
+        }
+
+        /* Checkout Button Styles */
+        .checkout-btn {
+            background: linear-gradient(45deg, var(--primary-color), #ffcc00);
+            color: #ffffff;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 30px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-top: 20px;
+            font-weight: 600;
+        }
+
+        .checkout-btn:hover,
+        .checkout-btn:focus {
+            background: linear-gradient(45deg, var(--secondary-color), #e6b800);
+            transform: scale(1.05);
+            outline: none;
+        }
+
+        .checkout-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+
+        /* Customization Modal Styles */
+        .customization-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .customization-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--modal-content-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-content h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .modal-content .extras {
+            margin: 20px 0;
+        }
+
+        .modal-content .extras h3 {
+            font-size: 1.2em;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+
+        .modal-content .extras label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+
+        .modal-content .extras input[type="checkbox"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .modal-content .total-price {
+            font-size: 1.2em;
+            text-align: right;
+            color: var(--primary-color);
+            margin-top: 10px;
+            font-weight: 600;
+        }
+
+        .modal-content .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .modal-content .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            font-weight: 600;
+        }
+
+        .modal-content .modal-buttons .cancel-btn {
+            background-color: #cccccc;
+            color: #333333;
+        }
+
+        .modal-content .modal-buttons .cancel-btn:hover,
+        .modal-content .modal-buttons .cancel-btn:focus {
+            background-color: #b3b3b3;
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        .modal-content .modal-buttons .add-btn {
+            background-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        .modal-content .modal-buttons .add-btn:hover,
+        .modal-content .modal-buttons .add-btn:focus {
+            background-color: #1e7e34;
+            transform: translateY(-2px);
+            outline: none;
+        }
+
+        /* Login Modal Styles */
+        .login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--modal-bg);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2500;
+        }
+
+        .login-modal.active {
+            display: flex;
+        }
+
+        .login-modal .modal-content {
+            background-color: var(--modal-content-bg);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 400px;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .login-modal .modal-content h2 {
+            margin-top: 0;
+            color: var(--primary-color);
+            font-size: 1.8em;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .login-modal .modal-content form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .login-modal .modal-content form label {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            font-size: 1em;
+            color: var(--text-color);
+        }
+
+        .login-modal .modal-content form input {
+            width: 100%;
+            padding: 8px 10px;
+            margin-top: 5px;
+            border: 1px solid #cccccc;
+            border-radius: 5px;
+            font-size: 1em;
+        }
+
+        .login-modal .modal-content .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .menu-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .menu-item img {
+                width: 100%;
+                height: auto;
+                border-radius: 10px;
+            }
+
+            .menu-item-info {
+                padding-left: 0;
+                padding-top: 10px;
+            }
+
+            .category-container {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            }
+
+            .category-card h2 {
+                font-size: 1em;
+            }
+
+            .add-to-cart-btn {
+                width: 35px;
+                height: 35px;
+            }
+
+            .menu-section-title {
+                font-size: 1.8em;
+            }
+
+            .menu-item-info h3 {
+                font-size: 1.2em;
+            }
+
+            .checkout-btn {
+                padding: 10px 16px;
+                font-size: 0.9em;
+            }
+
+            /* Adjust header elements on smaller screens */
+            header {
+                padding: 15px;
+            }
+
+            .cart-button {
+                right: 60px;
+            }
+
+            .login-button {
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .category-container {
+                grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            }
+
+            .category-card {
+                padding: 15px;
+            }
+
+            .menu-section-title {
+                font-size: 1.6em;
+            }
+
+            .menu-item-info h3 {
+                font-size: 1em;
+            }
+
+            .checkout-btn {
+                padding: 8px 14px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <!-- Logo -->
+        <img src="https://cdn.e-food.gr/shop/762805/logo?t=1647428522" alt="Crepe de France Logo" width="150">
+        <!-- Page Title -->
+        <h1>Μενού Crepe de France</h1>
+        <!-- Login Button -->
+        <button class="login-button" onclick="openLoginModal()" aria-label="Σύνδεση">
+            <img src="https://img.icons8.com/ios-filled/50/000000/login-rounded-right.png" alt="Σύνδεση">
+        </button>
+        <!-- Cart Button -->
+        <button class="cart-button" onclick="showCartPopup()" aria-label="Προβολή Καλαθιού">
+            <img src="https://cdn-icons-png.flaticon.com/512/34/34568.png" alt="Καλάθι">
+        </button>
+    </header>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Category Cards Container -->
+        <div class="category-container">
+            <!-- Dynamic Category Cards will be inserted here -->
+        </div>
+        <!-- Menu Sections Container -->
+        <div class="menu-sections">
+            <!-- Dynamic Menu Sections will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Cart Popup -->
+    <div class="cart-popup" id="cart-popup">
+        <button class="close-popup" onclick="hideCartPopup()" aria-label="Κλείσιμο Καλαθιού">×</button>
+        <h3>Περίληψη Καλαθιού</h3>
+        <div id="cart-summary">
+            <!-- Dynamic Cart Items will be inserted here -->
+        </div>
+        <div class="total">Σύνολο: <span id="popup-total-price">0.00€</span></div>
+        <button class="checkout-btn" onclick="window.location.href='checkout.html'" aria-label="Ολοκλήρωση Παραγγελίας">
+            <img src="https://cdn-icons-png.flaticon.com/512/126/126083.png" alt="Εικονίδιο Ολοκλήρωσης Παραγγελίας">
+            Πηγαίνετε στο Ταμείο
+        </button>
+    </div>
+
+    <!-- Customization Modal -->
+    <div class="customization-modal" id="customization-modal">
+        <div class="modal-content">
+            <h2 id="modal-item-name">Προσαρμογή Προϊόντος</h2>
+            <div class="extras" id="modal-extras">
+                <!-- Dynamic Extras Options will be inserted here -->
+            </div>
+            <div class="total-price">Σύνολο: <span id="modal-total-price">0.00€</span></div>
+            <div class="modal-buttons">
+                <button class="cancel-btn" onclick="closeCustomizationModal()" aria-label="Άκυρο">Άκυρο</button>
+                <button class="add-btn" onclick="addCustomItemToCart()" aria-label="Προσθήκη στο Καλάθι">Προσθήκη</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="login-modal" id="login-modal">
+        <div class="modal-content">
+            <h2>Σύνδεση</h2>
+            <form id="login-form">
+                <label for="username">Όνομα Χρήστη:</label>
+                <input type="text" id="username" name="username" required>
+                
+                <label for="password">Κωδικός:</label>
+                <input type="password" id="password" name="password" required>
+                
+                <div class="modal-buttons">
+                    <button type="button" class="cancel-btn" onclick="closeLoginModal()" aria-label="Άκυρο">Άκυρο</button>
+                    <button type="submit" class="add-btn" aria-label="Σύνδεση">Σύνδεση</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript for Dynamic Content and Interactivity -->
+    <script>
+        // New Menu Data Definition (replaced with the provided JSON)
+        const menuData = [
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα special",
+            "description": "Με gouda, ζαμπόν, μπέικον, πιπεριά, ντομάτα & τυροσαλάτα",
+            "price": "7,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000408?c=1644946529"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα tuna",
+            "description": "Με τόνο, μαρούλι, αγγούρι τουρσί, ελιές & σως μουστάρδας",
+            "price": "7,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα blue cheese",
+            "description": "Με μαρούλι, ντομάτα, αγγούρι & σως ροκφόρ",
+            "price": "6,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα Mexican",
+            "description": "Με gouda, κοτόπουλο, ντομάτα, κόκκινη πιπεριά, καλαμπόκι & hot soya σως",
+            "price": "8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα curry",
+            "description": "Με gouda, κοτόπουλο, μανιτάρια, κάρυ, μπέικον & καλαμπόκι",
+            "price": "8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα de France",
+            "description": "Με gouda, κοτόπουλο, ντομάτα, μπέικον, μανιτάρια & σως μαδέρα",
+            "price": "8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα de village",
+            "description": "Με τυρί, φέτα, ελιές, ντομάτα, κρεμμύδι, πιπεριά & τουρσί",
+            "price": "8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα le Paris",
+            "description": "Με gouda, μπέικον, ζαμπόν, ντομάτα, αυγό μάτι & ketchup",
+            "price": "7,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα chicken stroganoff",
+            "description": "Με gouda, κοτόπουλο, γαλοπούλα, μανιτάρια & σως (κρέμα, μουστάρδα & λευκό κρασί)",
+            "price": "7,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "almyres-krepes",
+            "categoryName": "Αλμυρές κρέπες",
+            "name": "Κρέπα chef de crepe",
+            "description": "Με gouda, κοτόπουλο, μπέικον, μανιτάρια, κρεμμύδι, κρέμα, κονιάκ & μαϊντανό",
+            "price": "8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα de France",
+            "description": "Με πραλίνα, κέικ, λικέρ, καρύδι, παγωτό & γλυκό βύσσινο",
+            "price": "Από 7,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα apple",
+            "description": "Με μήλο, κανέλα & καστανή ζάχαρη",
+            "price": "5,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα μπουγάτσα",
+            "description": "N/A",
+            "price": "5,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000423?c=1696856236"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα λεμόνι, καστανή ζάχαρη & κανέλα",
+            "description": "N/A",
+            "price": "3,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα role crepe",
+            "description": "Με Oreo cookies, καρύδα, σοκολάτα, σιρόπι καραμέλα, Baileys & παγωτό",
+            "price": "Από 7,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα suzette",
+            "description": "Με grand marnier, χυμό πορτοκάλι, βούτυρο & ζάχαρη",
+            "price": "4,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα tropical",
+            "description": "Με ανανά, φράουλα, μπανάνα, μήλο, πορτοκάλι & σιρόπι σοκολάτας",
+            "price": "6,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα cheesecake crepe",
+            "description": "Με Philadelphia, μπισκότο & μαρμελάδα κεράσι",
+            "price": "6,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:krepa-cheesecake-crepe?c=1732444744"
+          },
+          {
+            "categoryId": "glykes-krepes",
+            "categoryName": "Γλυκές κρέπες",
+            "name": "Κρέπα σοκολάτα",
+            "description": "N/A",
+            "price": "4,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000575?c=1696856131"
+          },
+          {
+            "categoryId": "rofimata",
+            "categoryName": "Ροφήματα",
+            "name": "Σοκολάτα",
+            "description": "Η σοκολάτα είναι η απάντηση, όποια κι αν είναι η ερώτηση. Απόλαυσε κάθε ώρα της ημέρας ή και της νύχτας, σοκολάτα είναι, δεν έχει do's and dont's.",
+            "price": "Από 4,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:sokolata?c=1729242781"
+          },
+          {
+            "categoryId": "rofimata",
+            "categoryName": "Ροφήματα",
+            "name": "Σοκολάτα Viennois",
+            "description": "Η σοκολάτα είναι η απάντηση, όποια κι αν είναι η ερώτηση. Απόλαυσε κάθε ώρα της ημέρας ή και της νύχτας, σοκολάτα είναι, δεν έχει do's and don'ts.",
+            "price": "Από 4,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:sokolata-viennois?c=1727118183"
+          },
+          {
+            "categoryId": "rofimata",
+            "categoryName": "Ροφήματα",
+            "name": "Mocha",
+            "description": "Η πλούσια γεύση του καφέ μπερδεύεται με τη γλυκύτητα της σοκολάτας, δημιουργώντας έναν απολαυστικό συνδυασμό. Σερβίρεται ζεστή ή κρύα, με σαντιγί ή χωρίς και είναι πάντα το ίδιο υπέροχη.",
+            "price": "Από 4,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:mocha?c=1728926366"
+          },
+          {
+            "categoryId": "rofimata",
+            "categoryName": "Ροφήματα",
+            "name": "Τσάι",
+            "description": "Ζεστό. Κλασικό",
+            "price": "Από 3,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:tsai?c=1729242553"
+          },
+          {
+            "categoryId": "rofimata",
+            "categoryName": "Ροφήματα",
+            "name": "Φυσικός χυμός πορτοκάλι",
+            "description": "Φήμες λένε πως όταν πίνεις έναν φυσικό χυμό πορτοκάλι, στα αυτιά σου ακούγεται \"πιες τον γρήγορα, θα χάσει τις βιταμίνες του\". Παράγγειλε γρήγορα, απόλαυσε γρήγορα και πάρε όλες τις βιταμίνες.",
+            "price": "3,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phusikos-xumos-portokali?c=1728921427"
+          },
+          {
+            "categoryId": "rofimata",
+            "categoryName": "Ροφήματα",
+            "name": "Φυσικός χυμός ανάμεικτος",
+            "description": "Τα φρούτα της ημέρας σε ένα ρόφημα! Παράγγειλε ανάμεικτο φυσικό χυμό και πάρε τα απαραίτητα θρεπτικά συστατικά, με τον πιο φυσικό τρόπο.",
+            "price": "3,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:smoothie-karpouzi?c=1733074874"
+          },
+          {
+            "categoryId": "rofimata",
+            "categoryName": "Ροφήματα",
+            "name": "Φυσικός χυμός εποχής",
+            "description": "Συνδυασμός φρούτων εποχής",
+            "price": "4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phusikos-xumos-epoxis?c=1729017884"
+          },
+          {
+            "categoryId": "granites",
+            "categoryName": "Γρανίτες",
+            "name": "Γρανίτα καρπούζι",
+            "description": "Αναζητάς κάτι δροσερό, φρουτώδες και αναζωογονητικό; Μην ψάχνεις άλλο, παράγγειλε γρανίτα στην αγαπημένη σου γεύση και απόλαυσε κάθε γουλιά!",
+            "price": "3,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:granita-karpouzi?c=1726585378"
+          },
+          {
+            "categoryId": "smoothies",
+            "categoryName": "Smoothies",
+            "name": "Smoothie καρπούζι",
+            "description": "Αν είναι πράσινο είναι υγιεινό, αν είναι ροζ, είναι σαν παγωτό! Έχε αυτό σαν οδηγό και απόλαυσε θρεπτικά και δροσιστικά smoothies.",
+            "price": "4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:smoothie-karpouzi?c=1733074874"
+          },
+          {
+            "categoryId": "milkshakes",
+            "categoryName": "Milkshakes",
+            "name": "Milkshake βανίλια",
+            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
+            "price": "4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-banilia?c=1729243309"
+          },
+          {
+            "categoryId": "milkshakes",
+            "categoryName": "Milkshakes",
+            "name": "Milkshake σοκολάτα",
+            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
+            "price": "4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-sokolata?c=1729242974"
+          },
+          {
+            "categoryId": "milkshakes",
+            "categoryName": "Milkshakes",
+            "name": "Milkshake ανάμεικτο",
+            "description": "Με βανίλια & σοκολάτα",
+            "price": "4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-anameikto?c=1729242974"
+          },
+          {
+            "categoryId": "milkshakes",
+            "categoryName": "Milkshakes",
+            "name": "Milkshake φράουλα",
+            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
+            "price": "4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-phraoula?c=1729243273"
+          },
+          {
+            "categoryId": "milkshakes",
+            "categoryName": "Milkshakes",
+            "name": "Milkshake μπανάνα",
+            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
+            "price": "4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-mpanana?c=1729243029"
+          },
+          {
+            "categoryId": "toasts",
+            "categoryName": "Toasts",
+            "name": "Τοστ τυρί & ζαμπόν",
+            "description": "Το τοστ είναι το γεύμα που καταναλώνεται σε κάθε ηλικία, κάθε ώρα της ημέρας και της νύχτας, με την ίδια πάντα ευχαρίστηση. Ε, τι το σκέφτεσαι; Παράγγειλε ένα τοστάκι!",
+            "price": "2,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:tost-turi-kai-zampon?c=1731055759"
+          },
+          {
+            "categoryId": "toasts",
+            "categoryName": "Toasts",
+            "name": "Τοστ τυρί & γαλοπούλα",
+            "description": "Το τοστ είναι το γεύμα που καταναλώνεται σε κάθε ηλικία, κάθε ώρα της ημέρας και της νύχτας, με την ίδια πάντα ευχαρίστηση. Ε, τι το σκέφτεσαι; Παράγγειλε ένα τοστάκι!",
+            "price": "3,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:tost-turi-kai-galopoula?c=1731055759"
+          },
+          {
+            "categoryId": "pancakes-almyra",
+            "categoryName": "Pancakes αλμυρά",
+            "name": "Αλμυρό pancake με τυρί, μπέικον & αυγό",
+            "description": "N/A",
+            "price": "7,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "pancakes-almyra",
+            "categoryName": "Pancakes αλμυρά",
+            "name": "Αλμυρό pancake με τυρί, ζαμπόν, μπέικον & αυγό",
+            "description": "N/A",
+            "price": "7,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:almuro-pancake-me-turi-zampon-mpeikon-kai-augo?c=1730471200"
+          },
+          {
+            "categoryId": "pancakes-almyra",
+            "categoryName": "Pancakes αλμυρά",
+            "name": "Αλμυρό pancake με τυρί, καπνιστή γαλοπούλα & αυγό",
+            "description": "N/A",
+            "price": "7,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:almuro-pancake-me-turi-kapnisti-galopoula-kai-augo?c=1730490887"
+          },
+          {
+            "categoryId": "pancakes-glyka",
+            "categoryName": "Pancakes γλυκά",
+            "name": "Γλυκό pancake με σοκολάτα & μπανάνα",
+            "description": "N/A",
+            "price": "5,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "pancakes-glyka",
+            "categoryName": "Pancakes γλυκά",
+            "name": "Γλυκό pancake με σοκολάτα λευκή, μπισκότο Oreo & φρέσκες φράουλες",
+            "description": "N/A",
+            "price": "7,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000566?c=1696856093"
+          },
+          {
+            "categoryId": "pancakes-glyka",
+            "categoryName": "Pancakes γλυκά",
+            "name": "Γλυκό pancake με σοκολάτα Bueno, γλυκό βύσσινο & μπισκότο",
+            "description": "N/A",
+            "price": "7,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "pancakes-glyka",
+            "categoryName": "Pancakes γλυκά",
+            "name": "Γλυκό pancake με μέλι, καρύδι ή αμύγδαλο & κανέλα",
+            "description": "N/A",
+            "price": "Από 6,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "pancakes-glyka",
+            "categoryName": "Pancakes γλυκά",
+            "name": "Γλυκό pancake με σοκολάτα, λευκή σοκολάτα & ανάμεικτο μπισκότο",
+            "description": "N/A",
+            "price": "6,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000569?c=1696856073"
+          },
+          {
+            "categoryId": "pancakes-glyka",
+            "categoryName": "Pancakes γλυκά",
+            "name": "Γλυκό pancake με γιαούρτι, μέλι, αμύγδαλο & κανέλα",
+            "description": "N/A",
+            "price": "6,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "club-sandwiches",
+            "categoryName": "Club sandwiches",
+            "name": "Club sandwich φιλέτο κοτόπολο",
+            "description": "Με gouda, φιλέτο κοτόπουλο, μαρούλι, ντομάτα & σως μουστάρδας",
+            "price": "Από 8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "club-sandwiches",
+            "categoryName": "Club sandwiches",
+            "name": "Club sandwich γαλοπούλα",
+            "description": "Με gouda, γαλοπούλα καπνιστή, μαρούλι, ντομάτα & μαγιονέζα",
+            "price": "Από 7,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000503?c=1644946115"
+          },
+          {
+            "categoryId": "club-sandwiches",
+            "categoryName": "Club sandwiches",
+            "name": "Club sandwich ζαμπόν",
+            "description": "Με gouda, ζαμπόν, μπέικον, μαρούλι, ντομάτα & μαγιονέζα",
+            "price": "Από 7,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000504?c=1696856197"
+          },
+          {
+            "categoryId": "club-sandwiches",
+            "categoryName": "Club sandwiches",
+            "name": "Club sandwich μπιφτέκι",
+            "description": "Με gouda, μπιφτέκι, μπέικον, μαρούλι, ντομάτα & BBQ σως",
+            "price": "Από 8,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:club-sandwich-mpiphteki?c=1707395429"
+          },
+          {
+            "categoryId": "froytosalates-epidorpia",
+            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
+            "name": "Φρουτοσαλάτα φρέσκια εποχής",
+            "description": "N/A",
+            "price": "2,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phroutosalata-phreskia-epoxis?c=1708439245"
+          },
+          {
+            "categoryId": "froytosalates-epidorpia",
+            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
+            "name": "Φρουτοσαλάτα φρέσκια με σαντιγύ",
+            "description": "N/A",
+            "price": "3,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "froytosalates-epidorpia",
+            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
+            "name": "Φρουτοσαλάτα φρέσκια με παγωτό βανίλια",
+            "description": "N/A",
+            "price": "4,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "froytosalates-epidorpia",
+            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
+            "name": "Γιαούρτι με μέλι & φρέσκα φρούτα",
+            "description": "N/A",
+            "price": "3,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "froytosalates-epidorpia",
+            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
+            "name": "Γιαούρτι με μέλι & καρύδια",
+            "description": "N/A",
+            "price": "3,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:giaourti-me-meli-kai-karudia?c=1702899418"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα σοκολάτα, γκοφρετάκι, μπανάνα, Smarties & σαντιγύ",
+            "description": "N/A",
+            "price": "7,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα φράουλες, αμύγδαλα, σιρόπι φράουλα, γλυκό βύσσινο & παγωτό βανίλια",
+            "description": "N/A",
+            "price": "9,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα σοκολάτα Bueno, ξηροί καρποί & φράουλες",
+            "description": "N/A",
+            "price": "8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Σοκολάτα, φρέσκα φρούτα & παγωτό βανίλια",
+            "description": "N/A",
+            "price": "8,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα γιαούρτι, μέλι, φρέσκα φρούτα, καρύδια & κανέλα",
+            "description": "N/A",
+            "price": "8,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα σοκολάτα, λευκή σοκολάτα, μπισκότο Oreo, παγωτό βανίλια & παγωτό σοκολάτα",
+            "description": "N/A",
+            "price": "9,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα σοκολάτα Bueno, φράουλες, μπισκότο Oreo & παγωτό ανάμεικτο",
+            "description": "N/A",
+            "price": "9,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα σοκολάτα, σαντιγύ, φράουλες, Smarties, παγωτό & σιρόπι καραμέλα",
+            "description": "N/A",
+            "price": "Από 9,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα σοκολάτα, φράουλες, πουράκια Caprice & παγωτό βανίλια",
+            "description": "N/A",
+            "price": "9,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα με ανάμεικτη σοκολάτα, γκοφρέτα, σιρόπι βύσσινο & παγωτό ανάμεικτο",
+            "description": "N/A",
+            "price": "9,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "vafles",
+            "categoryName": "Βάφλες",
+            "name": "Βάφλα με σαντιγύ, φράουλες, αμύγδαλα & σιρόπι φράουλα",
+            "description": "N/A",
+            "price": "7,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "my-crepa",
+            "categoryName": "My crepa",
+            "name": "Φτιάξτε τη δική σας αλμυρή κρέπα",
+            "description": "Δημιουργήστε τη δική σας αλμυρή κρέπα με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 3,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000418?c=1644946341"
+          },
+          {
+            "categoryId": "my-crepa",
+            "categoryName": "My crepa",
+            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα",
+            "description": "Δημιουργήστε τη δική σας γλυκιά κρέπα με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 4,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000425?c=1644946396"
+          },
+          {
+            "categoryId": "my-crepa",
+            "categoryName": "My crepa",
+            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα με 1 πραλίνα",
+            "description": "Δημιουργήστε τη δική σας γλυκιά κρέπα με 1 πραλίνα & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 4,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000426?c=1644946421"
+          },
+          {
+            "categoryId": "my-crepa",
+            "categoryName": "My crepa",
+            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα με ανάμεικτη πραλίνα",
+            "description": "Δημιουργήστε τη δική σας γλυκιά κρέπα με 2 πραλίνες & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 4,50€",
+            "imageUrl": "https://via.placeholder.com/120"
+          },
+          {
+            "categoryId": "my-waffle",
+            "categoryName": "My waffle",
+            "name": "Φτιάξτε τη δική σας βάφλα",
+            "description": "Δημιουργήστε τη δική σας βάφλα με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 3,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000428?c=1696855928"
+          },
+          {
+            "categoryId": "my-waffle",
+            "categoryName": "My waffle",
+            "name": "Φτιάξτε τη δική σας βάφλα με 1 πραλίνα",
+            "description": "Δημιουργήστε τη δική σας βάφλα με 1 πραλίνα & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 4,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000429?c=1644946258"
+          },
+          {
+            "categoryId": "my-waffle",
+            "categoryName": "My waffle",
+            "name": "Φτιάξτε τη δική σας βάφλα με ανάμεικτη πραλίνα",
+            "description": "Δημιουργήστε τη δική σας βάφλα με 2 πραλίνες & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 5,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000430?c=1644946149"
+          },
+          {
+            "categoryId": "my-pancake",
+            "categoryName": "My pancake",
+            "name": "Φτιάξτε το δικό σας αλμυρό pancake",
+            "description": "Δημιουργήστε τo δικό σας αλμυρό pancake με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 3,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000469?c=1644946462"
+          },
+          {
+            "categoryId": "my-pancake",
+            "categoryName": "My pancake",
+            "name": "Φτιάξτε το δικό σας γλυκό pancake",
+            "description": "Δημιουργήστε το δικό σας γλυκό pancake με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 3,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phtiaxte-to-diko-sas-gluko-pancake?c=1730715660"
+          },
+          {
+            "categoryId": "my-pancake",
+            "categoryName": "My pancake",
+            "name": "Φτιάξτε το δικό σας pancake με 1 πραλίνα",
+            "description": "Δημιουργήστε το δικό σας pancake με 1 πραλίνα & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 4,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "my-pancake",
+            "categoryName": "My pancake",
+            "name": "Φτιάξτε το δικό σας pancake με ανάμεικτη πραλίνα",
+            "description": "Δημιουργήστε το δικό σας pancake με 2 πραλίνες & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
+            "price": "Από 5,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000472?c=1644946298"
+          },
+          {
+            "categoryId": "pagota-se-kypelaki",
+            "categoryName": "Παγωτά σε κυπελάκι",
+            "name": "Κυπελάκι με παγωτό soft βανίλια",
+            "description": "Ποιος είπε ότι παγωτό είναι για τις καλοκαιρινές διακοπές; Όχι εμείς! Αν μετράς τα παγωτά που τρως μέσα στον χρόνο, πρόσθεσε ακόμη ένα και απόλαυσε την αγαπημένη σου γεύση.",
+            "price": "Από 2,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:kupelaki-me-pagwto-soft-banilia?c=1731603014"
+          },
+          {
+            "categoryId": "pagota-se-kypelaki",
+            "categoryName": "Παγωτά σε κυπελάκι",
+            "name": "Κυπελάκι με παγωτό soft σοκολάτα",
+            "description": "N/A",
+            "price": "Από 2,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "pagota-se-kypelaki",
+            "categoryName": "Παγωτά σε κυπελάκι",
+            "name": "Κυπελάκι με παγωτό soft ανάμεικτο",
+            "description": "Με βανίλια & σοκολάτα",
+            "price": "Από 2,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000433?c=1696856252"
+          },
+          {
+            "categoryId": "pagota-se-kypelaki",
+            "categoryName": "Παγωτά σε κυπελάκι",
+            "name": "Κυπελάκι special de France",
+            "description": "Με παγωτό ανάμεικτο (βανίλια & σοκολάτα), κέικ, πραλίνα, μπισκότο & γλυκό βύσσινο",
+            "price": "Από 7,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "salates",
+            "categoryName": "Σαλάτες",
+            "name": "Chicken",
+            "description": "Σαλάτα με μαρούλι, κοτόπουλο, μπέικον, κρουτόν, καλαμπόκι, παρμεζάνα & σως",
+            "price": "7,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000414?c=1696856157"
+          },
+          {
+            "categoryId": "salates",
+            "categoryName": "Σαλάτες",
+            "name": "Τόνου",
+            "description": "Σαλάτα με τόνο, αγγούρι τουρσί, κρεμμύδι, μαρούλι, καλαμπόκι, ελιές & σως",
+            "price": "6,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000415?c=1696856169"
+          },
+          {
+            "categoryId": "salates",
+            "categoryName": "Σαλάτες",
+            "name": "Village",
+            "description": "Σαλάτα με μαρούλι, ντομάτα, ελιές, τουρσί, κρεμμύδι, φέτα, κρουτόν & σως βαλσάμικο",
+            "price": "6,50€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "burgers",
+            "categoryName": "Burgers",
+            "name": "Classic burger",
+            "description": "Με μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, ντομάτα, μαρούλι & σως de France",
+            "price": "Από 5,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000473?c=1696856179"
+          },
+          {
+            "categoryId": "burgers",
+            "categoryName": "Burgers",
+            "name": "Big burger",
+            "description": "Με διπλό μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, ντομάτα, μαρούλι, μπέικον & σως de France",
+            "price": "Από 8,00€",
+            "imageUrl": "N/A"
+          },
+          {
+            "categoryId": "burgers",
+            "categoryName": "Burgers",
+            "name": "Special burger",
+            "description": "Με μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, μπέικον, αυγό τηγανητό, ντομάτα, μαρούλι & σως de France",
+            "price": "Από 6,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:special-burger?c=1722099877"
+          },
+          {
+            "categoryId": "burgers",
+            "categoryName": "Burgers",
+            "name": "American burger",
+            "description": "Με μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, μπέικον, μανιτάρια, μαρούλι, ντομάτα, κρεμμύδι, μαγιονέζα & BBQ σως",
+            "price": "Από 6,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:american-burger?c=1727683907"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Coca-Cola 330ml",
+            "description": "Το 1969, η Coca-Cola ήρθε στην Ελλάδα και από τότε, προσφέρεται καθημερινά και με τη μοναδική γεύση της κατακτά κάθε ελληνική γωνιά. Εδώ και 130 χρόνια, η Coca-Cola είναι ένα προϊόν που έχει αγαπηθεί από δισεκατομμύρια ανθρώπους σε όλο τον κόσμο, σε περισσότερες από 200 χώρες.",
+            "price": "1,70€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:coca-cola-330ml?c=1725992942"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Coca-Cola light 330ml",
+            "description": "H Coca‑Cola Light προσφέρει την απολαυστική, αυθεντική γεύση της Coca‑Cola, χωρίς ζάχαρη και θερμίδες, και τονώνει κάθε στιγμή της ημέρας σας με τον πιο light τρόπο.",
+            "price": "1,70€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:coca-cola-light-330ml?c=1725268027"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Coca-Cola zero 330ml",
+            "description": "Η Coca-Cola Zero είναι η ιδανική επιλογή για όσους θέλουν την υπέροχη αυθεντική γεύση της Coca‑Cola, χωρίς ζάχαρη και θερμίδες. Ο κόσμος τη γνώρισε το 2005 και από τότε δροσίζει με τη υπέροχη γεύση της Coca‑Cola εκατομμύρια ανθρώπους σε περισσότερες από 140 χώρες σε όλο τον κόσμο.",
+            "price": "1,70€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:coca-cola-zero-330ml?c=1725278717"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Fanta κόκκινη 330ml",
+            "description": "Η Πορτοκαλάδα Fanta είναι η αγαπημένη πορτοκαλάδα των εφήβων στην Ελλάδα. Περιέχει 20% χυμό πορτοκαλιού, φυσικά αρώματα πορτοκαλιού, αμέτρητες φυσαλίδες και καθόλου χρωστικές ουσίες. Ένα κουτάκι 330ml κρύβει μέσα του τον χυμό ενός ολόκληρου πορτοκαλιού και μόνο 109 θερμίδες.",
+            "price": "1,70€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:fanta-kokkini-330ml?c=1725443687"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Fanta μπλε 330ml",
+            "description": "Η Fanta Μπλε είναι ο ορισμός της πορτοκαλάδας χωρίς ανθρακικό. Περιέχει 20% χυμό πορτοκαλιού, φυσικά αρώματα πορτοκαλιού, καθόλου χρωστικές ουσίες και παραμένει μία από τις πιο αγαπημένες γεύσεις για περισσότερα από 20 χρόνια. Ένα κουτάκι 330ml Fanta Μπλε παρέχει 109 θερμίδες και τον χυμό ενός ολόκληρου πορτοκαλιού.",
+            "price": "1,70€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:fanta-mple-330ml?c=1725443108"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Fanta λεμόνι 330ml",
+            "description": "Η Fanta Λεμονάδα περιέχει 7% χυμό λεμονιού, φυσικά αρώματα λεμονιού και αμέτρητες φυσαλίδες. Ένα κουτάκι 330ml Fanta Λεμονάδα παρέχει 168 θερμίδες.",
+            "price": "1,70€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:fanta-lemoni-330ml?c=1725442979"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Sprite 330ml",
+            "description": "Το πρώτο κουτάκι Sprite άνοιξε το 1961 και από τότε κρατάει δροσερή την κορυφή της κατηγορίας αναψυκτικών lemon-lime, προσφέροντας μια αναπάντεχα μοναδική, δροσιστική εμπειρία σε περισσότερες από 190 χώρες.",
+            "price": "1,70€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:sprite-330ml?c=1722456960"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Amita motion 330ml",
+            "description": "Η Amita Motion είναι ο πρώτος πολυβιταμινούχος 100% φυσικός χυμός με 9 φρούτα και 7 βιταμίνες. Συνδυάζει μοναδικά τη γεύση του μήλου, του πορτοκαλιού, του ροδάκινου, του σταφυλιού, του ανανά, του grapefruit, του ακτινίδιου, του passion fruit και του mango!",
+            "price": "2,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/amita-motion-330ml?c=1727190064"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Ανθρακούχο νερό 330ml",
+            "description": "Το νερό είναι ιδανικό για να σας ξεδιψάσει και να σας αναζωογονήσει κάθε στιγμή της ημέρας. Συνιστάται να καταναλώνετε τουλάχιστον 2 λίτρα νερό την ημέρα για σωστή ενυδάτωση, διατηρώντας την ενέργεια και την ευεξία σας.",
+            "price": "2,00€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:anthrakouxo-nero-330ml?c=1729084851"
+          },
+          {
+            "categoryId": "anapsyktika",
+            "categoryName": "Αναψυκτικά",
+            "name": "Νερό 500ml",
+            "description": "Ιδανικό για να σας ξεδιψάσει και να σας αναζωογονήσει κάθε στιγμή της ημέρας. Συνιστάται να καταναλώνετε τουλάχιστον 2 λίτρα νερό την ημέρα για σωστή ενυδάτωση, διατηρώντας την ενέργεια και την ευεξία σας.",
+            "price": "0,50€",
+            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/nero-500ml?c=1722352244"
+          }
+        ];
+
+        // Transform the menuData array into the expected menu object with categoryName mapping
+        const menu = {};
+        const categoryNames = {}; // To map categoryId to categoryName
+
+        menuData.forEach(item => {
+            const categoryKey = item.categoryId;
+            if (!menu[categoryKey]) {
+                menu[categoryKey] = [];
+                categoryNames[categoryKey] = item.categoryName; // Store the category name
+            }
+            menu[categoryKey].push({
+                name: item.name,
+                description: item.description,
+                price: item.price,
+                image: item.imageUrl !== "N/A" ? item.imageUrl : null // Set to null if no image
+            });
+        });
+
+        // Define Add-ons for Custom Products
+        const addOns = {
+            "my-crepa": [
+                { "name": "Πρόσθετο τυρί", "price": 0.50 },
+                { "name": "Πρόσθετο μπέικον", "price": 0.75 },
+                { "name": "Πρόσθετο αυγό", "price": 0.60 }
+            ],
+            "my-waffle": [
+                { "name": "Πρόσθετο σοκολάτα", "price": 0.70 },
+                { "name": "Πρόσθετο φρούτα", "price": 0.80 },
+                { "name": "Πρόσθετο σιρόπι", "price": 0.40 }
+            ],
+            "my-pancake": [
+                { "name": "Πρόσθετο γλυκό κρέμα", "price": 0.60 },
+                { "name": "Πρόσθετο σοκολάτα", "price": 0.70 },
+                { "name": "Πρόσθετο φρούτα", "price": 0.80 }
+            ]
+        };
+
+        // Initialize Cart from localStorage or as Empty Array
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Function to Render the Menu
+        function renderMenu() {
+            const categoryContainer = document.querySelector('.category-container');
+            const menuSectionsContainer = document.querySelector('.menu-sections');
+            categoryContainer.innerHTML = '';
+            menuSectionsContainer.innerHTML = '';
+
+            for (const section in menu) {
+                // Create Category Card
+                const categoryCard = document.createElement('div');
+                categoryCard.classList.add('category-card');
+                categoryCard.setAttribute('data-category', section);
+
+                // Add Event Listener for Smooth Scrolling to Section
+                categoryCard.addEventListener('click', () => {
+                    const sectionDiv = document.getElementById(`section-${section}`);
+                    if (sectionDiv) {
+                        window.scrollTo({
+                            top: sectionDiv.offsetTop - 20,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+
+                // Remove Category Icon (as per user request)
+                // Previously: Added categoryIcon here
+
+                // Add Category Title using Greek names
+                const categoryTitle = document.createElement('h2');
+                categoryTitle.textContent = categoryNames[section];
+                categoryCard.appendChild(categoryTitle);
+
+                categoryContainer.appendChild(categoryCard);
+
+                // Create Menu Section
+                const sectionDiv = document.createElement('div');
+                sectionDiv.classList.add('menu-section');
+                sectionDiv.id = `section-${section}`;
+
+                const sectionTitle = document.createElement('h2');
+                sectionTitle.classList.add('menu-section-title');
+                sectionTitle.textContent = categoryNames[section];
+                sectionDiv.appendChild(sectionTitle);
+
+                menu[section].forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add('menu-item');
+
+                    // Conditionally Add Image if Available
+                    if (item.image) {
+                        const itemImage = document.createElement('img');
+                        itemImage.src = item.image;
+                        itemImage.alt = item.name;
+                        itemDiv.appendChild(itemImage);
+                    }
+
+                    // Add Item Info
+                    const itemInfo = document.createElement('div');
+                    itemInfo.classList.add('menu-item-info');
+
+                    const itemName = document.createElement('h3');
+                    itemName.textContent = item.name;
+                    itemInfo.appendChild(itemName);
+
+                    if (item.description && item.description !== 'N/A') {
+                        const itemDesc = document.createElement('p');
+                        itemDesc.textContent = item.description;
+                        itemInfo.appendChild(itemDesc);
+                    }
+
+                    const itemPrice = document.createElement('p');
+                    itemPrice.textContent = `Τιμή: ${item.price}`;
+                    itemInfo.appendChild(itemPrice);
+
+                    // Add Customize Button with Dynamic Text
+                    if (isCustomCategory(section)) {
+                        const customizeBtn = document.createElement('button');
+                        customizeBtn.textContent = `Φτιάξε την δική σου ${item.name}`;
+                        customizeBtn.classList.add('customize-btn');
+                        customizeBtn.style.background = 'none';
+                        customizeBtn.style.border = 'none';
+                        customizeBtn.style.color = 'var(--primary-color)';
+                        customizeBtn.style.cursor = 'pointer';
+                        customizeBtn.style.fontWeight = 'bold';
+                        customizeBtn.style.marginTop = '10px';
+                        customizeBtn.style.padding = '0';
+                        customizeBtn.style.fontSize = '1em';
+                        customizeBtn.addEventListener('click', (event) => {
+                            event.stopPropagation(); // Prevent triggering parent click
+                            openCustomizationModal(section, item);
+                        });
+                        itemInfo.appendChild(customizeBtn);
+                    }
+
+                    itemDiv.appendChild(itemInfo);
+
+                    // Add to Cart Button
+                    const addToCartBtn = document.createElement('button');
+                    addToCartBtn.classList.add('add-to-cart-btn');
+                    addToCartBtn.title = 'Προσθήκη στο Καλάθι';
+                    addToCartBtn.setAttribute('aria-label', `Προσθήκη ${item.name} στο Καλάθι`);
+                    addToCartBtn.onclick = (event) => {
+                        event.stopPropagation(); // Prevent triggering the parent click event
+                        addToCart(item);
+                    };
+
+                    itemDiv.appendChild(addToCartBtn);
+
+                    sectionDiv.appendChild(itemDiv);
+                });
+
+                menuSectionsContainer.appendChild(sectionDiv);
+            }
+        }
+
+        // Function to Check if a Category is Customizable
+        function isCustomCategory(category) {
+            return ["my-crepa", "my-waffle", "my-pancake"].includes(category);
+        }
+
+        // Function to Add Items to Cart
+        function addToCart(item) {
+            cart.push(item);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartPopup();
+            showCartPopup();
+            showNotification("Προστέθηκε στο Καλάθι", `${item.name} προστέθηκε με επιτυχία.`);
+        }
+
+        // Function to Update Cart Popup Content
+        function updateCartPopup() {
+            const cartSummary = document.getElementById('cart-summary');
+            cartSummary.innerHTML = '';
+
+            let total = 0;
+
+            if (cart.length === 0) {
+                cartSummary.innerHTML = '<p>Το καλάθι σας είναι άδειο.</p>';
+            } else {
+                cart.forEach((item, index) => {
+                    const cartItemDiv = document.createElement('div');
+                    cartItemDiv.classList.add('cart-item');
+
+                    const itemName = document.createElement('p');
+                    itemName.textContent = item.name;
+
+                    const itemPrice = document.createElement('p');
+                    itemPrice.textContent = item.price;
+
+                    cartItemDiv.appendChild(itemName);
+                    cartItemDiv.appendChild(itemPrice);
+
+                    cartSummary.appendChild(cartItemDiv);
+
+                    // Extract numerical value from price
+                    const priceNumber = parseFloat(item.price.replace('€', '').replace(',', '.').replace('Από ', ''));
+                    if (!isNaN(priceNumber)) {
+                        total += priceNumber;
+                    }
+                });
+            }
+
+            document.getElementById('popup-total-price').textContent = `${total.toFixed(2)}€`;
+        }
+
+        // Function to Show Cart Popup with Animation
+        function showCartPopup() {
+            const cartPopup = document.getElementById('cart-popup');
+            cartPopup.classList.add('visible');
+
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                hideCartPopup();
+            }, 3000);
+        }
+
+        // Function to Hide Cart Popup
+        function hideCartPopup() {
+            const cartPopup = document.getElementById('cart-popup');
+            cartPopup.classList.remove('visible');
+        }
+
+        // Customization Modal Functions
+        let currentCustomItem = null;
+        let selectedAddOns = [];
+
+        function openCustomizationModal(category, item) {
+            currentCustomItem = item;
+            selectedAddOns = [];
+
+            const modal = document.getElementById('customization-modal');
+            const modalItemName = document.getElementById('modal-item-name');
+            const modalExtras = document.getElementById('modal-extras');
+            const modalTotalPrice = document.getElementById('modal-total-price');
+
+            // Set the item name
+            modalItemName.textContent = `Προσαρμογή: ${item.name}`;
+
+            // Clear previous extras
+            modalExtras.innerHTML = '<h3>Επιλογές Προσθέτων</h3>';
+
+            // Get available add-ons for the category
+            const availableAddOns = addOns[category] || [];
+
+            // Create checkboxes for each add-on
+            availableAddOns.forEach((addon, index) => {
+                const label = document.createElement('label');
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = addon.price;
+                checkbox.dataset.addonName = addon.name;
+                checkbox.addEventListener('change', updateTotalPrice);
+                label.appendChild(checkbox);
+                label.appendChild(document.createTextNode(`${addon.name} (+${addon.price.toFixed(2)}€)`));
+                modalExtras.appendChild(label);
+            });
+
+            // Calculate initial total price
+            let basePrice = parseFloat(item.price.replace('€', '').replace(',', '.').replace('Από ', ''));
+            if (isNaN(basePrice)) basePrice = 0;
+            modalTotalPrice.textContent = `${basePrice.toFixed(2)}€`;
+
+            // Show the modal
+            modal.classList.add('active');
+        }
+
+        function closeCustomizationModal() {
+            const modal = document.getElementById('customization-modal');
+            modal.classList.remove('active');
+            currentCustomItem = null;
+            selectedAddOns = [];
+        }
+
+        function updateTotalPrice() {
+            const modal = document.getElementById('customization-modal');
+            const modalTotalPrice = document.getElementById('modal-total-price');
+            const checkboxes = modal.querySelectorAll('input[type="checkbox"]');
+            let total = parseFloat(currentCustomItem.price.replace('€', '').replace(',', '.').replace('Από ', '')) || 0;
+
+            selectedAddOns = [];
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const addonPrice = parseFloat(checkbox.value);
+                    if (!isNaN(addonPrice)) {
+                        total += addonPrice;
+                    }
+                    selectedAddOns.push(checkbox.dataset.addonName);
+                }
+            });
+
+            modalTotalPrice.textContent = `${total.toFixed(2)}€`;
+        }
+
+        function addCustomItemToCart() {
+            if (!currentCustomItem) return;
+
+            // Create a new item object with selected add-ons and total price
+            let basePrice = parseFloat(currentCustomItem.price.replace('€', '').replace(',', '.').replace('Από ', '')) || 0;
+            let totalPrice = basePrice;
+
+            const availableAddOns = addOns[getCategoryKey(currentCustomItem.name)] || [];
+
+            let selectedAddOnNames = [];
+
+            selectedAddOns.forEach(addonName => {
+                const addon = availableAddOns.find(a => a.name === addonName);
+                if (addon) {
+                    totalPrice += addon.price;
+                    selectedAddOnNames.push(addonName);
+                }
+            });
+
+            const customizedItem = {
+                name: `${currentCustomItem.name}${selectedAddOnNames.length > 0 ? ` (${selectedAddOnNames.join(', ')})` : ''}`,
+                description: currentCustomItem.description,
+                price: `${totalPrice.toFixed(2)}€`,
+                image: currentCustomItem.image // Image is already handled conditionally
+            };
+
+            // Add to cart
+            addToCart(customizedItem);
+
+            // Close the modal
+            closeCustomizationModal();
+        }
+
+        // Helper Function to Get Category Key Based on Item Name
+        function getCategoryKey(itemName) {
+            for (const [key, items] of Object.entries(menu)) {
+                if (items.some(item => item.name === itemName)) {
+                    return key;
+                }
+            }
+            return null;
+        }
+
+        // Function to Show Notification
+        function showNotification(title, message) {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.innerHTML = `<strong>${title}</strong><br>${message}`;
+            
+            container.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                notification.addEventListener('animationend', () => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                });
+            }, 3000);
+        }
+
+        // Initialize Menu and Cart on Page Load
+        window.onload = () => {
+            renderMenu();
+            updateCartPopup();
+        };
+    </script>
+
+    <!-- JavaScript for Login Modal Functionality -->
+    <script>
+        // Function to Open Login Modal
+        function openLoginModal() {
+            const loginModal = document.getElementById('login-modal');
+            loginModal.classList.add('active');
+        }
+
+        // Function to Close Login Modal
+        function closeLoginModal() {
+            const loginModal = document.getElementById('login-modal');
+            loginModal.classList.remove('active');
+        }
+    </script>
+
+    <!-- JavaScript for Login Form Submission -->
+    <script>
+        const loginForm = document.getElementById('login-form');
+
+        if (loginForm) {
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const response = await fetch('/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ username, password }),
+                    });
+
+                    if (response.ok) {
+                        // Redirect to menuel.html on successful login
+                        window.location.href = '/menuel.html';
+                    } else {
+                        const error = await response.json();
+                        alert(error.error || 'Login failed');
+                    }
+                } catch (err) {
+                    console.error('Error:', err);
+                    alert('An error occurred. Please try again.');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

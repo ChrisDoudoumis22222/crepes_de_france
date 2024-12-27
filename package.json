@@ -1,0 +1,17 @@
+{
+  "name": "crepes_de_france1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "connect-flash": "^0.1.1",
+    "crepes_de_france1": "file:",
+    "express-session": "^1.18.1"
+  }
+}

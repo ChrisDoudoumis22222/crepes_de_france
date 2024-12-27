@@ -1,0 +1,785 @@
+<!DOCTYPE html> 
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Πίνακας Ελέγχου - Crepe de France</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #ff7a00;
+            --primary-dark: #e64a19;
+            --secondary-color: #ffcc00;
+            --background-color: #f5f5f5;
+            --white: #ffffff;
+            --light-gray: #e0e0e0;
+            --text-color: #333333;
+            --secondary-text: #555555;
+            --button-color: #007bff;
+            --button-hover-color: #0056b3;
+            --delete-color: #dc3545;
+            --delete-hover-color: #c82333;
+            --border-color: #dddddd;
+            --table-header-bg: #ff7a00;
+            --table-header-text: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+            --modal-bg: rgba(0, 0, 0, 0.5);
+            --modal-content-bg: var(--white);
+            --modal-border-radius: 10px;
+            --notification-bg: #28a745;
+            --notification-text: #ffffff;
+            --notification-padding: 10px 20px;
+            --notification-border-radius: 5px;
+            --notification-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+            --notification-font-size: 1em;
+        }
+
+        /* Reset and Basic Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+
+        header {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://scontent.fath7-1.fna.fbcdn.net/v/t51.75761-15/469003060_17934630575951155_7198336318776601740_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=cCuLBDWYH3IQ7kNvgE0wgAJ&_nc_zt=23&_nc_ht=scontent.fath7-1.fna&_nc_gid=AvjEZozzkB5tZz1wfrsBC7H&oh=00_AYCPny5QlL5rSmcCnGeG95OaObRhVD6Zn-TnrlU99ZsozA&oe=6758EDA5');
+            background-size: cover;
+            background-position: center;
+            padding: 60px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--light-gray);
+            border-radius: 0 0 15px 15px;
+            box-shadow: 0 4px 8px var(--shadow-color);
+            margin-bottom: 30px;
+            position: relative;
+            color: var(--white);
+        }
+
+        header h1 {
+            margin: 20px 0 10px 0;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .logo {
+            width: 150px;
+            margin: 0 auto 20px auto; 
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto 50px auto;
+            background-color: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px var(--shadow-color);
+            position: relative; 
+        }
+
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .filters select, .filters input {
+            padding: 12px 18px;
+            border: 2px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color var(--transition-speed);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2em;
+            position: relative;
+        }
+
+        h2::after {
+            content: "";
+            display: block;
+            width: 100px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+
+        th, td {
+            padding: 15px 20px;
+            border: 1px solid var(--border-color);
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: var(--table-header-text);
+            font-size: 1em;
+            position: sticky;
+            top: 0;
+            z-index: 2;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .button {
+            padding: 8px 14px;
+            background-color: var(--button-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            text-decoration: none;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .button:hover {
+            background-color: var(--button-hover-color);
+            transform: translateY(-2px);
+        }
+
+        .delete-button {
+            background-color: var(--delete-color);
+        }
+
+        .delete-button:hover {
+            background-color: var(--delete-hover-color);
+        }
+
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: var(--modal-bg);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: var(--modal-content-bg);
+            padding: 30px;
+            border-radius: var(--modal-border-radius);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80%;
+            overflow: auto;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5em;
+            color: var(--secondary-text);
+            cursor: pointer;
+        }
+
+        .modal-content h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .modal-content p, .modal-content ul {
+            margin-bottom: 15px;
+        }
+
+        .modal-content .print-button {
+            margin-top: 20px;
+            background-color: #4CAF50;
+        }
+
+        .modal-content .print-button:hover {
+            background-color: #45a049;
+        }
+
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification {
+            background: var(--notification-bg);
+            color: var(--notification-text);
+            padding: var(--notification-padding);
+            border-radius: var(--notification-border-radius);
+            box-shadow: var(--notification-box-shadow);
+            font-size: var(--notification-font-size);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            from {opacity: 1; transform: translateY(0);}
+            to {opacity: 0; transform: translateY(-10px);}
+        }
+
+        .fade-out {
+            animation: fadeOut 0.5s forwards;
+        }
+
+        @media print {
+            @page {
+                size: 80mm auto; /* Set paper size to 80mm width */
+                margin: 0; /* Remove default margins */
+            }
+
+            body, html {
+                width: 72mm; /* Set to printable width */
+                margin: 0;
+                padding: 0;
+            }
+
+            /* Hide all elements except the order modal */
+            body > *:not(#order-modal) {
+                display: none !important;
+                visibility: hidden !important;
+            }
+
+            #order-modal {
+                position: static !important;
+                width: 72mm !important; /* Ensure modal fits within printable width */
+                background: none !important;
+                box-shadow: none !important;
+                top: 0 !important;
+                left: 0 !important;
+                transform: none !important;
+                overflow: visible !important;
+                padding: 0 !important;
+            }
+
+            .modal-content {
+                border-radius: 0;
+                box-shadow: none;
+                max-width: 72mm; /* Ensure content does not exceed printable width */
+                width: 100%;
+                max-height: none;
+                padding: 10mm; /* Adequate padding for readability */
+                font-size: 1.5em; /* Adjusted for readability within limited width */
+            }
+
+            .close-modal, #print-button {
+                display: none !important;
+            }
+
+            .modal-content h3 {
+                border-bottom: 2px solid var(--primary-color);
+                padding-bottom: 5mm;
+                margin-bottom: 10mm;
+                font-size: 2em; /* Increased from 1.5em to 2em */
+                text-align: center;
+            }
+
+            .modal-content:before {
+                content: "";
+                display: block;
+                /* Logo adjusted to fit within printable width */
+                background-image: url("https://cdn.e-food.gr/shop/762805/logo?t=1647428522");
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                width: 40mm; /* Adjusted size */
+                height: 40mm; /* Adjusted size */
+                margin: 0 auto 10mm auto;
+            }
+
+            .modal-content p, .modal-content ul, .modal-content li {
+                font-size: 1.2em; /* Adjusted for better fit */
+            }
+
+            .modal-content ul {
+                list-style: none;
+                padding: 0;
+                margin-bottom: 10mm;
+            }
+
+            .modal-content ul li {
+                margin-bottom: 3mm;
+                border-bottom: 1px solid var(--light-gray);
+                padding-bottom: 2mm;
+            }
+
+            .modal-content p strong {
+                display: inline-block;
+                width: 30mm; /* Adjusted label width */
+                font-size: 1.2em; /* Ensure labels are prominent but fit */
+            }
+
+            .modal-content p {
+                margin-bottom: 5mm;
+                font-size: 1.2em; /* Ensuring paragraph text is larger */
+            }
+
+            .modal-content:after {
+                content: "Ευχαριστούμε για την παραγγελία σας! Περισσότερες γεύσεις στο Crepe de France.";
+                display: block;
+                text-align: center;
+                margin-top: 15mm;
+                font-size: 1.3em; /* Increased for better readability */
+                color: #666;
+            }
+
+            /* Adjust table font sizes for print if tables are printed */
+            table, th, td {
+                font-size: 1em; /* Smaller font size to fit within 72mm */
+            }
+
+            header h1 {
+                font-size: 1.5em; /* Reduced for print */
+            }
+
+            .filters select, .filters input {
+                font-size: 1em; /* Adjusted for print */
+                padding: 10px 12px; /* Reduced padding */
+            }
+
+            h2 {
+                font-size: 1.5em; /* Adjusted for print */
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="https://cdn.e-food.gr/shop/762805/logo?t=1647428522" alt="Crepe de France Logo" class="logo">
+        <h1>Πίνακας Ελέγχου - Crepe de France</h1>
+        <!-- Logout Button -->
+        <a href="/logout" class="button" style="position: absolute; top: 20px; right: 20px;">
+            <i class="fas fa-sign-out-alt"></i> Αποσύνδεση
+        </a>
+    </header>
+    
+    <div id="notification-container"></div>
+
+    <div class="container">
+        <div class="filters">
+            <select id="payment-filter" aria-label="Φίλτρο Μέθοδος Πληρωμής">
+                <option value="">Όλες οι Μέθοδοι Πληρωμής</option>
+                <option value="Cash">Μετρητά</option>
+                <option value="Credit Card">Πιστωτική Κάρτα</option>
+                <option value="Google Pay">Google Pay</option>
+            </select>
+            <input type="date" id="date-filter" placeholder="Φίλτρο με βάση την Ημερομηνία" aria-label="Φίλτρο Ημερομηνίας">
+            <input type="text" id="search-filter" placeholder="Αναζήτηση με βάση τον Αριθμό Τραπεζιού ή τα Σχόλια" aria-label="Φίλτρο Αναζήτησης">
+        </div>
+        
+        <h2>Όλες οι Παραγγελίες</h2>
+        <table id="orders-table">
+            <thead>
+                <tr>
+                    <th>Ώρα Παραγγελίας</th>
+                    <th>Χρήστης</th> <!-- New Column for Username -->
+                    <th>Προϊόντα</th>
+                    <th>Σύνολο (€)</th>
+                    <th>Φιλοδώρημα (€)</th>
+                    <th>Μέθοδος Πληρωμής</th>
+                    <th>Αριθμός Τραπεζιού</th>
+                    <th>Σχόλια</th>
+                    <th>Ενέργειες</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        
+        <p id="no-orders" style="display: none; text-align: center; font-size: 1.2em;">Δεν υπάρχουν παραγγελίες διαθέσιμες.</p>
+    </div>
+    
+    <div id="order-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-content">
+            <span class="close-modal" aria-label="Κλείσιμο">&times;</span>
+            <h3 id="modal-title">Λεπτομέρειες Παραγγελίας</h3>
+            <p><strong>Ώρα Παραγγελίας:</strong> <span id="modal-time"></span></p>
+            <p><strong>Προϊόντα:</strong></p>
+            <ul id="modal-items"></ul>
+            <p><strong>Σύνολο:</strong> €<span id="modal-total"></span></p>
+            <p><strong>Φιλοδώρημα:</strong> €<span id="modal-tip"></span></p>
+            <p><strong>Μέθοδος Πληρωμής:</strong> <span id="modal-payment"></span></p>
+            <p><strong>Αριθμός Τραπεζιού:</strong> <span id="modal-table"></span></p>
+            <p><strong>Σχόλια:</strong> <span id="modal-comments"></span></p>
+            <button class="button print-button" id="print-button">Εκτύπωση</button>
+        </div>
+    </div>
+
+    <script>
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        if (orders.length === 0) {
+            orders = [
+                {
+                    "timestamp": "2024-12-06T00:37:00Z",
+                    "username": "user123", // Added Username
+                    "items": [
+                        {
+                            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα",
+                            "quantity": 1,
+                            "price": 0.00
+                        }
+                    ],
+                    "total": 0.00,
+                    "tip": 0.00,
+                    "paymentMethod": "Cash",
+                    "table": "Τραπέζι 10",
+                    "comments": ""
+                }
+            ];
+            localStorage.setItem('orders', JSON.stringify(orders));
+        }
+
+        let currentDisplayedOrders = [];
+
+        const ordersTableBody = document.querySelector('#orders-table tbody');
+        const noOrdersMessage = document.getElementById('no-orders');
+        
+        const paymentFilter = document.getElementById('payment-filter');
+        const dateFilter = document.getElementById('date-filter');
+        const searchFilter = document.getElementById('search-filter');
+
+        const modal = document.getElementById('order-modal');
+        const closeModalBtn = modal.querySelector('.close-modal');
+        const modalTime = document.getElementById('modal-time');
+        const modalItems = document.getElementById('modal-items');
+        const modalTotal = document.getElementById('modal-total');
+        const modalTip = document.getElementById('modal-tip');
+        const modalPayment = document.getElementById('modal-payment');
+        const modalTable = document.getElementById('modal-table');
+        const modalComments = document.getElementById('modal-comments');
+        const printButton = document.getElementById('print-button');
+
+        // Sound effect for new orders
+        const newOrderSound = new Audio();
+        // Provide a valid sound file URL here if needed
+        newOrderSound.src = 'new_order_sound.mp3';
+
+        let previousOrderCount = 0; 
+
+        const productPrices = {
+            "Crepe Classic": 3.00,
+            "Crepe Nutella": 3.50,
+            "Crepe Strawberry": 3.25,
+            "Crepe Lemon": 3.00,
+            "Crepe Cheese": 3.75,
+            "Extra Chocolate": 0.50,
+            "Extra Cream": 0.75,
+            "Φτιάξτε τη δική σας γλυκιά κρέπα": 0.00
+        };
+
+        function parsePrice(priceInput) {
+            if (typeof priceInput === 'number') return priceInput;
+            if (typeof priceInput === 'string') {
+                const sanitized = priceInput.replace(/[^0-9.,]/g, '').replace(',', '.').trim();
+                const parsed = parseFloat(sanitized);
+                return isNaN(parsed) ? 0 : parsed;
+            }
+            return 0;
+        }
+
+        function formatOrderDate(timestamp) {
+            const orderDate = new Date(timestamp);
+            const day = orderDate.getDate();
+            const monthNames = [
+                "Ιανουαρίου","Φεβρουαρίου","Μαρτίου","Απριλίου","Μαΐου","Ιουνίου",
+                "Ιουλίου","Αυγούστου","Σεπτεμβρίου","Οκτωβρίου","Νοεμβρίου","Δεκεμβρίου"
+            ];
+            const monthName = monthNames[orderDate.getMonth()];
+            const year = orderDate.getFullYear();
+
+            let hours = orderDate.getHours();
+            let period = 'π.μ.';
+            if (hours >= 12) {
+                period = 'μ.μ.';
+                if (hours > 12) hours -= 12;
+            }
+            if (hours === 0) hours = 12;
+
+            const minutes = orderDate.getMinutes().toString().padStart(2, '0');
+
+            return `${day} ${monthName} ${year} στις ${hours}:${minutes} ${period}`;
+        }
+
+        function calculateTotal(order) {
+            let total = 0;
+            if (Array.isArray(order.items)) {
+                order.items.forEach(item => {
+                    const quantity = parseInt(item.quantity) || 1;
+                    let basePrice = parsePrice(item.price) || productPrices[item.name] || 0;
+                    let lineTotal = basePrice * quantity;
+
+                    if (item.addOns && item.addOns.length > 0) {
+                        item.addOns.forEach(addon => {
+                            lineTotal += parsePrice(addon.price) * quantity;
+                        });
+                    }
+
+                    total += lineTotal;
+                });
+            }
+            return total;
+        }
+
+        function viewOrder(index) {
+            const order = currentDisplayedOrders[index];
+            if (!order) {
+                alert('Η παραγγελία δεν βρέθηκε.');
+                return;
+            }
+
+            const formattedTime = formatOrderDate(order.timestamp);
+
+            modalItems.innerHTML = order.items.map(item => {
+                let itemLine = `${item.name} x${item.quantity}`;
+                if (Array.isArray(item.addOns) && item.addOns.length > 0) {
+                    const addOnsDetail = item.addOns.map(addon => `${addon.name} (+€${parsePrice(addon.price).toFixed(2)})`).join(', ');
+                    itemLine += ` [${addOnsDetail}]`;
+                }
+                return `<li>${itemLine}</li>`;
+            }).join('');
+
+            const commentsText = order.comments && order.comments.trim() !== '' ? order.comments : 'N/A';
+
+            // Recalculate total for accuracy
+            const orderTotal = calculateTotal(order);
+
+            modalTime.textContent = formattedTime;
+            modalTotal.textContent = orderTotal.toFixed(2);
+            modalTip.textContent = parsePrice(order.tip).toFixed(2);
+            modalPayment.textContent = paymentMethodDisplay(order.paymentMethod);
+            modalTable.textContent = order.table || 'N/A';
+            modalComments.textContent = commentsText;
+
+            modal.style.display = 'block';
+            modal.setAttribute('aria-hidden', 'false');
+
+            printButton.onclick = () => window.print();
+        }
+
+        function paymentMethodDisplay(method) {
+            switch(method) {
+                case 'Cash':
+                    return 'Μετρητά';
+                case 'Credit Card':
+                    return 'Πιστωτική Κάρτα';
+                case 'Google Pay':
+                    return 'Google Pay';
+                default:
+                    return method || 'N/A';
+            }
+        }
+
+        function deleteOrder(index) {
+            const actualOrder = currentDisplayedOrders[index];
+            if (!actualOrder) return;
+            if (confirm('Είστε βέβαιοι ότι θέλετε να διαγράψετε αυτή την παραγγελία;')) {
+                const mainIndex = orders.findIndex(o => o.timestamp === actualOrder.timestamp && o.username === actualOrder.username);
+                if (mainIndex > -1) {
+                    orders.splice(mainIndex, 1);
+                }
+                localStorage.setItem('orders', JSON.stringify(orders));
+                filterOrders();
+                showNotification("Διαγραφή Επιτυχής", "Η παραγγελία διαγράφηκε επιτυχώς.");
+            }
+        }
+
+        function getFilteredOrders() {
+            let filtered = [...orders];
+            filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            
+            const paymentValue = paymentFilter.value;
+            if (paymentValue) {
+                filtered = filtered.filter(order => order.paymentMethod === paymentValue);
+            }
+            
+            const dateValue = dateFilter.value;
+            if (dateValue) {
+                const selectedDate = new Date(dateValue).toDateString();
+                filtered = filtered.filter(order => new Date(order.timestamp).toDateString() === selectedDate);
+            }
+            
+            const searchValue = searchFilter.value.toLowerCase();
+            if (searchValue) {
+                filtered = filtered.filter(order => 
+                    (order.table && order.table.toLowerCase().includes(searchValue)) || 
+                    (order.comments && order.comments.toLowerCase().includes(searchValue))
+                );
+            }
+            return filtered;
+        }
+
+        function showNotification(title, message) {
+            const container = document.getElementById('notification-container');
+            const notification = document.createElement('div');
+            notification.classList.add('notification');
+            notification.innerHTML = `<strong>${title}</strong><br>${message}`;
+            
+            container.appendChild(notification);
+
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.classList.add('fade-out');
+                notification.addEventListener('animationend', () => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                });
+            }, 3000);
+        }
+
+        function filterOrders() {
+            const filteredOrders = getFilteredOrders();
+            currentDisplayedOrders = filteredOrders;
+            renderOrders(filteredOrders);
+
+            // If new orders appear
+            if (filteredOrders.length > previousOrderCount) {
+                newOrderSound.play().catch(err => {
+                    console.log("Sound could not be played automatically. User interaction may be required.");
+                });
+                showNotification("Νέα Παραγγελία!", "Έφτασε μια νέα παραγγελία.");
+            }
+            previousOrderCount = filteredOrders.length;
+        }
+
+        function renderOrders(filteredOrders) {
+            ordersTableBody.innerHTML = '';
+            
+            if (filteredOrders.length === 0) {
+                noOrdersMessage.style.display = 'block';
+                return;
+            } else {
+                noOrdersMessage.style.display = 'none';
+            }
+            
+            filteredOrders.forEach((order, index) => {
+                let total = calculateTotal(order);
+                let tip = parsePrice(order.tip) || 0;
+
+                let itemsList = '';
+                if (Array.isArray(order.items) && order.items.length > 0) {
+                    order.items.forEach(item => {
+                        const quantity = parseInt(item.quantity) || 1;
+                        let itemDisplay = `${item.name} (x${quantity})`;
+                        if (Array.isArray(item.addOns) && item.addOns.length > 0) {
+                            const addOnsDisplay = item.addOns.map(addon => `${addon.name} (+€${parsePrice(addon.price).toFixed(2)})`).join(', ');
+                            itemDisplay += ` [${addOnsDisplay}]`;
+                        }
+                        itemsList += itemDisplay + '; ';
+                    });
+                    itemsList = itemsList.slice(0, -2);
+                } else {
+                    itemsList = 'N/A';
+                }
+
+                const formattedTime = formatOrderDate(order.timestamp);
+                const paymentMethod = order.paymentMethod || 'N/A';
+                const tableNumber = order.table || 'N/A';
+                const comments = order.comments && order.comments.trim() !== '' ? order.comments : 'N/A';
+                const username = order.username || 'N/A'; // Extract Username
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formattedTime}</td>
+                    <td>${username}</td> <!-- Display Username -->
+                    <td>${itemsList}</td>
+                    <td>€${total.toFixed(2)}</td>
+                    <td>€${tip.toFixed(2)}</td>
+                    <td>${paymentMethodDisplay(paymentMethod)}</td>
+                    <td>${tableNumber}</td>
+                    <td>${comments}</td>
+                    <td>
+                        <button class="button" onclick="viewOrder(${index})"><i class="fas fa-eye"></i> Προβολή</button>
+                        <button class="button delete-button" onclick="deleteOrder(${index})"><i class="fas fa-trash-alt"></i> Διαγραφή</button>
+                    </td>
+                `;
+                
+                ordersTableBody.appendChild(row);
+            });
+        }
+
+        paymentFilter.addEventListener('change', filterOrders);
+        dateFilter.addEventListener('change', filterOrders);
+        searchFilter.addEventListener('input', filterOrders);
+
+        closeModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+                modal.setAttribute('aria-hidden', 'true');
+            }
+        });
+
+        // Initial load
+        filterOrders();
+
+        // Periodically check for new orders in localStorage without refresh
+        setInterval(() => {
+            const updatedOrders = JSON.parse(localStorage.getItem('orders')) || [];
+            if (JSON.stringify(updatedOrders) !== JSON.stringify(orders)) {
+                orders = updatedOrders;
+                filterOrders();
+            }
+        }, 5000); // check every 5 seconds
+    </script>
+</body>
+</html>

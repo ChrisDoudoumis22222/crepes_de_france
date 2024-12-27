@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ασφαλής Σύνδεση</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        /* Reset & Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: url('https://scontent.fath7-1.fna.fbcdn.net/v/t51.75761-15/469003060_17934630575951155_7198336318776601740_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=127cfc&_nc_ohc=cCuLBDWYH3IQ7kNvgE0wgAJ&_nc_zt=23&_nc_ht=scontent.fath7-1.fna&_nc_gid=AvjEZozzkB5tZz1wfrsBC7H&oh=00_AYCPny5QlL5rSmcCnGeG95OaObRhVD6Zn-TnrlU99ZsozA&oe=6758EDA5') no-repeat center center fixed;
+            background-size: cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+        /* Container */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 1s ease-in-out;
+            position: relative;
+        }
+        /* Logo */
+        .logo {
+            width: 150px;
+            display: block;
+            margin: 0 auto 20px auto; 
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        /* Heading */
+        .container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333333;
+            font-weight: 700;
+        }
+        /* Input Fields */
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            transition: border-color 0.3s ease;
+            font-size: 16px;
+        }
+        .input-group input:focus {
+            border-color: #28a745;
+            outline: none;
+        }
+        .input-group .icon {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: #888;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .input-group .icon:hover {
+            color: #28a745;
+        }
+        /* Remember Me */
+        .remember-me {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .remember-me input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        .remember-me label {
+            font-size: 14px;
+            color: #555555;
+        }
+        /* Button */
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: #28a745;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+        .btn:hover {
+            background: #218838;
+            transform: translateY(-2px);
+        }
+        .btn:active {
+            transform: translateY(0);
+        }
+        /* Error Message */
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.5s forwards;
+        }
+        /* Responsive */
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+        }
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 100px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Logo -->
+        <img src="https://cdn.e-food.gr/shop/762805/logo?t=1647428522" alt="Crepe de France Logo" class="logo">
+        
+        <h2>Καλώς ήρθατε!</h2>
+        <div class="error" id="error-message"></div>
+        <form id="login-form">
+            <div class="input-group">
+                <input type="text" id="username" name="username" placeholder="Όνομα Χρήστη" required aria-label="Όνομα Χρήστη">
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="Κωδικός" required aria-label="Κωδικός">
+                <span class="icon" id="toggle-password" aria-label="Εμφάνιση/Απόκρυψη Κωδικού">
+                    <i class="fas fa-eye"></i>
+                </span>
+            </div>
+            <div class="remember-me">
+                <input type="checkbox" id="remember-me" name="remember-me">
+                <label for="remember-me">Θυμήσου Με</label>
+            </div>
+            <button type="submit" class="btn">Σύνδεση</button>
+        </form>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+        const errorMessage = document.getElementById('error-message');
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+
+        // Toggle Password Visibility
+        togglePassword.addEventListener('click', () => {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            togglePassword.innerHTML = type === 'password' 
+                ? '<i class="fas fa-eye"></i>' 
+                : '<i class="fas fa-eye-slash"></i>';
+        });
+
+        // Handle Form Submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorMessage.style.display = 'none';
+            errorMessage.textContent = '';
+
+            const username = document.getElementById('username').value.trim();
+            const password = passwordInput.value.trim();
+            const rememberMe = document.getElementById('remember-me').checked;
+
+            if (!username || !password) {
+                showError('Παρακαλώ εισάγετε τόσο το όνομα χρήστη όσο και τον κωδικό.');
+                return;
+            }
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password, rememberMe })
+                });
+
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else if (!response.ok) {
+                    const data = await response.json().catch(() => ({}));
+                    showError(data.error || 'Μη έγκυρο όνομα χρήστη ή κωδικός.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Παρουσιάστηκε σφάλμα. Παρακαλώ προσπαθήστε ξανά αργότερα.');
+            }
+        });
+
+        // Function to Display Error Messages
+        function showError(message) {
+            errorMessage.textContent = message;
+            errorMessage.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
