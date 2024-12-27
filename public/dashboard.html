@@ -444,6 +444,7 @@
         <p id="no-orders" style="display: none; text-align: center; font-size: 1.2em;">Δεν υπάρχουν παραγγελίες διαθέσιμες.</p>
     </div>
     
+    <!-- Order Details Modal -->
     <div id="order-modal" class="modal" aria-hidden="true" role="dialog" aria-labelledby="modal-title">
         <div class="modal-content">
             <span class="close-modal" aria-label="Κλείσιμο">&times;</span>
@@ -461,6 +462,7 @@
     </div>
 
     <script>
+        // Retrieve orders from localStorage or initialize with dummy data
         let orders = JSON.parse(localStorage.getItem('orders')) || [];
         if (orders.length === 0) {
             orders = [
@@ -469,7 +471,10 @@
                     "username": "user123", // Added Username
                     "items": [
                         {
-                            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα",
+                            "name": { 
+                                "el": "Φτιάξτε τη δική σας γλυκιά κρέπα", 
+                                "en": "Create your own sweet crepe" 
+                            },
                             "quantity": 1,
                             "price": 0.00
                         }
@@ -504,10 +509,10 @@
         const modalComments = document.getElementById('modal-comments');
         const printButton = document.getElementById('print-button');
 
-        // Sound effect for new orders
+        // Sound effect for new orders (ensure you have a valid sound file)
         const newOrderSound = new Audio();
         // Provide a valid sound file URL here if needed
-        newOrderSound.src = 'new_order_sound.mp3';
+        // newOrderSound.src = 'new_order_sound.mp3';
 
         let previousOrderCount = 0; 
 
@@ -522,6 +527,11 @@
             "Φτιάξτε τη δική σας γλυκιά κρέπα": 0.00
         };
 
+        /**
+         * Parses the price input and returns a float.
+         * @param {string|number} priceInput 
+         * @returns {number}
+         */
         function parsePrice(priceInput) {
             if (typeof priceInput === 'number') return priceInput;
             if (typeof priceInput === 'string') {
@@ -532,6 +542,11 @@
             return 0;
         }
 
+        /**
+         * Formats the timestamp to a readable date and time in Greek.
+         * @param {string} timestamp 
+         * @returns {string}
+         */
         function formatOrderDate(timestamp) {
             const orderDate = new Date(timestamp);
             const day = orderDate.getDate();
@@ -555,12 +570,17 @@
             return `${day} ${monthName} ${year} στις ${hours}:${minutes} ${period}`;
         }
 
+        /**
+         * Calculates the total price of an order.
+         * @param {Object} order 
+         * @returns {number}
+         */
         function calculateTotal(order) {
             let total = 0;
             if (Array.isArray(order.items)) {
                 order.items.forEach(item => {
                     const quantity = parseInt(item.quantity) || 1;
-                    let basePrice = parsePrice(item.price) || productPrices[item.name] || 0;
+                    let basePrice = parsePrice(item.price) || productPrices[item.name.el] || 0;
                     let lineTotal = basePrice * quantity;
 
                     if (item.addOns && item.addOns.length > 0) {
@@ -575,6 +595,10 @@
             return total;
         }
 
+        /**
+         * Displays order details in a modal.
+         * @param {number} index 
+         */
         function viewOrder(index) {
             const order = currentDisplayedOrders[index];
             if (!order) {
@@ -584,10 +608,13 @@
 
             const formattedTime = formatOrderDate(order.timestamp);
 
+            // Access the Greek names for items and add-ons
             modalItems.innerHTML = order.items.map(item => {
-                let itemLine = `${item.name} x${item.quantity}`;
+                let itemLine = `${item.name.el} x${item.quantity}`;
                 if (Array.isArray(item.addOns) && item.addOns.length > 0) {
-                    const addOnsDetail = item.addOns.map(addon => `${addon.name} (+€${parsePrice(addon.price).toFixed(2)})`).join(', ');
+                    const addOnsDetail = item.addOns.map(addon => {
+                        return `${addon.name.el} (+€${parsePrice(addon.price).toFixed(2)})`;
+                    }).join(', ');
                     itemLine += ` [${addOnsDetail}]`;
                 }
                 return `<li>${itemLine}</li>`;
@@ -611,6 +638,11 @@
             printButton.onclick = () => window.print();
         }
 
+        /**
+         * Translates payment method codes to Greek labels.
+         * @param {string} method 
+         * @returns {string}
+         */
         function paymentMethodDisplay(method) {
             switch(method) {
                 case 'Cash':
@@ -624,6 +656,10 @@
             }
         }
 
+        /**
+         * Deletes an order after confirmation.
+         * @param {number} index 
+         */
         function deleteOrder(index) {
             const actualOrder = currentDisplayedOrders[index];
             if (!actualOrder) return;
@@ -638,6 +674,10 @@
             }
         }
 
+        /**
+         * Retrieves orders based on applied filters.
+         * @returns {Array}
+         */
         function getFilteredOrders() {
             let filtered = [...orders];
             filtered.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
@@ -663,6 +703,11 @@
             return filtered;
         }
 
+        /**
+         * Displays a notification message.
+         * @param {string} title 
+         * @param {string} message 
+         */
         function showNotification(title, message) {
             const container = document.getElementById('notification-container');
             const notification = document.createElement('div');
@@ -682,6 +727,9 @@
             }, 3000);
         }
 
+        /**
+         * Filters and displays orders based on current filters.
+         */
         function filterOrders() {
             const filteredOrders = getFilteredOrders();
             currentDisplayedOrders = filteredOrders;
@@ -689,14 +737,19 @@
 
             // If new orders appear
             if (filteredOrders.length > previousOrderCount) {
-                newOrderSound.play().catch(err => {
-                    console.log("Sound could not be played automatically. User interaction may be required.");
-                });
+                // Uncomment the line below and ensure you have a valid sound file
+                // newOrderSound.play().catch(err => {
+                //     console.log("Sound could not be played automatically. User interaction may be required.");
+                // });
                 showNotification("Νέα Παραγγελία!", "Έφτασε μια νέα παραγγελία.");
             }
             previousOrderCount = filteredOrders.length;
         }
 
+        /**
+         * Renders the orders table.
+         * @param {Array} filteredOrders 
+         */
         function renderOrders(filteredOrders) {
             ordersTableBody.innerHTML = '';
             
@@ -715,9 +768,9 @@
                 if (Array.isArray(order.items) && order.items.length > 0) {
                     order.items.forEach(item => {
                         const quantity = parseInt(item.quantity) || 1;
-                        let itemDisplay = `${item.name} (x${quantity})`;
+                        let itemDisplay = `${item.name.el} (x${quantity})`;
                         if (Array.isArray(item.addOns) && item.addOns.length > 0) {
-                            const addOnsDisplay = item.addOns.map(addon => `${addon.name} (+€${parsePrice(addon.price).toFixed(2)})`).join(', ');
+                            const addOnsDisplay = item.addOns.map(addon => `${addon.name.el} (+€${parsePrice(addon.price).toFixed(2)})`).join(', ');
                             itemDisplay += ` [${addOnsDisplay}]`;
                         }
                         itemsList += itemDisplay + '; ';
@@ -753,15 +806,18 @@
             });
         }
 
+        // Event Listeners for Filters
         paymentFilter.addEventListener('change', filterOrders);
         dateFilter.addEventListener('change', filterOrders);
         searchFilter.addEventListener('input', filterOrders);
 
+        // Event Listener for Closing Modal
         closeModalBtn.addEventListener('click', () => {
             modal.style.display = 'none';
             modal.setAttribute('aria-hidden', 'true');
         });
 
+        // Close Modal When Clicking Outside Content
         window.addEventListener('click', (event) => {
             if (event.target === modal) {
                 modal.style.display = 'none';
@@ -769,7 +825,7 @@
             }
         });
 
-        // Initial load
+        // Initial Load
         filterOrders();
 
         // Periodically check for new orders in localStorage without refresh
