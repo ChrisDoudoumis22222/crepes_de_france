@@ -10,11 +10,13 @@ const PORT = process.env.PORT || 3000; // Use the Render-provided PORT
 
 // Hardcoded users and passwords
 const hardcodedUsers = {
-    admin: 'admin123',
-    john_doe: 'password1',
-    jane_smith: 'mysecretpass',
-    dashboard_user: 'dashboardpass', // User for dashboard access
+    thanasis: 'thanasis123', // Password for Thanasis
+    dimitris: 'dimitrisPass!', // Password for Dimitris
+    user3: 'user3Secure#', // Password for User3
+    argyris: 'dashboardpass', // User for dashboard access
+    christos: 'christosPass@', // Password for Christos
 };
+
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
