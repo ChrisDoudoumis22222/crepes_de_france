@@ -771,795 +771,908 @@
 
     <!-- JavaScript for Dynamic Content and Interactivity -->
     <script>
-        // New Menu Data Definition (replaced with the provided JSON)
-        const menuData = [
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα special",
-            "description": "Με gouda, ζαμπόν, μπέικον, πιπεριά, ντομάτα & τυροσαλάτα",
-            "price": "7,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000408?c=1644946529"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα tuna",
-            "description": "Με τόνο, μαρούλι, αγγούρι τουρσί, ελιές & σως μουστάρδας",
-            "price": "7,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα blue cheese",
-            "description": "Με μαρούλι, ντομάτα, αγγούρι & σως ροκφόρ",
-            "price": "6,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα Mexican",
-            "description": "Με gouda, κοτόπουλο, ντομάτα, κόκκινη πιπεριά, καλαμπόκι & hot soya σως",
-            "price": "8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα curry",
-            "description": "Με gouda, κοτόπουλο, μανιτάρια, κάρυ, μπέικον & καλαμπόκι",
-            "price": "8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα de France",
-            "description": "Με gouda, κοτόπουλο, ντομάτα, μπέικον, μανιτάρια & σως μαδέρα",
-            "price": "8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα de village",
-            "description": "Με τυρί, φέτα, ελιές, ντομάτα, κρεμμύδι, πιπεριά & τουρσί",
-            "price": "8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα le Paris",
-            "description": "Με gouda, μπέικον, ζαμπόν, ντομάτα, αυγό μάτι & ketchup",
-            "price": "7,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα chicken stroganoff",
-            "description": "Με gouda, κοτόπουλο, γαλοπούλα, μανιτάρια & σως (κρέμα, μουστάρδα & λευκό κρασί)",
-            "price": "7,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "almyres-krepes",
-            "categoryName": "Αλμυρές κρέπες",
-            "name": "Κρέπα chef de crepe",
-            "description": "Με gouda, κοτόπουλο, μπέικον, μανιτάρια, κρεμμύδι, κρέμα, κονιάκ & μαϊντανό",
-            "price": "8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα de France",
-            "description": "Με πραλίνα, κέικ, λικέρ, καρύδι, παγωτό & γλυκό βύσσινο",
-            "price": "Από 7,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα apple",
-            "description": "Με μήλο, κανέλα & καστανή ζάχαρη",
-            "price": "5,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα μπουγάτσα",
-            "description": "N/A",
-            "price": "5,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000423?c=1696856236"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα λεμόνι, καστανή ζάχαρη & κανέλα",
-            "description": "N/A",
-            "price": "3,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα role crepe",
-            "description": "Με Oreo cookies, καρύδα, σοκολάτα, σιρόπι καραμέλα, Baileys & παγωτό",
-            "price": "Από 7,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα suzette",
-            "description": "Με grand marnier, χυμό πορτοκάλι, βούτυρο & ζάχαρη",
-            "price": "4,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα tropical",
-            "description": "Με ανανά, φράουλα, μπανάνα, μήλο, πορτοκάλι & σιρόπι σοκολάτας",
-            "price": "6,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα cheesecake crepe",
-            "description": "Με Philadelphia, μπισκότο & μαρμελάδα κεράσι",
-            "price": "6,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:krepa-cheesecake-crepe?c=1732444744"
-          },
-          {
-            "categoryId": "glykes-krepes",
-            "categoryName": "Γλυκές κρέπες",
-            "name": "Κρέπα σοκολάτα",
-            "description": "N/A",
-            "price": "4,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000575?c=1696856131"
-          },
-          {
-            "categoryId": "rofimata",
-            "categoryName": "Ροφήματα",
-            "name": "Σοκολάτα",
-            "description": "Η σοκολάτα είναι η απάντηση, όποια κι αν είναι η ερώτηση. Απόλαυσε κάθε ώρα της ημέρας ή και της νύχτας, σοκολάτα είναι, δεν έχει do's and dont's.",
-            "price": "Από 4,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:sokolata?c=1729242781"
-          },
-          {
-            "categoryId": "rofimata",
-            "categoryName": "Ροφήματα",
-            "name": "Σοκολάτα Viennois",
-            "description": "Η σοκολάτα είναι η απάντηση, όποια κι αν είναι η ερώτηση. Απόλαυσε κάθε ώρα της ημέρας ή και της νύχτας, σοκολάτα είναι, δεν έχει do's and don'ts.",
-            "price": "Από 4,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:sokolata-viennois?c=1727118183"
-          },
-          {
-            "categoryId": "rofimata",
-            "categoryName": "Ροφήματα",
-            "name": "Mocha",
-            "description": "Η πλούσια γεύση του καφέ μπερδεύεται με τη γλυκύτητα της σοκολάτας, δημιουργώντας έναν απολαυστικό συνδυασμό. Σερβίρεται ζεστή ή κρύα, με σαντιγί ή χωρίς και είναι πάντα το ίδιο υπέροχη.",
-            "price": "Από 4,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:mocha?c=1728926366"
-          },
-          {
-            "categoryId": "rofimata",
-            "categoryName": "Ροφήματα",
-            "name": "Τσάι",
-            "description": "Ζεστό. Κλασικό",
-            "price": "Από 3,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:tsai?c=1729242553"
-          },
-          {
-            "categoryId": "rofimata",
-            "categoryName": "Ροφήματα",
-            "name": "Φυσικός χυμός πορτοκάλι",
-            "description": "Φήμες λένε πως όταν πίνεις έναν φυσικό χυμό πορτοκάλι, στα αυτιά σου ακούγεται \"πιες τον γρήγορα, θα χάσει τις βιταμίνες του\". Παράγγειλε γρήγορα, απόλαυσε γρήγορα και πάρε όλες τις βιταμίνες.",
-            "price": "3,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phusikos-xumos-portokali?c=1728921427"
-          },
-          {
-            "categoryId": "rofimata",
-            "categoryName": "Ροφήματα",
-            "name": "Φυσικός χυμός ανάμεικτος",
-            "description": "Τα φρούτα της ημέρας σε ένα ρόφημα! Παράγγειλε ανάμεικτο φυσικό χυμό και πάρε τα απαραίτητα θρεπτικά συστατικά, με τον πιο φυσικό τρόπο.",
-            "price": "3,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:smoothie-karpouzi?c=1733074874"
-          },
-          {
-            "categoryId": "rofimata",
-            "categoryName": "Ροφήματα",
-            "name": "Φυσικός χυμός εποχής",
-            "description": "Συνδυασμός φρούτων εποχής",
-            "price": "4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phusikos-xumos-epoxis?c=1729017884"
-          },
-          {
-            "categoryId": "granites",
-            "categoryName": "Γρανίτες",
-            "name": "Γρανίτα καρπούζι",
-            "description": "Αναζητάς κάτι δροσερό, φρουτώδες και αναζωογονητικό; Μην ψάχνεις άλλο, παράγγειλε γρανίτα στην αγαπημένη σου γεύση και απόλαυσε κάθε γουλιά!",
-            "price": "3,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:granita-karpouzi?c=1726585378"
-          },
-          {
-            "categoryId": "smoothies",
-            "categoryName": "Smoothies",
-            "name": "Smoothie καρπούζι",
-            "description": "Αν είναι πράσινο είναι υγιεινό, αν είναι ροζ, είναι σαν παγωτό! Έχε αυτό σαν οδηγό και απόλαυσε θρεπτικά και δροσιστικά smoothies.",
-            "price": "4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:smoothie-karpouzi?c=1733074874"
-          },
-          {
-            "categoryId": "milkshakes",
-            "categoryName": "Milkshakes",
-            "name": "Milkshake βανίλια",
-            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
-            "price": "4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-banilia?c=1729243309"
-          },
-          {
-            "categoryId": "milkshakes",
-            "categoryName": "Milkshakes",
-            "name": "Milkshake σοκολάτα",
-            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
-            "price": "4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-sokolata?c=1729242974"
-          },
-          {
-            "categoryId": "milkshakes",
-            "categoryName": "Milkshakes",
-            "name": "Milkshake ανάμεικτο",
-            "description": "Με βανίλια & σοκολάτα",
-            "price": "4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-anameikto?c=1729242974"
-          },
-          {
-            "categoryId": "milkshakes",
-            "categoryName": "Milkshakes",
-            "name": "Milkshake φράουλα",
-            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
-            "price": "4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-phraoula?c=1729243273"
-          },
-          {
-            "categoryId": "milkshakes",
-            "categoryName": "Milkshakes",
-            "name": "Milkshake μπανάνα",
-            "description": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\". Το συνώνυμο καλοκαιριού έρχεται στην πόρτα σου και μαζί φέρνει λίγη από την ανεμελιά των διακοπών!",
-            "price": "4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:milkshake-mpanana?c=1729243029"
-          },
-          {
-            "categoryId": "toasts",
-            "categoryName": "Toasts",
-            "name": "Τοστ τυρί & ζαμπόν",
-            "description": "Το τοστ είναι το γεύμα που καταναλώνεται σε κάθε ηλικία, κάθε ώρα της ημέρας και της νύχτας, με την ίδια πάντα ευχαρίστηση. Ε, τι το σκέφτεσαι; Παράγγειλε ένα τοστάκι!",
-            "price": "2,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:tost-turi-kai-zampon?c=1731055759"
-          },
-          {
-            "categoryId": "toasts",
-            "categoryName": "Toasts",
-            "name": "Τοστ τυρί & γαλοπούλα",
-            "description": "Το τοστ είναι το γεύμα που καταναλώνεται σε κάθε ηλικία, κάθε ώρα της ημέρας και της νύχτας, με την ίδια πάντα ευχαρίστηση. Ε, τι το σκέφτεσαι; Παράγγειλε ένα τοστάκι!",
-            "price": "3,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:tost-turi-kai-galopoula?c=1731055759"
-          },
-          {
-            "categoryId": "pancakes-almyra",
-            "categoryName": "Pancakes αλμυρά",
-            "name": "Αλμυρό pancake με τυρί, μπέικον & αυγό",
-            "description": "N/A",
-            "price": "7,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "pancakes-almyra",
-            "categoryName": "Pancakes αλμυρά",
-            "name": "Αλμυρό pancake με τυρί, ζαμπόν, μπέικον & αυγό",
-            "description": "N/A",
-            "price": "7,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:almuro-pancake-me-turi-zampon-mpeikon-kai-augo?c=1730471200"
-          },
-          {
-            "categoryId": "pancakes-almyra",
-            "categoryName": "Pancakes αλμυρά",
-            "name": "Αλμυρό pancake με τυρί, καπνιστή γαλοπούλα & αυγό",
-            "description": "N/A",
-            "price": "7,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:almuro-pancake-me-turi-kapnisti-galopoula-kai-augo?c=1730490887"
-          },
-          {
-            "categoryId": "pancakes-glyka",
-            "categoryName": "Pancakes γλυκά",
-            "name": "Γλυκό pancake με σοκολάτα & μπανάνα",
-            "description": "N/A",
-            "price": "5,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "pancakes-glyka",
-            "categoryName": "Pancakes γλυκά",
-            "name": "Γλυκό pancake με σοκολάτα λευκή, μπισκότο Oreo & φρέσκες φράουλες",
-            "description": "N/A",
-            "price": "7,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000566?c=1696856093"
-          },
-          {
-            "categoryId": "pancakes-glyka",
-            "categoryName": "Pancakes γλυκά",
-            "name": "Γλυκό pancake με σοκολάτα Bueno, γλυκό βύσσινο & μπισκότο",
-            "description": "N/A",
-            "price": "7,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "pancakes-glyka",
-            "categoryName": "Pancakes γλυκά",
-            "name": "Γλυκό pancake με μέλι, καρύδι ή αμύγδαλο & κανέλα",
-            "description": "N/A",
-            "price": "Από 6,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "pancakes-glyka",
-            "categoryName": "Pancakes γλυκά",
-            "name": "Γλυκό pancake με σοκολάτα, λευκή σοκολάτα & ανάμεικτο μπισκότο",
-            "description": "N/A",
-            "price": "6,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000569?c=1696856073"
-          },
-          {
-            "categoryId": "pancakes-glyka",
-            "categoryName": "Pancakes γλυκά",
-            "name": "Γλυκό pancake με γιαούρτι, μέλι, αμύγδαλο & κανέλα",
-            "description": "N/A",
-            "price": "6,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "club-sandwiches",
-            "categoryName": "Club sandwiches",
-            "name": "Club sandwich φιλέτο κοτόπολο",
-            "description": "Με gouda, φιλέτο κοτόπουλο, μαρούλι, ντομάτα & σως μουστάρδας",
-            "price": "Από 8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "club-sandwiches",
-            "categoryName": "Club sandwiches",
-            "name": "Club sandwich γαλοπούλα",
-            "description": "Με gouda, γαλοπούλα καπνιστή, μαρούλι, ντομάτα & μαγιονέζα",
-            "price": "Από 7,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000503?c=1644946115"
-          },
-          {
-            "categoryId": "club-sandwiches",
-            "categoryName": "Club sandwiches",
-            "name": "Club sandwich ζαμπόν",
-            "description": "Με gouda, ζαμπόν, μπέικον, μαρούλι, ντομάτα & μαγιονέζα",
-            "price": "Από 7,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000504?c=1696856197"
-          },
-          {
-            "categoryId": "club-sandwiches",
-            "categoryName": "Club sandwiches",
-            "name": "Club sandwich μπιφτέκι",
-            "description": "Με gouda, μπιφτέκι, μπέικον, μαρούλι, ντομάτα & BBQ σως",
-            "price": "Από 8,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:club-sandwich-mpiphteki?c=1707395429"
-          },
-          {
-            "categoryId": "froytosalates-epidorpia",
-            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
-            "name": "Φρουτοσαλάτα φρέσκια εποχής",
-            "description": "N/A",
-            "price": "2,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phroutosalata-phreskia-epoxis?c=1708439245"
-          },
-          {
-            "categoryId": "froytosalates-epidorpia",
-            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
-            "name": "Φρουτοσαλάτα φρέσκια με σαντιγύ",
-            "description": "N/A",
-            "price": "3,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "froytosalates-epidorpia",
-            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
-            "name": "Φρουτοσαλάτα φρέσκια με παγωτό βανίλια",
-            "description": "N/A",
-            "price": "4,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "froytosalates-epidorpia",
-            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
-            "name": "Γιαούρτι με μέλι & φρέσκα φρούτα",
-            "description": "N/A",
-            "price": "3,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "froytosalates-epidorpia",
-            "categoryName": "Φρουτοσαλάτες & Επιδόρπια",
-            "name": "Γιαούρτι με μέλι & καρύδια",
-            "description": "N/A",
-            "price": "3,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:giaourti-me-meli-kai-karudia?c=1702899418"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα σοκολάτα, γκοφρετάκι, μπανάνα, Smarties & σαντιγύ",
-            "description": "N/A",
-            "price": "7,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα φράουλες, αμύγδαλα, σιρόπι φράουλα, γλυκό βύσσινο & παγωτό βανίλια",
-            "description": "N/A",
-            "price": "9,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα σοκολάτα Bueno, ξηροί καρποί & φράουλες",
-            "description": "N/A",
-            "price": "8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Σοκολάτα, φρέσκα φρούτα & παγωτό βανίλια",
-            "description": "N/A",
-            "price": "8,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα γιαούρτι, μέλι, φρέσκα φρούτα, καρύδια & κανέλα",
-            "description": "N/A",
-            "price": "8,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα σοκολάτα, λευκή σοκολάτα, μπισκότο Oreo, παγωτό βανίλια & παγωτό σοκολάτα",
-            "description": "N/A",
-            "price": "9,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα σοκολάτα Bueno, φράουλες, μπισκότο Oreo & παγωτό ανάμεικτο",
-            "description": "N/A",
-            "price": "9,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα σοκολάτα, σαντιγύ, φράουλες, Smarties, παγωτό & σιρόπι καραμέλα",
-            "description": "N/A",
-            "price": "Από 9,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα σοκολάτα, φράουλες, πουράκια Caprice & παγωτό βανίλια",
-            "description": "N/A",
-            "price": "9,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα με ανάμεικτη σοκολάτα, γκοφρέτα, σιρόπι βύσσινο & παγωτό ανάμεικτο",
-            "description": "N/A",
-            "price": "9,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "vafles",
-            "categoryName": "Βάφλες",
-            "name": "Βάφλα με σαντιγύ, φράουλες, αμύγδαλα & σιρόπι φράουλα",
-            "description": "N/A",
-            "price": "7,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "my-crepa",
-            "categoryName": "My crepa",
-            "name": "Φτιάξτε τη δική σας αλμυρή κρέπα",
-            "description": "Δημιουργήστε τη δική σας αλμυρή κρέπα με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 3,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000418?c=1644946341"
-          },
-          {
-            "categoryId": "my-crepa",
-            "categoryName": "My crepa",
-            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα",
-            "description": "Δημιουργήστε τη δική σας γλυκιά κρέπα με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 4,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000425?c=1644946396"
-          },
-          {
-            "categoryId": "my-crepa",
-            "categoryName": "My crepa",
-            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα με 1 πραλίνα",
-            "description": "Δημιουργήστε τη δική σας γλυκιά κρέπα με 1 πραλίνα & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 4,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000426?c=1644946421"
-          },
-          {
-            "categoryId": "my-crepa",
-            "categoryName": "My crepa",
-            "name": "Φτιάξτε τη δική σας γλυκιά κρέπα με ανάμεικτη πραλίνα",
-            "description": "Δημιουργήστε τη δική σας γλυκιά κρέπα με 2 πραλίνες & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 4,50€",
-            "imageUrl": "https://via.placeholder.com/120"
-          },
-          {
-            "categoryId": "my-waffle",
-            "categoryName": "My waffle",
-            "name": "Φτιάξτε τη δική σας βάφλα",
-            "description": "Δημιουργήστε τη δική σας βάφλα με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 3,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000428?c=1696855928"
-          },
-          {
-            "categoryId": "my-waffle",
-            "categoryName": "My waffle",
-            "name": "Φτιάξτε τη δική σας βάφλα με 1 πραλίνα",
-            "description": "Δημιουργήστε τη δική σας βάφλα με 1 πραλίνα & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 4,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000429?c=1644946258"
-          },
-          {
-            "categoryId": "my-waffle",
-            "categoryName": "My waffle",
-            "name": "Φτιάξτε τη δική σας βάφλα με ανάμεικτη πραλίνα",
-            "description": "Δημιουργήστε τη δική σας βάφλα με 2 πραλίνες & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 5,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000430?c=1644946149"
-          },
-          {
-            "categoryId": "my-pancake",
-            "categoryName": "My pancake",
-            "name": "Φτιάξτε το δικό σας αλμυρό pancake",
-            "description": "Δημιουργήστε τo δικό σας αλμυρό pancake με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 3,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000469?c=1644946462"
-          },
-          {
-            "categoryId": "my-pancake",
-            "categoryName": "My pancake",
-            "name": "Φτιάξτε το δικό σας γλυκό pancake",
-            "description": "Δημιουργήστε το δικό σας γλυκό pancake με τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 3,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:phtiaxte-to-diko-sas-gluko-pancake?c=1730715660"
-          },
-          {
-            "categoryId": "my-pancake",
-            "categoryName": "My pancake",
-            "name": "Φτιάξτε το δικό σας pancake με 1 πραλίνα",
-            "description": "Δημιουργήστε το δικό σας pancake με 1 πραλίνα & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 4,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "my-pancake",
-            "categoryName": "My pancake",
-            "name": "Φτιάξτε το δικό σας pancake με ανάμεικτη πραλίνα",
-            "description": "Δημιουργήστε το δικό σας pancake με 2 πραλίνες & τα αγαπημένα σας υλικά. Η τελική τιμή του προϊόντος θα καθοριστεί βάσει των επιλογών σας",
-            "price": "Από 5,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000472?c=1644946298"
-          },
-          {
-            "categoryId": "pagota-se-kypelaki",
-            "categoryName": "Παγωτά σε κυπελάκι",
-            "name": "Κυπελάκι με παγωτό soft βανίλια",
-            "description": "Ποιος είπε ότι παγωτό είναι για τις καλοκαιρινές διακοπές; Όχι εμείς! Αν μετράς τα παγωτά που τρως μέσα στον χρόνο, πρόσθεσε ακόμη ένα και απόλαυσε την αγαπημένη σου γεύση.",
-            "price": "Από 2,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:kupelaki-me-pagwto-soft-banilia?c=1731603014"
-          },
-          {
-            "categoryId": "pagota-se-kypelaki",
-            "categoryName": "Παγωτά σε κυπελάκι",
-            "name": "Κυπελάκι με παγωτό soft σοκολάτα",
-            "description": "N/A",
-            "price": "Από 2,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "pagota-se-kypelaki",
-            "categoryName": "Παγωτά σε κυπελάκι",
-            "name": "Κυπελάκι με παγωτό soft ανάμεικτο",
-            "description": "Με βανίλια & σοκολάτα",
-            "price": "Από 2,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000433?c=1696856252"
-          },
-          {
-            "categoryId": "pagota-se-kypelaki",
-            "categoryName": "Παγωτά σε κυπελάκι",
-            "name": "Κυπελάκι special de France",
-            "description": "Με παγωτό ανάμεικτο (βανίλια & σοκολάτα), κέικ, πραλίνα, μπισκότο & γλυκό βύσσινο",
-            "price": "Από 7,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "salates",
-            "categoryName": "Σαλάτες",
-            "name": "Chicken",
-            "description": "Σαλάτα με μαρούλι, κοτόπουλο, μπέικον, κρουτόν, καλαμπόκι, παρμεζάνα & σως",
-            "price": "7,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000414?c=1696856157"
-          },
-          {
-            "categoryId": "salates",
-            "categoryName": "Σαλάτες",
-            "name": "Τόνου",
-            "description": "Σαλάτα με τόνο, αγγούρι τουρσί, κρεμμύδι, μαρούλι, καλαμπόκι, ελιές & σως",
-            "price": "6,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000415?c=1696856169"
-          },
-          {
-            "categoryId": "salates",
-            "categoryName": "Σαλάτες",
-            "name": "Village",
-            "description": "Σαλάτα με μαρούλι, ντομάτα, ελιές, τουρσί, κρεμμύδι, φέτα, κρουτόν & σως βαλσάμικο",
-            "price": "6,50€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "burgers",
-            "categoryName": "Burgers",
-            "name": "Classic burger",
-            "description": "Με μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, ντομάτα, μαρούλι & σως de France",
-            "price": "Από 5,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/restaurants/762805/menu_item/000000000473?c=1696856179"
-          },
-          {
-            "categoryId": "burgers",
-            "categoryName": "Burgers",
-            "name": "Big burger",
-            "description": "Με διπλό μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, ντομάτα, μαρούλι, μπέικον & σως de France",
-            "price": "Από 8,00€",
-            "imageUrl": "N/A"
-          },
-          {
-            "categoryId": "burgers",
-            "categoryName": "Burgers",
-            "name": "Special burger",
-            "description": "Με μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, μπέικον, αυγό τηγανητό, ντομάτα, μαρούλι & σως de France",
-            "price": "Από 6,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:special-burger?c=1722099877"
-          },
-          {
-            "categoryId": "burgers",
-            "categoryName": "Burgers",
-            "name": "American burger",
-            "description": "Με μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, μπέικον, μανιτάρια, μαρούλι, ντομάτα, κρεμμύδι, μαγιονέζα & BBQ σως",
-            "price": "Από 6,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:american-burger?c=1727683907"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Coca-Cola 330ml",
-            "description": "Το 1969, η Coca-Cola ήρθε στην Ελλάδα και από τότε, προσφέρεται καθημερινά και με τη μοναδική γεύση της κατακτά κάθε ελληνική γωνιά. Εδώ και 130 χρόνια, η Coca-Cola είναι ένα προϊόν που έχει αγαπηθεί από δισεκατομμύρια ανθρώπους σε όλο τον κόσμο, σε περισσότερες από 200 χώρες.",
-            "price": "1,70€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:coca-cola-330ml?c=1725992942"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Coca-Cola light 330ml",
-            "description": "H Coca‑Cola Light προσφέρει την απολαυστική, αυθεντική γεύση της Coca‑Cola, χωρίς ζάχαρη και θερμίδες, και τονώνει κάθε στιγμή της ημέρας σας με τον πιο light τρόπο.",
-            "price": "1,70€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:coca-cola-light-330ml?c=1725268027"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Coca-Cola zero 330ml",
-            "description": "Η Coca-Cola Zero είναι η ιδανική επιλογή για όσους θέλουν την υπέροχη αυθεντική γεύση της Coca‑Cola, χωρίς ζάχαρη και θερμίδες. Ο κόσμος τη γνώρισε το 2005 και από τότε δροσίζει με τη υπέροχη γεύση της Coca‑Cola εκατομμύρια ανθρώπους σε περισσότερες από 140 χώρες σε όλο τον κόσμο.",
-            "price": "1,70€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:coca-cola-zero-330ml?c=1725278717"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Fanta κόκκινη 330ml",
-            "description": "Η Πορτοκαλάδα Fanta είναι η αγαπημένη πορτοκαλάδα των εφήβων στην Ελλάδα. Περιέχει 20% χυμό πορτοκαλιού, φυσικά αρώματα πορτοκαλιού, αμέτρητες φυσαλίδες και καθόλου χρωστικές ουσίες. Ένα κουτάκι 330ml κρύβει μέσα του τον χυμό ενός ολόκληρου πορτοκαλιού και μόνο 109 θερμίδες.",
-            "price": "1,70€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:fanta-kokkini-330ml?c=1725443687"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Fanta μπλε 330ml",
-            "description": "Η Fanta Μπλε είναι ο ορισμός της πορτοκαλάδας χωρίς ανθρακικό. Περιέχει 20% χυμό πορτοκαλιού, φυσικά αρώματα πορτοκαλιού, καθόλου χρωστικές ουσίες και παραμένει μία από τις πιο αγαπημένες γεύσεις για περισσότερα από 20 χρόνια. Ένα κουτάκι 330ml Fanta Μπλε παρέχει 109 θερμίδες και τον χυμό ενός ολόκληρου πορτοκαλιού.",
-            "price": "1,70€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:fanta-mple-330ml?c=1725443108"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Fanta λεμόνι 330ml",
-            "description": "Η Fanta Λεμονάδα περιέχει 7% χυμό λεμονιού, φυσικά αρώματα λεμονιού και αμέτρητες φυσαλίδες. Ένα κουτάκι 330ml Fanta Λεμονάδα παρέχει 168 θερμίδες.",
-            "price": "1,70€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:fanta-lemoni-330ml?c=1725442979"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Sprite 330ml",
-            "description": "Το πρώτο κουτάκι Sprite άνοιξε το 1961 και από τότε κρατάει δροσερή την κορυφή της κατηγορίας αναψυκτικών lemon-lime, προσφέροντας μια αναπάντεχα μοναδική, δροσιστική εμπειρία σε περισσότερες από 190 χώρες.",
-            "price": "1,70€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:sprite-330ml?c=1722456960"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Amita motion 330ml",
-            "description": "Η Amita Motion είναι ο πρώτος πολυβιταμινούχος 100% φυσικός χυμός με 9 φρούτα και 7 βιταμίνες. Συνδυάζει μοναδικά τη γεύση του μήλου, του πορτοκαλιού, του ροδάκινου, του σταφυλιού, του ανανά, του grapefruit, του ακτινίδιου, του passion fruit και του mango!",
-            "price": "2,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/amita-motion-330ml?c=1727190064"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Ανθρακούχο νερό 330ml",
-            "description": "Το νερό είναι ιδανικό για να σας ξεδιψάσει και να σας αναζωογονήσει κάθε στιγμή της ημέρας. Συνιστάται να καταναλώνετε τουλάχιστον 2 λίτρα νερό την ημέρα για σωστή ενυδάτωση, διατηρώντας την ενέργεια και την ευεξία σας.",
-            "price": "2,00€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/vertical:food:anthrakouxo-nero-330ml?c=1729084851"
-          },
-          {
-            "categoryId": "anapsyktika",
-            "categoryName": "Αναψυκτικά",
-            "name": "Νερό 500ml",
-            "description": "Ιδανικό για να σας ξεδιψάσει και να σας αναζωογονήσει κάθε στιγμή της ημέρας. Συνιστάται να καταναλώνετε τουλάχιστον 2 λίτρα νερό την ημέρα για σωστή ενυδάτωση, διατηρώντας την ενέργεια και την ευεξία σας.",
-            "price": "0,50€",
-            "imageUrl": "https://cdn.e-food.gr/cdn-cgi/image/h=160,fit=cover,q=100,f=auto/global_assets/nero-500ml?c=1722352244"
-          }
-        ];
-
-        // Transform the menuData array into the expected menu object with categoryName mapping
-        const menu = {};
-        const categoryNames = {}; // To map categoryId to categoryName
-
-        menuData.forEach(item => {
-            const categoryKey = item.categoryId;
-            if (!menu[categoryKey]) {
-                menu[categoryKey] = [];
-                categoryNames[categoryKey] = item.categoryName; // Store the category name
+        // New Menu Data Definition (Inserted as JSON Object)
+        const menuData = {
+          "dimofilestera": [
+            {
+              "name": { "el": "Κρέπα special", "en": "Crepe special" },
+              "description": {
+                "el": "Με gouda, ζαμπόν, μπέικον, πιπεριά, ντομάτα & τυροσαλάτα",
+                "en": "With gouda, ham, bacon, pepper, tomato & cheese salad"
+              },
+              "price": "7,50€"
+            },
+            {
+              "name": { "el": "Club sandwich γαλοπούλα", "en": "Club Sandwich (Turkey)" },
+              "description": {
+                "el": "Με gouda, γαλοπούλα καπνιστή, μαρούλι, ντομάτα & μαγιονέζα",
+                "en": "With gouda, smoked turkey, lettuce, tomato & mayonnaise"
+              },
+              "price": "Από 7,00€"
             }
-            menu[categoryKey].push({
-                name: item.name,
-                description: item.description,
-                price: item.price,
-                image: item.imageUrl !== "N/A" ? item.imageUrl : null // Set to null if no image
-            });
-        });
+          ],
+
+          "almyres-krepes": [
+            {
+              "name": { "el": "Κρέπα special", "en": "Crepe special" },
+              "description": {
+                "el": "Με gouda, ζαμπόν, μπέικον, πιπεριά, ντομάτα & τυροσαλάτα",
+                "en": "With gouda, ham, bacon, pepper, tomato & cheese salad"
+              },
+              "price": "7,50€"
+            },
+            {
+              "name": { "el": "Κρέπα tuna", "en": "Crepe tuna" },
+              "description": {
+                "el": "Με τόνο, μαρούλι, αγγούρι τουρσί, ελιές & σως μουστάρδας",
+                "en": "With tuna, lettuce, pickled cucumber, olives & mustard sauce"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Κρέπα blue cheese", "en": "Crepe blue cheese" },
+              "description": {
+                "el": "Με μαρούλι, ντομάτα, αγγούρι & σως ροκφόρ",
+                "en": "With lettuce, tomato, cucumber & Roquefort sauce"
+              },
+              "price": "6,50€"
+            },
+            {
+              "name": { "el": "Κρέπα Mexican", "en": "Crepe Mexican" },
+              "description": {
+                "el": "Με gouda, κοτόπουλο, ντομάτα, κόκκινη πιπεριά, καλαμπόκι & hot soya σως",
+                "en": "With gouda, chicken, tomato, red pepper, corn & hot soy sauce"
+              },
+              "price": "8,00€"
+            },
+            {
+              "name": { "el": "Κρέπα curry", "en": "Crepe curry" },
+              "description": {
+                "el": "Με gouda, κοτόπουλο, μανιτάρια, κάρυ, μπέικον & καλαμπόκι",
+                "en": "With gouda, chicken, mushrooms, curry, bacon & corn"
+              },
+              "price": "8,00€"
+            },
+            {
+              "name": { "el": "Κρέπα de France", "en": "Crepe de France" },
+              "description": {
+                "el": "Με gouda, κοτόπουλο, ντομάτα, μπέικον, μανιτάρια & σως μαδέρα",
+                "en": "With gouda, chicken, tomato, bacon, mushrooms & madera sauce"
+              },
+              "price": "8,00€"
+            },
+            {
+              "name": { "el": "Κρέπα de village", "en": "Crepe de village" },
+              "description": {
+                "el": "Με τυρί, φέτα, ελιές, ντομάτα, κρεμμύδι, πιπεριά & τουρσί",
+                "en": "With cheese, feta, olives, tomato, onion, pepper & pickles"
+              },
+              "price": "8,00€"
+            },
+            {
+              "name": { "el": "Κρέπα le Paris", "en": "Crepe le Paris" },
+              "description": {
+                "el": "Με gouda, μπέικον, ζαμπόν, ντομάτα, αυγό μάτι & ketchup",
+                "en": "With gouda, bacon, ham, tomato, fried egg & ketchup"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Κρέπα chicken stroganoff", "en": "Crepe chicken stroganoff" },
+              "description": {
+                "el": "Με gouda, κοτόπουλο, γαλοπούλα, μανιτάρια & σως (κρέμα, μουστάρδα & λευκό κρασί)",
+                "en": "With gouda, chicken, turkey, mushrooms & sauce (cream, mustard & white wine)"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Κρέπα chef de crepe", "en": "Crepe chef de crepe" },
+              "description": {
+                "el": "Με gouda, κοτόπουλο, μπέικον, μανιτάρια, κρεμμύδι, κρέμα, κονιάκ & μαϊντανό",
+                "en": "With gouda, chicken, bacon, mushrooms, onion, cream, cognac & parsley"
+              },
+              "price": "8,00€"
+            }
+          ],
+
+          "glykes-krepes": [
+            {
+              "name": { "el": "Κρέπα de France", "en": "Crepe de France" },
+              "description": {
+                "el": "Με πραλίνα, κέικ, λικέρ, καρύδι, παγωτό & γλυκό βύσσινο",
+                "en": "With praline, cake, liqueur, walnut, ice cream & sour cherry"
+              },
+              "price": "Από 7,50€"
+            },
+            {
+              "name": { "el": "Κρέπα apple", "en": "Crepe apple" },
+              "description": {
+                "el": "Με μήλο, κανέλα & καστανή ζάχαρη",
+                "en": "With apple, cinnamon & brown sugar"
+              },
+              "price": "5,00€"
+            },
+            {
+              "name": { "el": "Κρέπα μπουγάτσα", "en": "Crepe bougatsa" },
+              "description": {
+                "el": "5,50€",
+                "en": "N/A"
+              },
+              "price": "5,50€"
+            },
+            {
+              "name": { "el": "Κρέπα μπουγάτσα", "en": "Crepe bougatsa (repeated)" },
+              "description": {
+                "el": "N/A",
+                "en": "N/A"
+              },
+              "price": "N/A"
+            },
+            {
+              "name": { "el": "Κρέπα λεμόνι, καστανή ζάχαρη & κανέλα", "en": "Crepe lemon, brown sugar & cinnamon" },
+              "description": {
+                "el": "3,50€",
+                "en": "N/A"
+              },
+              "price": "3,50€"
+            },
+            {
+              "name": { "el": "Κρέπα role crepe", "en": "Crepe role crepe" },
+              "description": {
+                "el": "Με Oreo cookies, καρύδα, σοκολάτα, σιρόπι καραμέλα, Baileys & παγωτό",
+                "en": "With Oreo, coconut, chocolate, caramel syrup, Baileys & ice cream"
+              },
+              "price": "Από 8,00€"
+            },
+            {
+              "name": { "el": "Κρέπα suzette", "en": "Crepe suzette" },
+              "description": {
+                "el": "Με grand marnier, χυμό πορτοκάλι, βούτυρο & ζάχαρη",
+                "en": "With Grand Marnier, orange juice, butter & sugar"
+              },
+              "price": "4,00€"
+            },
+            {
+              "name": { "el": "Κρέπα tropical", "en": "Crepe tropical" },
+              "description": {
+                "el": "Με ανανά, φράουλα, μπανάνα, μήλο, πορτοκάλι & σιρόπι σοκολάτας",
+                "en": "With pineapple, strawberry, banana, apple, orange & chocolate syrup"
+              },
+              "price": "6,50€"
+            },
+            {
+              "name": { "el": "Κρέπα cheesecake crepe", "en": "Crepe cheesecake" },
+              "description": {
+                "el": "Με Philadelphia, μπισκότο & μαρμελάδα κεράσι",
+                "en": "With Philadelphia, cookie & cherry jam"
+              },
+              "price": "6,00€"
+            },
+            {
+              "name": { "el": "Κρέπα cheesecake crepe", "en": "Crepe cheesecake (repeated)" },
+              "description": {
+                "el": "N/A",
+                "en": "N/A"
+              },
+              "price": "N/A"
+            },
+            {
+              "name": { "el": "Κρέπα σοκολάτα", "en": "Crepe chocolate" },
+              "description": {
+                "el": "4,00€",
+                "en": "N/A"
+              },
+              "price": "4,00€"
+            },
+            {
+              "name": { "el": "Κρέπα σοκολάτα", "en": "Crepe chocolate (repeated)" },
+              "description": {
+                "el": "N/A",
+                "en": "N/A"
+              },
+              "price": "N/A"
+            }
+          ],
+
+          "rofimata": [
+            {
+              "name": { "el": "Σοκολάτα", "en": "Chocolate" },
+              "description": {
+                "el": "Η σοκολάτα είναι η απάντηση, όποια κι αν είναι η ερώτηση...",
+                "en": "Chocolate is the answer, no matter the question..."
+              },
+              "price": "Από 4,00€"
+            },
+            {
+              "name": { "el": "Σοκολάτα Viennois", "en": "Chocolate Viennois" },
+              "description": {
+                "el": "Η σοκολάτα είναι η απάντηση, όποια κι αν είναι η ερώτηση...",
+                "en": "Chocolate is the answer, no matter the question..."
+              },
+              "price": "Από 4,00€"
+            },
+            {
+              "name": { "el": "Mocha", "en": "Mocha" },
+              "description": {
+                "el": "Η πλούσια γεύση του καφέ μπερδεύεται με τη γλυκύτητα της σοκολάτας...",
+                "en": "Rich coffee flavor blends with chocolate sweetness..."
+              },
+              "price": "Από 4,00€"
+            },
+            {
+              "name": { "el": "Τσάι", "en": "Tea" },
+              "description": {
+                "el": "Ζεστό. Κλασικό",
+                "en": "Classic and hot"
+              },
+              "price": "Από 3,00€"
+            },
+            {
+              "name": { "el": "Φυσικός χυμός πορτοκάλι", "en": "Fresh orange juice" },
+              "description": {
+                "el": "Φήμες λένε πως όταν πίνεις έναν φυσικό χυμό πορτοκάλι...",
+                "en": "Rumor has it you must drink it quickly to get all the vitamins..."
+              },
+              "price": "3,00€"
+            },
+            {
+              "name": { "el": "Φυσικός χυμός ανάμεικτος", "en": "Mixed fresh juice" },
+              "description": {
+                "el": "Τα φρούτα της ημέρας σε ένα ρόφημα...",
+                "en": "A blend of today's freshest fruits..."
+              },
+              "price": "3,50€"
+            },
+            {
+              "name": { "el": "Φυσικός χυμός εποχής", "en": "Seasonal fresh juice" },
+              "description": {
+                "el": "Συνδυασμός φρούτων εποχής",
+                "en": "Combination of seasonal fruits"
+              },
+              "price": "4,50€"
+            }
+          ],
+
+          "granites": [
+            {
+              "name": { "el": "Γρανίτα καρπούζι", "en": "Watermelon granita" },
+              "description": {
+                "el": "Αναζητάς κάτι δροσερό, φρουτώδες και αναζωογονητικό...",
+                "en": "Looking for something cool, fruity and refreshing..."
+              },
+              "price": "3,50€"
+            },
+            {
+              "name": { "el": "6 μη διαθέσιμα προϊόντα", "en": "6 unavailable products" },
+              "description": {
+                "el": "Δες τα όλα",
+                "en": "See all"
+              },
+              "price": "N/A"
+            }
+          ],
+
+          "smoothies": [
+            {
+              "name": { "el": "Smoothie καρπούζι", "en": "Watermelon smoothie" },
+              "description": {
+                "el": "Αν είναι πράσινο είναι υγιεινό, αν είναι ροζ, είναι σαν παγωτό!...",
+                "en": "If it's green it's healthy; if it's pink it's like ice cream..."
+              },
+              "price": "4,50€"
+            },
+            {
+              "name": { "el": "6 μη διαθέσιμα προϊόντα", "en": "6 unavailable products" },
+              "description": {
+                "el": "Δες τα όλα",
+                "en": "See all"
+              },
+              "price": "N/A"
+            }
+          ],
+
+          "milkshakes": [
+            {
+              "name": { "el": "Milkshake βανίλια", "en": "Vanilla milkshake" },
+              "description": {
+                "el": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\"...",
+                "en": "A classic summer treat in a glass..."
+              },
+              "price": "4,50€"
+            },
+            {
+              "name": { "el": "Milkshake σοκολάτα", "en": "Chocolate milkshake" },
+              "description": {
+                "el": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\"...",
+                "en": "A classic summer treat in a glass..."
+              },
+              "price": "4,50€"
+            },
+            {
+              "name": { "el": "Milkshake ανάμεικτο", "en": "Mixed milkshake" },
+              "description": {
+                "el": "Με βανίλια & σοκολάτα",
+                "en": "With vanilla & chocolate"
+              },
+              "price": "4,50€"
+            },
+            {
+              "name": { "el": "Milkshake φράουλα", "en": "Strawberry milkshake" },
+              "description": {
+                "el": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\"...",
+                "en": "A classic summer treat in a glass..."
+              },
+              "price": "4,50€"
+            },
+            {
+              "name": { "el": "Milkshake μπανάνα", "en": "Banana milkshake" },
+              "description": {
+                "el": "Milkshake ή αλλιώς \"παγωτό να το πιεις στο ποτήρι\"...",
+                "en": "A classic summer treat in a glass..."
+              },
+              "price": "4,50€"
+            }
+          ],
+
+          "toasts": [
+            {
+              "name": { "el": "Τοστ τυρί & ζαμπόν", "en": "Cheese & ham toast" },
+              "description": {
+                "el": "Το τοστ είναι το γεύμα που καταναλώνεται σε κάθε ηλικία...",
+                "en": "A universal snack for every hour of the day..."
+              },
+              "price": "2,50€"
+            },
+            {
+              "name": { "el": "Τοστ τυρί & γαλοπούλα", "en": "Cheese & turkey toast" },
+              "description": {
+                "el": "Το τοστ είναι το γεύμα που καταναλώνεται σε κάθε ηλικία...",
+                "en": "A universal snack for every hour of the day..."
+              },
+              "price": "3,00€"
+            }
+          ],
+
+          "pancakes-almyra": [
+            {
+              "name": { "el": "Αλμυρό pancake με τυρί, μπέικον & αυγό", "en": "Savory pancake w/ cheese, bacon & egg" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Αλμυρό pancake με τυρί, ζαμπόν, μπέικον & αυγό", "en": "Savory pancake w/ cheese, ham, bacon & egg" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "7,50€"
+            },
+            {
+              "name": { "el": "Αλμυρό pancake με τυρί, ζαμπόν, μπέικον & αυγό (repeat)", "en": "Savory pancake (repeat)" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "N/A"
+            },
+            {
+              "name": { "el": "Αλμυρό pancake με τυρί, καπνιστή γαλοπούλα & αυγό", "en": "Savory pancake w/ cheese, smoked turkey & egg" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Αλμυρό pancake με τυρί, καπνιστή γαλοπούλα & αυγό (repeat)", "en": "Savory pancake (repeat)" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "N/A"
+            }
+          ],
+
+          "pancakes-glyka": [
+            {
+              "name": { "el": "Γλυκό pancake με σοκολάτα & μπανάνα", "en": "Sweet pancake w/ chocolate & banana" },
+              "description": { "el": "5,00€", "en": "N/A" },
+              "price": "5,00€"
+            },
+            {
+              "name": { "el": "Γλυκό pancake με σοκολάτα λευκή, μπισκότο Oreo & φρέσκες φράουλες", "en": "Sweet pancake w/ white choc, Oreo & strawberries" },
+              "description": { "el": "7,00€", "en": "N/A" },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Γλυκό pancake με σοκολάτα λευκή, μπισκότο Oreo & φρέσκες φράουλες (repeat)", "en": "Sweet pancake (repeat)" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "N/A"
+            },
+            {
+              "name": { "el": "Γλυκό pancake με σοκολάτα Bueno, γλυκό βύσσινο & μπισκότο", "en": "Sweet pancake w/ Bueno choc, sour cherry & biscuit" },
+              "description": { "el": "7,50€", "en": "N/A" },
+              "price": "7,50€"
+            },
+            {
+              "name": { "el": "Γλυκό pancake με μέλι, καρύδι ή αμύγδαλο & κανέλα", "en": "Sweet pancake w/ honey, walnut or almond & cinnamon" },
+              "description": { "el": "Από 6,00€", "en": "From 6,00€" },
+              "price": "Από 6,00€"
+            },
+            {
+              "name": { "el": "Γλυκό pancake με σοκολάτα, λευκή σοκολάτα & ανάμεικτο μπισκότο", "en": "Sweet pancake w/ chocolate, white choc & mixed biscuit" },
+              "description": { "el": "6,50€", "en": "N/A" },
+              "price": "6,50€"
+            },
+            {
+              "name": { "el": "Γλυκό pancake με σοκολάτα, λευκή σοκολάτα & ανάμεικτο μπισκότο (repeat)", "en": "Sweet pancake (repeat)" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "N/A"
+            },
+            {
+              "name": { "el": "Γλυκό pancake με γιαούρτι, μέλι, αμύγδαλο & κανέλα", "en": "Sweet pancake w/ yogurt, honey, almond & cinnamon" },
+              "description": { "el": "6,50€", "en": "N/A" },
+              "price": "6,50€"
+            }
+          ],
+
+          "club-sandwiches": [
+            {
+              "name": { "el": "Club sandwich φιλέτο κοτόπολο", "en": "Club sandwich (chicken fillet)" },
+              "description": {
+                "el": "Με gouda, φιλέτο κοτόπουλο, μαρούλι, ντομάτα & σως μουστάρδας",
+                "en": "With gouda, chicken fillet, lettuce, tomato & mustard sauce"
+              },
+              "price": "Από 8,00€"
+            },
+            {
+              "name": { "el": "Club sandwich γαλοπούλα", "en": "Club sandwich (turkey)" },
+              "description": {
+                "el": "Με gouda, γαλοπούλα καπνιστή, μαρούλι, ντομάτα & μαγιονέζα",
+                "en": "With gouda, smoked turkey, lettuce, tomato & mayonnaise"
+              },
+              "price": "Από 7,00€"
+            },
+            {
+              "name": { "el": "Club sandwich γαλοπούλα (repeat)", "en": "Club sandwich (turkey) repeat" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "N/A"
+            },
+            {
+              "name": { "el": "Club sandwich ζαμπόν", "en": "Club sandwich (ham)" },
+              "description": {
+                "el": "Με gouda, ζαμπόν, μπέικον, μαρούλι, ντομάτα & μαγιονέζα",
+                "en": "With gouda, ham, bacon, lettuce, tomato & mayonnaise"
+              },
+              "price": "Από 7,50€"
+            },
+            {
+              "name": { "el": "Club sandwich ζαμπόν (repeat)", "en": "Club sandwich (ham) repeat" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "N/A"
+            },
+            {
+              "name": { "el": "Club sandwich μπιφτέκι", "en": "Club sandwich (patty)" },
+              "description": {
+                "el": "Με gouda, μπιφτέκι, μπέικον, μαρούλι, ντομάτα & BBQ σως",
+                "en": "With gouda, patty, bacon, lettuce, tomato & BBQ sauce"
+              },
+              "price": "Από 8,00€"
+            }
+          ],
+
+          "froytosalates-epidorpia": [
+            {
+              "name": { "el": "Φρουτοσαλάτα φρέσκια εποχής", "en": "Fresh seasonal fruit salad" },
+              "description": { "el": "2,50€", "en": "N/A" },
+              "price": "2,50€"
+            },
+            {
+              "name": { "el": "Φρουτοσαλάτα φρέσκια με σαντιγύ", "en": "Fresh fruit salad w/ whipped cream" },
+              "description": { "el": "3,00€", "en": "N/A" },
+              "price": "3,00€"
+            },
+            {
+              "name": { "el": "Φρουτοσαλάτα φρέσκια με παγωτό βανίλια", "en": "Fresh fruit salad w/ vanilla ice cream" },
+              "description": { "el": "4,00€", "en": "N/A" },
+              "price": "4,00€"
+            },
+            {
+              "name": { "el": "Γιαούρτι με μέλι & φρέσκα φρούτα", "en": "Yogurt w/ honey & fresh fruits" },
+              "description": { "el": "3,50€", "en": "N/A" },
+              "price": "3,50€"
+            },
+            {
+              "name": { "el": "Γιαούρτι με μέλι & καρύδια", "en": "Yogurt w/ honey & walnuts" },
+              "description": { "el": "3,00€", "en": "N/A" },
+              "price": "3,00€"
+            },
+            {
+              "name": { "el": "Γιαούρτι με μέλι & καρύδια (repeat)", "en": "Yogurt w/ honey & walnuts (repeat)" },
+              "description": { "el": "N/A", "en": "N/A" },
+              "price": "N/A"
+            }
+          ],
+
+          "vafles": [
+            {
+              "name": { "el": "Βάφλα σοκολάτα, γκοφρετάκι, μπανάνα, Smarties & σαντιγύ", "en": "Waffle w/ chocolate, wafer, banana, Smarties & whipped cream" },
+              "price": "7,50€"
+            },
+            {
+              "name": { "el": "Βάφλα φράουλες, αμύγδαλα, σιρόπι φράουλα, γλυκό βύσσινο & παγωτό βανίλια", "en": "Waffle w/ strawberries, almonds, strawberry syrup, sour cherry & vanilla ice cream" },
+              "price": "9,50€"
+            },
+            {
+              "name": { "el": "Βάφλα σοκολάτα Bueno, ξηροί καρποί & φράουλες", "en": "Waffle w/ Bueno choc, nuts & strawberries" },
+              "price": "8,00€"
+            },
+            {
+              "name": { "el": "Σοκολάτα, φρέσκα φρούτα & παγωτό βανίλια", "en": "Chocolate, fresh fruits & vanilla ice cream" },
+              "price": "8,50€"
+            },
+            {
+              "name": { "el": "Βάφλα γιαούρτι, μέλι, φρέσκα φρούτα, καρύδια & κανέλα", "en": "Waffle w/ yogurt, honey, fresh fruits, walnuts & cinnamon" },
+              "price": "8,50€"
+            },
+            {
+              "name": { "el": "Βάφλα σοκολάτα, λευκή σοκολάτα, μπισκότο Oreo, παγωτό βανίλια & παγωτό σοκολάτα", "en": "Waffle w/ chocolate, white chocolate, Oreo, vanilla & chocolate ice cream" },
+              "price": "9,00€"
+            },
+            {
+              "name": { "el": "Βάφλα σοκολάτα Bueno, φράουλες, μπισκότο Oreo & παγωτό ανάμεικτο", "en": "Waffle w/ Bueno choc, strawberries, Oreo & mixed ice cream" },
+              "price": "9,50€"
+            },
+            {
+              "name": { "el": "Βάφλα σοκολάτα, σαντιγύ, φράουλες, Smarties, παγωτό & σιρόπι καραμέλα", "en": "Waffle w/ chocolate, whipped cream, strawberries, Smarties, ice cream & caramel syrup" },
+              "price": "Από 9,50€"
+            },
+            {
+              "name": { "el": "Βάφλα σοκολάτα, φράουλες, πουράκια Caprice & παγωτό βανίλια", "en": "Waffle w/ chocolate, strawberries, Caprice & vanilla ice cream" },
+              "price": "9,50€"
+            },
+            {
+              "name": { "el": "Βάφλα με ανάμεικτη σοκολάτα, γκοφρέτα, σιρόπι βύσσινο & παγωτό ανάμεικτο", "en": "Waffle w/ mixed chocolate, wafer, cherry syrup & mixed ice cream" },
+              "price": "9,00€"
+            },
+            {
+              "name": { "el": "Βάφλα με σαντιγύ, φράουλες, αμύγδαλα & σιρόπι φράουλα", "en": "Waffle w/ whipped cream, strawberries, almonds & strawberry syrup" },
+              "price": "7,50€"
+            }
+          ],
+
+          "my-crepa": [
+            {
+              "name": { "el": "Φτιάξτε τη δική σας αλμυρή κρέπα", "en": "Create your own savory crepe" },
+              "description": {
+                "el": "Δημιουργήστε τη δική σας αλμυρή κρέπα με τα αγαπημένα σας υλικά...",
+                "en": "Create your own savory crepe with your favorite ingredients..."
+              },
+              "price": "Από 3,00€"
+            },
+            {
+              "name": { "el": "Φτιάξτε τη δική σας γλυκιά κρέπα", "en": "Create your own sweet crepe" },
+              "description": {
+                "el": "Δημιουργήστε τη δική σας γλυκιά κρέπα με τα αγαπημένα σας υλικά...",
+                "en": "Create your own sweet crepe with your favorite ingredients..."
+              },
+              "price": "Από 4,00€"
+            },
+            {
+              "name": { "el": "Φτιάξτε τη δική σας γλυκιά κρέπα με 1 πραλίνα", "en": "Create your own sweet crepe (1 praline)" },
+              "description": {
+                "el": "Με 1 πραλίνα & τα αγαπημένα σας υλικά...",
+                "en": "With 1 praline & your favorite ingredients..."
+              },
+              "price": "Από 4,00€"
+            },
+            {
+              "name": { "el": "Φτιάξτε τη δική σας γλυκιά κρέπα με ανάμεικτη πραλίνα", "en": "Create your own sweet crepe (2 pralines)" },
+              "description": {
+                "el": "Με 2 πραλίνες & τα αγαπημένα σας υλικά...",
+                "en": "With 2 pralines & your favorite ingredients..."
+              },
+              "price": "Από 4,50€"
+            }
+          ],
+
+          "my-waffle": [
+            {
+              "name": { "el": "Φτιάξτε τη δική σας βάφλα", "en": "Create your own waffle" },
+              "description": {
+                "el": "Δημιουργήστε τη δική σας βάφλα με τα αγαπημένα σας υλικά...",
+                "en": "Create your own waffle with your favorite ingredients..."
+              },
+              "price": "Από 3,50€"
+            },
+            {
+              "name": { "el": "Φτιάξτε τη δική σας βάφλα με 1 πραλίνα", "en": "Create your own waffle (1 praline)" },
+              "description": {
+                "el": "Με 1 πραλίνα & τα αγαπημένα σας υλικά...",
+                "en": "With 1 praline & your favorite ingredients..."
+              },
+              "price": "Από 4,50€"
+            },
+            {
+              "name": { "el": "Φτιάξτε τη δική σας βάφλα με ανάμεικτη πραλίνα", "en": "Create your own waffle (mixed pralines)" },
+              "description": {
+                "el": "Με 2 πραλίνες & τα αγαπημένα σας υλικά...",
+                "en": "With 2 pralines & your favorite ingredients..."
+              },
+              "price": "Από 5,00€"
+            }
+          ],
+
+          "my-pancake": [
+            {
+              "name": { "el": "Φτιάξτε το δικό σας αλμυρό pancake", "en": "Create your own savory pancake" },
+              "description": {
+                "el": "Δημιουργήστε τo δικό σας αλμυρό pancake...",
+                "en": "Create your own savory pancake..."
+              },
+              "price": "Από 3,50€"
+            },
+            {
+              "name": { "el": "Φτιάξτε το δικό σας γλυκό pancake", "en": "Create your own sweet pancake" },
+              "description": {
+                "el": "Δημιουργήστε το δικό σας γλυκό pancake...",
+                "en": "Create your own sweet pancake..."
+              },
+              "price": "Από 3,50€"
+            },
+            {
+              "name": { "el": "Φτιάξτε το δικό σας pancake με 1 πραλίνα", "en": "Create your own pancake (1 praline)" },
+              "description": {
+                "el": "Με 1 πραλίνα & τα αγαπημένα σας υλικά...",
+                "en": "With 1 praline & your favorite ingredients..."
+              },
+              "price": "Από 4,50€"
+            },
+            {
+              "name": { "el": "Φτιάξτε το δικό σας pancake με ανάμεικτη πραλίνα", "en": "Create your own pancake (2 pralines)" },
+              "description": {
+                "el": "Με 2 πραλίνες & τα αγαπημένα σας υλικά...",
+                "en": "With 2 pralines & your favorite ingredients..."
+              },
+              "price": "Από 5,00€"
+            }
+          ],
+
+          "pagota-se-kypelaki": [
+            {
+              "name": { "el": "Κυπελάκι με παγωτό soft βανίλια", "en": "Cup w/ soft vanilla ice cream" },
+              "description": {
+                "el": "Ποιος είπε ότι παγωτό είναι για τις καλοκαιρινές διακοπές...",
+                "en": "Who said ice cream is only for summer vacations..."
+              },
+              "price": "Από 2,00€"
+            },
+            {
+              "name": { "el": "Κυπελάκι με παγωτό soft σοκολάτα", "en": "Cup w/ soft chocolate ice cream" },
+              "description": {
+                "el": "N/A",
+                "en": "N/A"
+              },
+              "price": "Από 2,00€"
+            },
+            {
+              "name": { "el": "Κυπελάκι με παγωτό soft ανάμεικτο", "en": "Cup w/ soft mixed ice cream" },
+              "description": {
+                "el": "Με βανίλια & σοκολάτα",
+                "en": "With vanilla & chocolate"
+              },
+              "price": "Από 2,00€"
+            },
+            {
+              "name": { "el": "Κυπελάκι special de France", "en": "Cup special de France" },
+              "description": {
+                "el": "Με παγωτό ανάμεικτο (βανίλια & σοκολάτα), κέικ, πραλίνα, μπισκότο & γλυκό βύσσινο",
+                "en": "With mixed ice cream (vanilla & chocolate), cake, praline, cookie & sour cherry"
+              },
+              "price": "Από 7,00€"
+            }
+          ],
+
+          "salates": [
+            {
+              "name": { "el": "Chicken", "en": "Chicken salad" },
+              "description": {
+                "el": "Σαλάτα με μαρούλι, κοτόπουλο, μπέικον, κρουτόν, καλαμπόκι, παρμεζάνα & σως",
+                "en": "With lettuce, chicken, bacon, croutons, corn, parmesan & sauce"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Τόνου", "en": "Tuna salad" },
+              "description": {
+                "el": "Σαλάτα με τόνο, αγγούρι τουρσί, κρεμμύδι, μαρούλι, καλαμπόκι, ελιές & σως",
+                "en": "With tuna, pickled cucumber, onion, lettuce, corn, olives & sauce"
+              },
+              "price": "6,50€"
+            },
+            {
+              "name": { "el": "Village", "en": "Village salad" },
+              "description": {
+                "el": "Σαλάτα με μαρούλι, ντομάτα, ελιές, τουρσί, κρεμμύδι, φέτα, κρουτόν & σως βαλσάμικο",
+                "en": "With lettuce, tomato, olives, pickles, onion, feta, croutons & balsamic sauce"
+              },
+              "price": "6,50€"
+            }
+          ],
+
+          "burgers": [
+            {
+              "name": { "el": "Classic burger", "en": "Classic burger" },
+              "description": {
+                "el": "Με μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, ντομάτα, μαρούλι & σως de France",
+                "en": "Mixed patty (beef & pork), gouda, tomato, lettuce & de France sauce"
+              },
+              "price": "Από 5,50€"
+            },
+            {
+              "name": { "el": "Big burger", "en": "Big burger" },
+              "description": {
+                "el": "Με διπλό μπιφτέκι ανάμεικτο (από μοσχαρίσιο & χοιρινό κιμά), gouda, ντομάτα, μαρούλι, μπέικον & σως de France",
+                "en": "Double patty, gouda, tomato, lettuce, bacon & de France sauce"
+              },
+              "price": "Από 8,00€"
+            },
+            {
+              "name": { "el": "Special burger", "en": "Special burger" },
+              "description": {
+                "el": "Με μπιφτέκι ανάμεικτο, gouda, μπέικον, αυγό τηγανητό, ντομάτα, μαρούλι & σως de France",
+                "en": "Mixed patty, gouda, bacon, fried egg, tomato, lettuce & de France sauce"
+              },
+              "price": "Από 6,50€"
+            },
+            {
+              "name": { "el": "American burger", "en": "American burger" },
+              "description": {
+                "el": "Με μπιφτέκι ανάμεικτο, gouda, μπέικον, μανιτάρια, μαρούλι, ντομάτα, κρεμμύδι, μαγιονέζα & BBQ σως",
+                "en": "Mixed patty, gouda, bacon, mushrooms, lettuce, tomato, onion, mayo & BBQ sauce"
+              },
+              "price": "Από 6,50€"
+            }
+          ],
+
+          "anapsyktika": [
+            {
+              "name": { "el": "Coca-Cola 330ml", "en": "Coca-Cola 330ml" },
+              "description": {
+                "el": "Το 1969, η Coca-Cola ήρθε στην Ελλάδα...",
+                "en": "Coca-Cola arrived in Greece in 1969..."
+              },
+              "price": "1,70€"
+            },
+            {
+              "name": { "el": "Coca-Cola light 330ml", "en": "Coca-Cola Light 330ml" },
+              "description": {
+                "el": "H Coca‑Cola Light προσφέρει την απολαυστική γεύση...",
+                "en": "Coca-Cola Light offers the authentic taste..."
+              },
+              "price": "1,70€"
+            },
+            {
+              "name": { "el": "Coca-Cola zero 330ml", "en": "Coca-Cola Zero 330ml" },
+              "description": {
+                "el": "Η Coca-Cola Zero είναι η ιδανική επιλογή...",
+                "en": "Coca-Cola Zero is the perfect choice..."
+              },
+              "price": "1,70€"
+            },
+            {
+              "name": { "el": "Fanta κόκκινη 330ml", "en": "Fanta Red 330ml" },
+              "description": {
+                "el": "Η Πορτοκαλάδα Fanta είναι η αγαπημένη πορτοκαλάδα...",
+                "en": "Fanta orange is a favorite among teens..."
+              },
+              "price": "1,70€"
+            },
+            {
+              "name": { "el": "Fanta μπλε 330ml", "en": "Fanta Blue 330ml" },
+              "description": {
+                "el": "Η Fanta Μπλε είναι ο ορισμός της πορτοκαλάδας...",
+                "en": "Fanta Blue is the definition of carbonated orange..."
+              },
+              "price": "1,70€"
+            },
+            {
+              "name": { "el": "Fanta λεμόνι 330ml", "en": "Fanta Lemon 330ml" },
+              "description": {
+                "el": "Η Fanta Λεμονάδα περιέχει 7% χυμό λεμονιού...",
+                "en": "Fanta Lemon has 7% lemon juice..."
+              },
+              "price": "1,70€"
+            },
+            {
+              "name": { "el": "Sprite 330ml", "en": "Sprite 330ml" },
+              "description": {
+                "el": "Το πρώτο κουτάκι Sprite άνοιξε το 1961...",
+                "en": "The first Sprite can opened in 1961..."
+              },
+              "price": "1,70€"
+            },
+            {
+              "name": { "el": "Amita motion 330ml", "en": "Amita Motion 330ml" },
+              "description": {
+                "el": "Η Amita Motion είναι ο πρώτος πολυβιταμινούχος 100% φυσικός χυμός...",
+                "en": "Amita Motion is the first multi-vitamin 100% natural juice..."
+              },
+              "price": "2,00€"
+            },
+            {
+              "name": { "el": "Ανθρακούχο νερό 330ml", "en": "Carbonated water 330ml" },
+              "description": {
+                "el": "Το νερό είναι ιδανικό για να σας ξεδιψάσει...",
+                "en": "Water is ideal to quench your thirst..."
+              },
+              "price": "2,00€"
+            },
+            {
+              "name": { "el": "Νερό 500ml", "en": "Water 500ml" },
+              "description": {
+                "el": "Ιδανικό για να σας ξεδιψάσει...",
+                "en": "Perfect for hydration..."
+              },
+              "price": "0,50€"
+            }
+          ],
+
+          "mpyres-potaje": [
+            {
+              "name": { "el": "Άλφα 330ml", "en": "Alpha 330ml" },
+              "description": {
+                "el": "Η μπύρα ΑΛΦΑ αποτελεί μία από τις παλαιότερες μάρκες μπύρας...",
+                "en": "Alpha is one of the oldest Greek beer brands..."
+              },
+              "price": "2,50€"
+            },
+            {
+              "name": { "el": "Heineken 330ml", "en": "Heineken 330ml" },
+              "description": {
+                "el": "Είστε στην παραλία, σε πάρτι ή στο δρόμο;...",
+                "en": "Whether at the beach, a party, or on the go..."
+              },
+              "price": "2,50€"
+            },
+            {
+              "name": { "el": "Famous grouse σε ποτήρι", "en": "Famous Grouse in glass" },
+              "description": {
+                "el": "50ml",
+                "en": "50ml"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Johny Walker red label σε ποτήρι", "en": "Johnnie Walker Red Label in glass" },
+              "description": {
+                "el": "50ml",
+                "en": "50ml"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Stolichnaya σε ποτήρι", "en": "Stolichnaya in glass" },
+              "description": {
+                "el": "50ml",
+                "en": "50ml"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Metaxa σε ποτήρι", "en": "Metaxa in glass" },
+              "description": {
+                "el": "50ml",
+                "en": "50ml"
+              },
+              "price": "5,00€"
+            },
+            {
+              "name": { "el": "Martini σε ποτήρι", "en": "Martini in glass" },
+              "description": {
+                "el": "50ml",
+                "en": "50ml"
+              },
+              "price": "7,00€"
+            },
+            {
+              "name": { "el": "Ρούμι σε ποτήρι", "en": "Rum in glass" },
+              "description": {
+                "el": "50ml",
+                "en": "50ml"
+              },
+              "price": "7,00€"
+            }
+          ]
+        };
 
         // Define Add-ons for Custom Products
         const addOns = {
@@ -1590,15 +1703,18 @@
             categoryContainer.innerHTML = '';
             menuSectionsContainer.innerHTML = '';
 
-            for (const section in menu) {
+            for (const categoryKey in menuData) {
+                const categoryItems = menuData[categoryKey];
+                const categoryName = categoryKey.replace(/-/g, ' '); // Optional: format category name
+
                 // Create Category Card
                 const categoryCard = document.createElement('div');
                 categoryCard.classList.add('category-card');
-                categoryCard.setAttribute('data-category', section);
+                categoryCard.setAttribute('data-category', categoryKey);
 
                 // Add Event Listener for Smooth Scrolling to Section
                 categoryCard.addEventListener('click', () => {
-                    const sectionDiv = document.getElementById(`section-${section}`);
+                    const sectionDiv = document.getElementById(`section-${categoryKey}`);
                     if (sectionDiv) {
                         window.scrollTo({
                             top: sectionDiv.offsetTop - 20,
@@ -1607,12 +1723,9 @@
                     }
                 });
 
-                // Remove Category Icon (as per user request)
-                // Previously: Added categoryIcon here
-
                 // Add Category Title using Greek names
                 const categoryTitle = document.createElement('h2');
-                categoryTitle.textContent = categoryNames[section];
+                categoryTitle.textContent = getCategoryDisplayName(categoryKey);
                 categoryCard.appendChild(categoryTitle);
 
                 categoryContainer.appendChild(categoryCard);
@@ -1620,14 +1733,14 @@
                 // Create Menu Section
                 const sectionDiv = document.createElement('div');
                 sectionDiv.classList.add('menu-section');
-                sectionDiv.id = `section-${section}`;
+                sectionDiv.id = `section-${categoryKey}`;
 
                 const sectionTitle = document.createElement('h2');
                 sectionTitle.classList.add('menu-section-title');
-                sectionTitle.textContent = categoryNames[section];
+                sectionTitle.textContent = getCategoryDisplayName(categoryKey);
                 sectionDiv.appendChild(sectionTitle);
 
-                menu[section].forEach(item => {
+                categoryItems.forEach(item => {
                     const itemDiv = document.createElement('div');
                     itemDiv.classList.add('menu-item');
 
@@ -1635,7 +1748,7 @@
                     if (item.image) {
                         const itemImage = document.createElement('img');
                         itemImage.src = item.image;
-                        itemImage.alt = item.name;
+                        itemImage.alt = item.name.el;
                         itemDiv.appendChild(itemImage);
                     }
 
@@ -1644,12 +1757,12 @@
                     itemInfo.classList.add('menu-item-info');
 
                     const itemName = document.createElement('h3');
-                    itemName.textContent = item.name;
+                    itemName.textContent = item.name.el;
                     itemInfo.appendChild(itemName);
 
-                    if (item.description && item.description !== 'N/A') {
+                    if (item.description.el && item.description.el !== 'N/A') {
                         const itemDesc = document.createElement('p');
-                        itemDesc.textContent = item.description;
+                        itemDesc.textContent = item.description.el;
                         itemInfo.appendChild(itemDesc);
                     }
 
@@ -1658,9 +1771,9 @@
                     itemInfo.appendChild(itemPrice);
 
                     // Add Customize Button with Dynamic Text
-                    if (isCustomCategory(section)) {
+                    if (isCustomCategory(categoryKey)) {
                         const customizeBtn = document.createElement('button');
-                        customizeBtn.textContent = `Φτιάξε την δική σου ${item.name}`;
+                        customizeBtn.textContent = `Φτιάξε την δική σου ${item.name.el}`;
                         customizeBtn.classList.add('customize-btn');
                         customizeBtn.style.background = 'none';
                         customizeBtn.style.border = 'none';
@@ -1672,7 +1785,7 @@
                         customizeBtn.style.fontSize = '1em';
                         customizeBtn.addEventListener('click', (event) => {
                             event.stopPropagation(); // Prevent triggering parent click
-                            openCustomizationModal(section, item);
+                            openCustomizationModal(categoryKey, item);
                         });
                         itemInfo.appendChild(customizeBtn);
                     }
@@ -1683,7 +1796,7 @@
                     const addToCartBtn = document.createElement('button');
                     addToCartBtn.classList.add('add-to-cart-btn');
                     addToCartBtn.title = 'Προσθήκη στο Καλάθι';
-                    addToCartBtn.setAttribute('aria-label', `Προσθήκη ${item.name} στο Καλάθι`);
+                    addToCartBtn.setAttribute('aria-label', `Προσθήκη ${item.name.el} στο Καλάθι`);
                     addToCartBtn.onclick = (event) => {
                         event.stopPropagation(); // Prevent triggering the parent click event
                         addToCart(item);
@@ -1698,6 +1811,35 @@
             }
         }
 
+        // Function to Get Display Name for Category (Assuming Greek Names)
+        function getCategoryDisplayName(categoryKey) {
+            // Mapping category keys to their display names in Greek
+            const mapping = {
+                "dimofilestera": "Δημοφιλείς Στερές",
+                "almyres-krepes": "Αλμυρές Κρέπες",
+                "glykes-krepes": "Γλυκές Κρέπες",
+                "rofimata": "Ροφήματα",
+                "granites": "Γρανίτες",
+                "smoothies": "Smoothies",
+                "milkshakes": "Milkshakes",
+                "toasts": "Toasts",
+                "pancakes-almyra": "Pancakes Αλμυρά",
+                "pancakes-glyka": "Pancakes Γλυκά",
+                "club-sandwiches": "Club Sandwiches",
+                "froytosalates-epidorpia": "Φρουτοσαλάτες & Επιδόρπια",
+                "vafles": "Βάφλες",
+                "my-crepa": "My Crepa",
+                "my-waffle": "My Waffle",
+                "my-pancake": "My Pancake",
+                "pagota-se-kypelaki": "Παγωτά σε Κυπελάκι",
+                "salates": "Σαλάτες",
+                "burgers": "Burgers",
+                "anapsyktika": "Αναψυκτικά",
+                "mpyres-potaje": "Μπύρες & Ποτάζ"
+            };
+            return mapping[categoryKey] || categoryKey.replace(/-/g, ' ');
+        }
+
         // Function to Check if a Category is Customizable
         function isCustomCategory(category) {
             return ["my-crepa", "my-waffle", "my-pancake"].includes(category);
@@ -1709,7 +1851,7 @@
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartPopup();
             showCartPopup();
-            showNotification("Προστέθηκε στο Καλάθι", `${item.name} προστέθηκε με επιτυχία.`);
+            showNotification("Προστέθηκε στο Καλάθι", `${item.name.el} προστέθηκε με επιτυχία.`);
         }
 
         // Function to Update Cart Popup Content
@@ -1727,7 +1869,7 @@
                     cartItemDiv.classList.add('cart-item');
 
                     const itemName = document.createElement('p');
-                    itemName.textContent = item.name;
+                    itemName.textContent = item.name.el;
 
                     const itemPrice = document.createElement('p');
                     itemPrice.textContent = item.price;
@@ -1779,7 +1921,7 @@
             const modalTotalPrice = document.getElementById('modal-total-price');
 
             // Set the item name
-            modalItemName.textContent = `Προσαρμογή: ${item.name}`;
+            modalItemName.textContent = `Προσαρμογή: ${item.name.el}`;
 
             // Clear previous extras
             modalExtras.innerHTML = '<h3>Επιλογές Προσθέτων</h3>';
@@ -1787,18 +1929,22 @@
             // Get available add-ons for the category
             const availableAddOns = addOns[category] || [];
 
-            // Create checkboxes for each add-on
-            availableAddOns.forEach((addon, index) => {
-                const label = document.createElement('label');
-                const checkbox = document.createElement('input');
-                checkbox.type = 'checkbox';
-                checkbox.value = addon.price;
-                checkbox.dataset.addonName = addon.name;
-                checkbox.addEventListener('change', updateTotalPrice);
-                label.appendChild(checkbox);
-                label.appendChild(document.createTextNode(`${addon.name} (+${addon.price.toFixed(2)}€)`));
-                modalExtras.appendChild(label);
-            });
+            if (availableAddOns.length === 0) {
+                modalExtras.innerHTML += '<p>Δεν υπάρχουν διαθέσιμες προσθήκες.</p>';
+            } else {
+                // Create checkboxes for each add-on
+                availableAddOns.forEach((addon, index) => {
+                    const label = document.createElement('label');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.value = addon.price;
+                    checkbox.dataset.addonName = addon.name;
+                    checkbox.addEventListener('change', updateTotalPrice);
+                    label.appendChild(checkbox);
+                    label.appendChild(document.createTextNode(`${addon.name} (+${addon.price.toFixed(2)}€)`));
+                    modalExtras.appendChild(label);
+                });
+            }
 
             // Calculate initial total price
             let basePrice = parseFloat(item.price.replace('€', '').replace(',', '.').replace('Από ', ''));
@@ -1844,7 +1990,7 @@
             let basePrice = parseFloat(currentCustomItem.price.replace('€', '').replace(',', '.').replace('Από ', '')) || 0;
             let totalPrice = basePrice;
 
-            const availableAddOns = addOns[getCategoryKey(currentCustomItem.name)] || [];
+            const availableAddOns = addOns[getCategoryKey(currentCustomItem.name.el)] || [];
 
             let selectedAddOnNames = [];
 
@@ -1857,8 +2003,8 @@
             });
 
             const customizedItem = {
-                name: `${currentCustomItem.name}${selectedAddOnNames.length > 0 ? ` (${selectedAddOnNames.join(', ')})` : ''}`,
-                description: currentCustomItem.description,
+                name: `${currentCustomItem.name.el}${selectedAddOnNames.length > 0 ? ` (${selectedAddOnNames.join(', ')})` : ''}`,
+                description: currentCustomItem.description.el,
                 price: `${totalPrice.toFixed(2)}€`,
                 image: currentCustomItem.image // Image is already handled conditionally
             };
@@ -1870,11 +2016,11 @@
             closeCustomizationModal();
         }
 
-        // Helper Function to Get Category Key Based on Item Name
-        function getCategoryKey(itemName) {
-            for (const [key, items] of Object.entries(menu)) {
-                if (items.some(item => item.name === itemName)) {
-                    return key;
+        // Helper Function to Get Category Key Based on Item Name (Assuming Unique Names)
+        function getCategoryKey(itemNameEl) {
+            for (const categoryKey in menuData) {
+                if (menuData[categoryKey].some(item => item.name.el === itemNameEl)) {
+                    return categoryKey;
                 }
             }
             return null;
