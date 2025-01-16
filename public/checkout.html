@@ -1,1443 +1,1220 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ταμείο - Crepe de France</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ταμείο - Crepe de France</title>
+  
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <style>
+    :root {
+      /* Color Variables */
+      --primary-color: #ff7a00;
+      --primary-dark: #e64a19;
+      --secondary-color: #ffcc00;
+      --background-color: #f5f5f5;
+      --white: #ffffff;
+      --light-gray: #e0e0e0;
+      --text-color: #333333;
+      --secondary-text: #555555;
+      --input-icon-color: #888888;
+      --button-icon-color: #ffffff;
+      --button-color: #28a745;
+      --button-hover-color: #218838;
+      --delete-color: #dc3545;
+      --delete-hover-color: #c82333;
+      --shadow-color: rgba(0, 0, 0, 0.1);
+      --transition-speed: 0.3s;
+      --border-radius: 10px;
+      --font-family: 'Montserrat', sans-serif;
+      --selected-background: #ffe5cc;
+      --selected-border: var(--primary-color);
+      --selected-box-shadow: 0 4px 8px rgba(255, 122, 0, 0.2);
+      --notification-bg: #28a745;
+      --notification-text: #ffffff;
+      --notification-padding: 10px 20px;
+      --notification-border-radius: 5px;
+      --notification-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      --notification-font-size: 1em;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-family);
+      background-color: var(--background-color);
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    header {
+      background-color: var(--white);
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      border-bottom: 1px solid var(--light-gray);
+      box-shadow: 0 2px 4px var(--shadow-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    header h1 {
+      margin: 10px 0 0 0;
+      font-size: 2em;
+      color: var(--primary-color);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .back-button {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--primary-color);
+      color: var(--button-icon-color);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color var(--transition-speed), transform var(--transition-speed);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .back-button:hover,
+    .back-button:focus {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      outline: none;
+    }
+    .login-button {
+      position: absolute;
+      right: 60px;
+      top: 20px;
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      transition: transform var(--transition-speed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-button img {
+      width: 30px;
+      height: 30px;
+    }
+    .login-button:hover,
+    .login-button:focus {
+      transform: scale(1.1);
+      outline: none;
+    }
+    #notification-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 3000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .notification {
+      background: var(--notification-bg);
+      color: var(--notification-text);
+      padding: var(--notification-padding);
+      border-radius: var(--notification-border-radius);
+      box-shadow: var(--notification-box-shadow);
+      font-size: var(--notification-font-size);
+      animation: fadeIn 0.5s forwards;
+    }
+    @keyframes fadeOut {
+      from {opacity: 1; transform: translateY(0);}
+      to {opacity: 0; transform: translateY(-10px);}
+    }
+    .fade-out {
+      animation: fadeOut 0.5s forwards;
+    }
+    .container {
+      max-width: 800px;
+      width: 90%;
+      margin: 20px auto;
+      padding: 30px;
+      background-color: var(--white);
+      border-radius: 15px;
+      box-shadow: 0 4px 12px var(--shadow-color);
+    }
+    h2 {
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 1.8em;
+      position: relative;
+    }
+    h2::after {
+      content: "";
+      display: block;
+      width: 60px;
+      height: 3px;
+      background-color: var(--primary-color);
+      margin: 10px auto 0;
+      border-radius: 2px;
+    }
+    .cart-items {
+      margin-bottom: 20px;
+    }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      position: relative;
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .cart-item.removing {
+      opacity: 0;
+      transform: translateX(100%);
+    }
+    .cart-item .item-details {
+      display: flex;
+      flex-direction: column;
+      width: 70%;
+    }
+    .cart-item .item-name {
+      font-weight: 600;
+      color: var(--text-color);
+      margin-bottom: 5px;
+    }
+    .cart-item .item-addons {
+      font-size: 0.9em;
+      color: var(--secondary-text);
+    }
+    .cart-item .item-price {
+      font-size: 1em;
+      font-weight: 500;
+      color: var(--primary-color);
+      margin-top: 5px;
+    }
+    .delete-btn {
+      background-color: #ffcccc;
+      border: none;
+      color: #cc0000;
+      font-size: 0.9em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background-color var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
+    }
+    .delete-btn:hover,
+    .delete-btn:focus {
+      background-color: #ff6666;
+      color: #990000;
+      transform: scale(1.05);
+      outline: none;
+    }
+    .delete-btn i {
+      font-size: 1em;
+    }
+    .total {
+      text-align: right;
+      font-size: 1.2em;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    .checkout-form {
+      display: flex;
+      flex-direction: column;
+    }
+    .checkout-form div {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .checkout-form label {
+      margin-bottom: 5px;
+      font-weight: bold;
+      color: var(--secondary-text);
+      display: block;
+      margin-left: 35px;
+    }
+    .checkout-form input,
+    .checkout-form textarea {
+      padding: 12px 15px 12px 40px;
+      margin-bottom: 0;
+      border: 2px solid var(--light-gray);
+      border-radius: 10px;
+      font-size: 1em;
+      transition: border-color var(--transition-speed);
+      width: 100%;
+      background-color: #fafafa;
+    }
+    .checkout-form input:focus,
+    .checkout-form textarea:focus {
+      border-color: var(--primary-color);
+      outline: none;
+      background-color: #fff;
+    }
+    .checkout-form .input-icon {
+      position: absolute;
+      top: 50%;
+      left: 10px;
+      transform: translateY(-50%);
+      color: var(--input-icon-color);
+      font-size: 1em;
+    }
+    .payment-methods {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: space-between;
+    }
+    .payment-option {
+      flex: 1 1 45%;
+      background-color: #f9f9f9;
+      border: 2px solid var(--light-gray);
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 120px;
+    }
+    .payment-option input {
+      display: none;
+    }
+    .payment-option img {
+      width: 40px;
+      height: 40px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .payment-option span {
+      display: block;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+    .payment-option.active {
+      background-color: var(--selected-background);
+      border-color: var(--selected-border);
+      box-shadow: var(--selected-box-shadow);
+    }
+    .payment-option:focus-within {
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 8px rgba(255, 122, 0, 0.2);
+    }
+    .payment-option input:checked + img,
+    .payment-option input:checked + img + span {
+      filter: brightness(0.8);
+      color: var(--primary-dark);
+    }
+    .table-selection {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+    }
+    .table-option {
+      flex: 1 1 18%;
+      background-color: #f9f9f9;
+      border: 2px solid var(--light-gray);
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1 / 1;
+    }
+    .table-option input {
+      display: none;
+    }
+    .table-option i {
+      font-size: 2em;
+      color: var(--secondary-text);
+      margin-bottom: 10px;
+    }
+    .table-option span {
+      display: block;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+    .table-option.active {
+      background-color: var(--selected-background);
+      border-color: var(--selected-border);
+      box-shadow: var(--selected-box-shadow);
+    }
+    .table-option:focus-within {
+      border-color: var(--primary-color);
+      box-shadow: 0 4px 8px rgba(255, 122, 0, 0.2);
+    }
+    .table-option input:checked + i,
+    .table-option input:checked + i + span {
+      color: var(--primary-dark);
+    }
+    .submit-btn {
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+      color: var(--button-icon-color);
+      border: none;
+      padding: 15px;
+      border-radius: var(--border-radius);
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background var(--transition-speed), transform var(--transition-speed);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 10px;
+      gap: 8px;
+    }
+    .submit-btn:hover,
+    .submit-btn:focus {
+      background: linear-gradient(45deg, var(--primary-dark), #e6b800);
+      transform: scale(1.02);
+      outline: none;
+    }
+    .submit-btn i {
+      font-size: 1em;
+    }
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none; 
+      justify-content: center;
+      align-items: center;
+      z-index: 9999; 
+      padding: 10px; 
+    }
+    .modal.active {
+      display: flex; 
+    }
+    .modal-content {
+      background: var(--white);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      box-shadow: 0 4px 12px var(--shadow-color);
+      max-width: 500px;
+      width: 100%;
+      position: relative;
+      animation: slideDown 0.3s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-close {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: var(--text-color);
+      transition: color 0.3s ease;
+    }
+    .modal-close:hover {
+      color: var(--primary-color);
+    }
+    .modal-header {
+      margin-bottom: 20px;
+    }
+    .modal-header h2 {
+      margin: 0;
+      color: var(--primary-color);
+      font-size: 1.8em;
+    }
+    .modal-body {
+      margin-bottom: 20px;
+      font-size: 1em;
+      color: var(--secondary-text);
+    }
+    .modal-footer {
+      text-align: right;
+    }
+    .modal-footer button {
+      background-color: var(--primary-color);
+      color: var(--button-icon-color);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color var(--transition-speed), transform var(--transition-speed);
+      font-size: 1em;
+      margin-left: 10px;
+    }
+    .modal-footer button:hover,
+    .modal-footer button:focus {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      outline: none;
+    }
+    .modal-footer .secondary-button {
+      background-color: var(--light-gray);
+      color: var(--text-color);
+      margin-right: 10px;
+    }
+    .modal-footer .secondary-button:hover,
+    .modal-footer .secondary-button:focus {
+      background-color: #b3b3b3;
+      transform: translateY(-2px);
+      outline: none;
+    }
+    .login-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999; 
+      padding: 10px; 
+    }
+    .login-modal.active {
+      display: flex;
+    }
+    .login-modal .modal-content {
+      background-color: var(--white);
+      padding: 30px;
+      border-radius: var(--border-radius);
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 0.3s ease-in-out;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .login-modal .modal-content h2 {
+      margin-top: 0;
+      color: var(--primary-color);
+      font-size: 1.8em;
+      text-align: center;
+      font-weight: 600;
+    }
+    .login-modal .modal-content form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    .login-modal .modal-content form label {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      font-size: 1em;
+      color: var(--text-color);
+    }
+    .login-modal .modal-content form input {
+      width: 100%;
+      padding: 8px 10px;
+      margin-top: 5px;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+    .login-modal .modal-content .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .login-modal .conditional-message {
+      display: none;
+      background-color: #ffdddd;
+      color: #a94442;
+      border: 1px solid #ebccd1;
+      padding: 10px 15px;
+      border-radius: 5px;
+      font-size: 1em;
+      margin-bottom: 15px;
+    }
+    .login-modal .conditional-message.active {
+      display: block;
+    }
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-          crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <style>
-        :root {
-            --primary-color: #ff7a00;
-            --primary-dark: #e64a19;
-            --secondary-color: #ffcc00;
-            --background-color: #f5f5f5;
-            --white: #ffffff;
-            --light-gray: #e0e0e0;
-            --text-color: #333333;
-            --secondary-text: #555555;
-            --input-icon-color: #888888;
-            --button-icon-color: #ffffff;
-            --button-color: #28a745;
-            --button-hover-color: #218838;
-            --delete-color: #dc3545;
-            --delete-hover-color: #c82333;
-            --shadow-color: rgba(0, 0, 0, 0.1);
-            --transition-speed: 0.3s;
-            --border-radius: 10px;
-            --font-family: 'Montserrat', sans-serif;
-            --selected-background: #ffe5cc;
-            --selected-border: var(--primary-color);
-            --selected-box-shadow: 0 4px 8px rgba(255, 122, 0, 0.2);
-            --notification-bg: #28a745;
-            --notification-text: #ffffff;
-            --notification-padding: 10px 20px;
-            --notification-border-radius: 5px;
-            --notification-box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-            --notification-font-size: 1em;
-        }
-
-        /* Reset and Basic Styles */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-family);
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
-        }
-
-        /* Header Styles */
-        header {
-            background-color: var(--white);
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            border-bottom: 1px solid var(--light-gray);
-            box-shadow: 0 2px 4px var(--shadow-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        header h1 {
-            margin: 10px 0 0 0;
-            font-size: 2em;
-            color: var(--primary-color);
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        /* Back Button Styles */
-        .back-button {
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: var(--primary-color);
-            color: var(--button-icon-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color var(--transition-speed), transform var(--transition-speed);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .back-button:hover,
-        .back-button:focus {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            outline: none;
-        }
-
-        /* Login Button Styles */
-        .login-button {
-            position: absolute;
-            right: 60px;
-            top: 20px;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            transition: transform var(--transition-speed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-button img {
-            width: 30px;
-            height: 30px;
-        }
-
-        .login-button:hover,
-        .login-button:focus {
-            transform: scale(1.1);
-            outline: none;
-        }
-
-        /* Cart Button Styles (Optional: If needed in this page) */
-        .cart-button {
-            position: absolute;
-            right: 20px;
-            top: 20px;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            transition: transform var(--transition-speed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .cart-button img {
-            width: 35px;
-            height: 35px;
-        }
-
-        .cart-button:hover,
-        .cart-button:focus {
-            transform: scale(1.1);
-            outline: none;
-        }
-
-        /* Notification Container Styles */
-        #notification-container {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 3000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* Notification Styles */
-        .notification {
-            background: var(--notification-bg);
-            color: var(--notification-text);
-            padding: var(--notification-padding);
-            border-radius: var(--notification-border-radius);
-            box-shadow: var(--notification-box-shadow);
-            font-size: var(--notification-font-size);
-            animation: fadeIn 0.5s forwards;
-        }
-
-        @keyframes fadeOut {
-            from {opacity: 1; transform: translateY(0);}
-            to {opacity: 0; transform: translateY(-10px);}
-        }
-
-        .fade-out {
-            animation: fadeOut 0.5s forwards;
-        }
-
-        /* Container Styles */
-        .container {
-            max-width: 800px;
-            width: 90%;
-            margin: 20px auto;
-            padding: 30px;
-            background-color: var(--white);
-            border-radius: 15px;
-            box-shadow: 0 4px 12px var(--shadow-color);
-        }
-
-        h2 {
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 1.8em;
-            position: relative;
-        }
-
-        h2::after {
-            content: "";
-            display: block;
-            width: 60px;
-            height: 3px;
-            background-color: var(--primary-color);
-            margin: 10px auto 0;
-            border-radius: 2px;
-        }
-
-        /* Cart Item Styles */
-        .cart-items {
-            margin-bottom: 20px;
-        }
-
-        .cart-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 15px;
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: relative;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-
-        .cart-item.removing {
-            opacity: 0;
-            transform: translateX(100%);
-        }
-
-        .cart-item .item-details {
-            display: flex;
-            flex-direction: column;
-            width: 70%;
-        }
-
-        .cart-item .item-name {
-            font-weight: 600;
-            color: var(--text-color);
-            margin-bottom: 5px;
-        }
-
-        .cart-item .item-addons {
-            font-size: 0.9em;
-            color: var(--secondary-text);
-        }
-
-        .cart-item .item-price {
-            font-size: 1em;
-            font-weight: 500;
-            color: var(--primary-color);
-            margin-top: 5px;
-        }
-
-        .delete-btn {
-            background-color: #ffcccc;
-            border: none;
-            color: #cc0000;
-            font-size: 0.9em;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color var(--transition-speed), color var(--transition-speed), transform var(--transition-speed);
-        }
-
-        .delete-btn:hover,
-        .delete-btn:focus {
-            background-color: #ff6666;
-            color: #990000;
-            transform: scale(1.05);
-            outline: none;
-        }
-
-        .delete-btn i {
-            font-size: 1em;
-        }
-
-        /* Total Price Styles */
-        .total {
-            text-align: right;
-            font-size: 1.2em;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            font-weight: 600;
-        }
-
-        /* Checkout Form Styles */
-        .checkout-form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .checkout-form div {
-            position: relative;
-            margin-bottom: 20px;
-        }
-
-        .checkout-form label {
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: var(--secondary-text);
-            display: block;
-            margin-left: 35px;
-        }
-
-        .checkout-form input,
-        .checkout-form textarea {
-            padding: 12px 15px 12px 40px;
-            margin-bottom: 0;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color var(--transition-speed);
-            width: 100%;
-            background-color: #fafafa;
-        }
-
-        .checkout-form input:focus,
-        .checkout-form textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            background-color: #fff;
-        }
-
-        .checkout-form .input-icon {
-            position: absolute;
-            top: 50%;
-            left: 10px;
-            transform: translateY(-50%);
-            color: var(--input-icon-color);
-            font-size: 1em;
-        }
-
-        /* Payment Methods Styles */
-        .payment-methods {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            justify-content: space-between;
-        }
-
-        .payment-option {
-            flex: 1 1 45%;
-            background-color: #f9f9f9;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 120px;
-        }
-
-        .payment-option input {
-            display: none;
-        }
-
-        .payment-option img {
-            width: 40px;
-            height: 40px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
-
-        .payment-option span {
-            display: block;
-            font-weight: bold;
-            color: var(--text-color);
-        }
-
-        .payment-option.active {
-            background-color: var(--selected-background);
-            border-color: var(--selected-border);
-            box-shadow: var(--selected-box-shadow);
-        }
-
-        .payment-option:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 8px rgba(255, 122, 0, 0.2);
-        }
-
-        .payment-option input:checked + img,
-        .payment-option input:checked + img + span {
-            filter: brightness(0.8);
-            color: var(--primary-dark);
-        }
-
-        /* Table Selection Styles */
-        .table-selection {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: space-between;
-        }
-
-        .table-option {
-            flex: 1 1 18%;
-            background-color: #f9f9f9;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: border-color var(--transition-speed), box-shadow var(--transition-speed), background-color var(--transition-speed);
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            aspect-ratio: 1 / 1;
-        }
-
-        .table-option input {
-            display: none;
-        }
-
-        .table-option i {
-            font-size: 2em;
-            color: var(--secondary-text);
-            margin-bottom: 10px;
-        }
-
-        .table-option span {
-            display: block;
-            font-weight: bold;
-            color: var(--text-color);
-        }
-
-        .table-option.active {
-            background-color: var(--selected-background);
-            border-color: var(--selected-border);
-            box-shadow: var(--selected-box-shadow);
-        }
-
-        .table-option:focus-within {
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 8px rgba(255, 122, 0, 0.2);
-        }
-
-        .table-option input:checked + i,
-        .table-option input:checked + i + span {
-            color: var(--primary-dark);
-        }
-
-        /* Submit Button Styles */
-        .submit-btn {
-            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
-            color: var(--button-icon-color);
-            border: none;
-            padding: 15px;
-            border-radius: var(--border-radius);
-            font-size: 1.1em;
-            cursor: pointer;
-            transition: background var(--transition-speed), transform var(--transition-speed);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            margin-top: 10px;
-            gap: 8px;
-        }
-
-        .submit-btn:hover,
-        .submit-btn:focus {
-            background: linear-gradient(45deg, var(--primary-dark), #e6b800);
-            transform: scale(1.02);
-            outline: none;
-        }
-
-        .submit-btn i {
-            font-size: 1em;
-        }
-
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            padding: 10px; /* Added padding for small screens */
-        }
-
-        .modal.active {
-            opacity: 1;
-            visibility: visible;
-        }
-
-        .modal-content {
-            background: var(--white);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            box-shadow: 0 4px 12px var(--shadow-color);
-            max-width: 500px;
-            width: 100%;
-            position: relative;
-            animation: slideDown 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        @keyframes slideDown {
-            from { transform: translateY(-50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: none;
-            border: none;
-            font-size: 1.5em;
-            cursor: pointer;
-            color: var(--text-color);
-            transition: color 0.3s ease;
-        }
-
-        .modal-close:hover {
-            color: var(--primary-color);
-        }
-
-        .modal-header {
-            margin-bottom: 20px;
-        }
-
-        .modal-header h2 {
-            margin: 0;
-            color: var(--primary-color);
-            font-size: 1.8em;
-        }
-
-        .modal-body {
-            margin-bottom: 20px;
-            font-size: 1em;
-            color: var(--secondary-text);
-        }
-
-        .modal-footer {
-            text-align: right;
-        }
-
-        .modal-footer button {
-            background-color: var(--primary-color);
-            color: var(--button-icon-color);
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color var(--transition-speed), transform var(--transition-speed);
-            font-size: 1em;
-            margin-left: 10px;
-        }
-
-        .modal-footer button:hover,
-        .modal-footer button:focus {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            outline: none;
-        }
-
-        .modal-footer .secondary-button {
-            background-color: var(--light-gray);
-            color: var(--text-color);
-            margin-right: 10px;
-        }
-
-        .modal-footer .secondary-button:hover,
-        .modal-footer .secondary-button:focus {
-            background-color: #b3b3b3;
-            transform: translateY(-2px);
-            outline: none;
-        }
-
-        /* Login Modal Styles */
-        .login-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.6); /* Changed to rgba for consistency */
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 2500;
-            padding: 10px; /* Added padding for small screens */
-        }
-
-        .login-modal.active {
-            display: flex;
-        }
-
-        .login-modal .modal-content {
-            background-color: var(--white);
-            padding: 30px;
-            border-radius: var(--border-radius);
-            width: 100%;
-            max-width: 400px;
-            position: relative;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            animation: fadeIn 0.3s ease-in-out;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-
-        .login-modal .modal-content h2 {
-            margin-top: 0;
-            color: var(--primary-color);
-            font-size: 1.8em;
-            text-align: center;
-            font-weight: 600;
-        }
-
-        .login-modal .modal-content form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .login-modal .modal-content form label {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            font-size: 1em;
-            color: var(--text-color);
-        }
-
-        .login-modal .modal-content form input {
-            width: 100%;
-            padding: 8px 10px;
-            margin-top: 5px;
-            border: 1px solid #cccccc;
-            border-radius: 5px;
-            font-size: 1em;
-        }
-
-        .login-modal .modal-content .modal-buttons {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        /* Conditional Message in Login Modal */
-        .login-modal .conditional-message {
-            display: none; /* Hidden by default */
-            background-color: #ffdddd;
-            color: #a94442;
-            border: 1px solid #ebccd1;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 1em;
-            margin-bottom: 15px;
-        }
-
-        .login-modal .conditional-message.active {
-            display: block; /* Show when active */
-        }
-
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            /* Adjust container max-width for tablets */
-            .container {
-                max-width: 90%;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .payment-methods {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .payment-option {
-                flex: 1 1 100%;
-                height: auto;
-            }
-
-            .table-selection {
-                justify-content: center;
-            }
-
-            .table-option {
-                flex: 1 1 30%;
-            }
-
-            .cart-item {
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-            }
-
-            .cart-item .item-details {
-                width: 100%;
-            }
-
-            .total {
-                text-align: center;
-            }
-
-            .checkout-form label {
-                margin-left: 0;
-            }
-
-            .checkout-form input,
-            .checkout-form textarea {
-                padding: 12px 15px 12px 10px;
-            }
-
-            .logo {
-                width: 100px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .payment-methods {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .payment-option {
-                flex: 1 1 100%;
-                height: auto;
-            }
-
-            .table-selection {
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-
-            .table-option {
-                flex: 1 1 45%;
-            }
-
-            .cart-item {
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-            }
-
-            .checkout-form .input-icon {
-                left: 5px;
-            }
-
-            .checkout-form label {
-                margin-left: 0;
-            }
-
-            .checkout-form input,
-            .checkout-form textarea {
-                padding: 12px 15px 12px 10px;
-            }
-
-            .logo {
-                width: 100px;
-            }
-        }
-    </style>
+    @media (max-width: 1024px) {
+      .container {
+        max-width: 90%;
+      }
+    }
+    @media (max-width: 768px) {
+      .payment-methods {
+        flex-direction: column;
+        align-items: center;
+      }
+      .payment-option {
+        flex: 1 1 100%;
+        height: auto;
+      }
+      .table-selection {
+        justify-content: center;
+      }
+      .table-option {
+        flex: 1 1 30%;
+      }
+      .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+      }
+      .cart-item .item-details {
+        width: 100%;
+      }
+      .total {
+        text-align: center;
+      }
+      .checkout-form label {
+        margin-left: 0;
+      }
+      .checkout-form input,
+      .checkout-form textarea {
+        padding: 12px 15px 12px 10px;
+      }
+      .logo {
+        width: 100px;
+      }
+    }
+    @media (max-width: 480px) {
+      .payment-methods {
+        flex-direction: column;
+        align-items: center;
+      }
+      .payment-option {
+        flex: 1 1 100%;
+        height: auto;
+      }
+      .table-selection {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .table-option {
+        flex: 1 1 45%;
+      }
+      .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+      }
+      .checkout-form .input-icon {
+        left: 5px;
+      }
+      .checkout-form label {
+        margin-left: 0;
+      }
+      .checkout-form input,
+      .checkout-form textarea {
+        padding: 12px 15px 12px 10px;
+      }
+      .logo {
+        width: 100px;
+      }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
 </head>
 <body>
-    <!-- Header Section -->
-    <header>
-        <!-- Back Button -->
-        <a href="menuel.html" class="back-button" aria-label="Πήγαινε πίσω στο μενού">
-            <i class="fas fa-arrow-left"></i> Πίσω
-        </a>
-        
-        <!-- Logo -->
-        <img src="https://cdn.e-food.gr/shop/762805/logo?t=1647428522" alt="Crepe de France Logo" class="logo" style="max-width: 150px; width: 100%;">
-        
-        <!-- Page Title -->
-        <h1>Ταμείο</h1>
-        
-        <!-- Login Button -->
-        <button class="login-button" onclick="openLoginModal()" aria-label="Σύνδεση">
-            <img src="https://img.icons8.com/ios-filled/50/000000/login-rounded-right.png" alt="Σύνδεση">
-        </button>
-        
-        <!-- Cart Button (Optional: If needed in this page) -->
-        <!-- <button class="cart-button" onclick="showCartPopup()" aria-label="Προβολή Καλαθιού">
-            <img src="https://cdn-icons-png.flaticon.com/512/34/34568.png" alt="Καλάθι">
-        </button> -->
-    </header>
+  <!-- Header Section -->
+  <header>
+    <a href="menuel.html" class="back-button" aria-label="Πήγαινε πίσω στο μενού">
+      <i class="fas fa-arrow-left"></i> Πίσω
+    </a>
+    <img src="https://cdn.e-food.gr/shop/762805/logo?t=1647428522" 
+         alt="Crepe de France Logo" class="logo" style="max-width: 150px; width: 100%;">
+    <h1>Ταμείο</h1>
+    <button class="login-button" onclick="openLoginModal()" aria-label="Σύνδεση">
+      <img src="https://img.icons8.com/ios-filled/50/000000/login-rounded-right.png" alt="Σύνδεση">
+    </button>
+  </header>
+
+  <!-- Notification Container -->
+  <div id="notification-container"></div>
+  
+  <main class="container">
+    <!-- Conditional Content: Either Checkout Form or Not Connected Message -->
+    <section id="authenticated-section" style="display: none;">
+      <!-- Cart Section -->
+      <section>
+        <h2>Το Καλάθι Σας</h2>
+        <div class="cart-items" id="cart-items"></div>
+        <div class="total">Σύνολο: <span id="total-price">0.00€</span></div>
+      </section>
+      
+      <!-- Checkout Form Section -->
+      <section>
+        <form class="checkout-form" id="checkout-form" novalidate>
+          <div>
+            <i class="fas fa-chair input-icon" aria-hidden="true"></i>
+            <label>Επιλέξτε Τραπέζι:</label>
+            <div class="table-selection" id="table-selection"></div>
+          </div>
+          
+          <div>
+            <label>Μέθοδος Πληρωμής:</label>
+            <div class="payment-methods">
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="Cash" required>
+                <img src="https://img.icons8.com/ios-filled/100/000000/cash.png" alt="Μετρητά">
+                <span>Μετρητά</span>
+              </label>
+              <label class="payment-option">
+                <input type="radio" name="payment-method" value="Credit Card" required>
+                <img src="https://img.icons8.com/ios-filled/100/000000/credit-card-front.png" alt="Πιστωτική Κάρτα">
+                <span>Πιστωτική Κάρτα</span>
+              </label>
+            </div>
+          </div>
+          
+          <div>
+            <i class="fas fa-hand-holding-usd input-icon" aria-hidden="true"></i>
+            <label for="tip">Προσθέστε Ένα Φιλοδώρημα (€):</label>
+            <input type="number" id="tip" min="0" step="0.5" placeholder="Εισάγετε ποσό φιλοδωρήματος">
+          </div>
+          
+          <div>
+            <i class="fas fa-comments input-icon" aria-hidden="true"></i>
+            <label for="comments">Πρόσθετα Σχόλια:</label>
+            <textarea id="comments" rows="4" placeholder="Εισάγετε τυχόν ειδικά αιτήματα ή σχόλια..."></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn" aria-label="Τοποθέτηση Παραγγελίας">
+            <i class="fas fa-shopping-cart"></i> Τοποθέτηση Παραγγελίας
+          </button>
+        </form>
+      </section>
+    </section>
     
-    <!-- Notification Container -->
-    <div id="notification-container"></div>
-    
-    <main class="container">
-        <!-- Cart Section -->
-        <section>
-            <h2>Το Καλάθι Σας</h2>
-            <div class="cart-items" id="cart-items">
-                <!-- Cart items will be dynamically inserted here -->
-            </div>
-            <div class="total">Σύνολο: <span id="total-price">0.00€</span></div>
-        </section>
-        
-        <!-- Checkout Form Section -->
-        <section>
-            <form class="checkout-form" id="checkout-form" novalidate>
-                <!-- Table Selection -->
-                <div>
-                    <i class="fas fa-chair input-icon" aria-hidden="true"></i>
-                    <label>Επιλέξτε Τραπέζι:</label>
-                    <div class="table-selection" id="table-selection">
-                        <!-- Table options will be dynamically inserted here -->
-                    </div>
-                </div>
-                
-                <!-- Payment Method Selection -->
-                <div>
-                    <label>Μέθοδος Πληρωμής:</label>
-                    <div class="payment-methods">
-                        <label class="payment-option">
-                            <input type="radio" name="payment-method" value="Cash" required aria-required="true">
-                            <img src="https://img.icons8.com/ios-filled/100/000000/cash.png" alt="Πληρωμή με Μετρητά">
-                            <span>Μετρητά</span>
-                        </label>
-                        <label class="payment-option">
-                            <input type="radio" name="payment-method" value="Credit Card" required aria-required="true">
-                            <img src="https://img.icons8.com/ios-filled/100/000000/credit-card-front.png" alt="Πληρωμή με Πιστωτική Κάρτα">
-                            <span>Πιστωτική Κάρτα</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <!-- Tip Section -->
-                <div>
-                    <i class="fas fa-hand-holding-usd input-icon" aria-hidden="true"></i>
-                    <label for="tip">Προσθέστε Ένα Φιλοδώρημα (€):</label>
-                    <input type="number" id="tip" min="0" step="0.5" placeholder="Εισάγετε ποσό φιλοδωρήματος" aria-label="Προσθέστε ένα φιλοδώρημα σε ευρώ">
-                </div>
-                
-                <!-- Comments Section -->
-                <div>
-                    <i class="fas fa-comments input-icon" aria-hidden="true"></i>
-                    <label for="comments">Πρόσθετα Σχόλια:</label>
-                    <textarea id="comments" rows="4" placeholder="Εισάγετε τυχόν ειδικά αιτήματα ή σχόλια..." aria-label="Πρόσθετα σχόλια"></textarea>
-                </div>
-                
-                <!-- Submit Button -->
-                <button type="submit" class="submit-btn" aria-label="Τοποθέτηση Παραγγελίας">
-                    <i class="fas fa-shopping-cart"></i> Τοποθέτηση Παραγγελίας
-                </button>
-            </form>
-        </section>
-    </main>
-    
-    <!-- Order Confirmation Modal -->
-    <div class="modal" id="order-confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="order-confirmation-title">
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Κλείσιμο" onclick="closeModal('order-confirmation-modal')">&times;</button>
-            <div class="modal-header">
-                <h2 id="order-confirmation-title">Παραγγελία Επιτυχής!</h2>
-            </div>
-            <div class="modal-body">
-                <p>Η παραγγελία σας έχει τοποθετηθεί με επιτυχία.</p>
-                <p>Θα επικοινωνήσουμε μαζί σας σύντομα για επιβεβαίωση.</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModal('order-confirmation-modal')">Κλείσιμο</button>
-            </div>
-        </div>
+    <section id="unauthenticated-section" style="display: none;">
+      <h2>Δεν Είστε Συνδεδεμένοι</h2>
+      <button class="submit-btn" onclick="openLoginModal()" aria-label="Σύνδεση">
+        <i class="fas fa-sign-in-alt"></i> Σύνδεση
+      </button>
+    </section>
+  </main>
+  
+  <!-- Order Confirmation Modal -->
+  <div class="modal" id="order-confirmation-modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Κλείσιμο" onclick="closeModal('order-confirmation-modal')">&times;</button>
+      <div class="modal-header">
+        <h2 id="order-confirmation-title">Παραγγελία Επιτυχής!</h2>
+      </div>
+      <div class="modal-body">
+        <p>Η παραγγελία σας έχει τοποθετηθεί με επιτυχία.</p>
+        <p>Θα επικοινωνήσουμε μαζί σας σύντομα για επιβεβαίωση.</p>
+      </div>
+      <div class="modal-footer">
+        <button onclick="closeModal('order-confirmation-modal')">Κλείσιμο</button>
+      </div>
     </div>
-    
-    <!-- Error Modal -->
-    <div class="modal" id="error-modal" role="dialog" aria-modal="true" aria-labelledby="error-modal-title">
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Κλείσιμο" onclick="closeModal('error-modal')">&times;</button>
-            <div class="modal-header">
-                <h2 id="error-modal-title">Σφάλμα!</h2>
-            </div>
-            <div class="modal-body">
-                <p id="error-message">Παρακαλώ ελέγξτε τις εισαγωγές σας.</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="closeModal('error-modal')">Κλείσιμο</button>
-            </div>
-        </div>
+  </div>
+  
+  <!-- Error Modal -->
+  <div class="modal" id="error-modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Κλείσιμο" onclick="closeModal('error-modal')">&times;</button>
+      <div class="modal-header">
+        <h2 id="error-modal-title">Σφάλμα!</h2>
+      </div>
+      <div class="modal-body">
+        <p id="error-message">Παρακαλώ ελέγξτε τις εισαγωγές σας.</p>
+      </div>
+      <div class="modal-footer">
+        <button onclick="closeModal('error-modal')">Κλείσιμο</button>
+      </div>
     </div>
-    
-    <!-- Confirmation Before Submission Modal -->
-    <div class="modal" id="confirmation-modal" role="dialog" aria-modal="true" aria-labelledby="confirmation-modal-title">
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Κλείσιμο" onclick="closeModal('confirmation-modal')">&times;</button>
-            <div class="modal-header">
-                <h2 id="confirmation-modal-title">Επιβεβαίωση Παραγγελίας</h2>
-            </div>
-            <div class="modal-body">
-                <p>Είστε βέβαιοι ότι θέλετε να τοποθετήσετε την παραγγελία;</p>
-            </div>
-            <div class="modal-footer">
-                <button onclick="submitOrder()">Ναι</button>
-                <button onclick="closeModal('confirmation-modal')">Όχι</button>
-            </div>
-        </div>
+  </div>
+  
+  <!-- Confirmation Before Submission Modal -->
+  <div class="modal" id="confirmation-modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Κλείσιμο" onclick="closeModal('confirmation-modal')">&times;</button>
+      <div class="modal-header">
+        <h2 id="confirmation-modal-title">Επιβεβαίωση Παραγγελίας</h2>
+      </div>
+      <div class="modal-body">
+        <p>Είστε βέβαιοι ότι θέλετε να τοποθετήσετε την παραγγελία;</p>
+      </div>
+      <div class="modal-footer">
+        <button onclick="submitOrder()">Ναι</button>
+        <button onclick="closeModal('confirmation-modal')">Όχι</button>
+      </div>
     </div>
-    
-    <!-- Login Modal -->
-    <div class="login-modal" id="login-modal">
-        <div class="modal-content">
-            <button class="modal-close" aria-label="Κλείσιμο" onclick="closeLoginModal()">&times;</button>
-            <div class="modal-header">
-                <h2>Σύνδεση</h2>
-            </div>
-            <!-- Conditional Message -->
-            <div class="conditional-message" id="login-conditional-message">
-                Παρακαλώ συνδεθείτε για να τοποθετήσετε μια παραγγελία.
-            </div>
-            <form id="login-form">
-                <label for="username">Όνομα Χρήστη:</label>
-                <input type="text" id="username" name="username" required aria-required="true">
-                
-                <label for="password">Κωδικός:</label>
-                <input type="password" id="password" name="password" required aria-required="true">
-                
-                <div class="modal-buttons">
-                    <button type="button" class="secondary-button" onclick="closeLoginModal()" aria-label="Άκυρο">Άκυρο</button>
-                    <button type="submit" class="submit-btn" aria-label="Σύνδεση">Σύνδεση</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <!-- Audio Element for Notification Sound (Optional) -->
-    <audio id="notification-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
-    
-    <!-- JavaScript for Dynamic Content and Interactivity -->
-    <script>
-        // Retrieve cart from localStorage or initialize as empty array
-        let cart = JSON.parse(localStorage.getItem('cart')) || [];
-        console.log('Cart retrieved:', cart);
+  </div>
+  
+  <!-- Login Modal -->
+  <div class="login-modal" id="login-modal">
+    <div class="modal-content">
+      <button class="modal-close" aria-label="Κλείσιμο" onclick="closeLoginModal()">&times;</button>
+      <div class="modal-header">
+        <h2>Σύνδεση</h2>
+      </div>
+      <div class="conditional-message" id="login-conditional-message">
+        Παρακαλώ συνδεθείτε για να τοποθετήσετε μια παραγγελία.
+      </div>
+      <form id="login-form">
+        <label for="username">Όνομα Χρήστη:</label>
+        <input type="text" id="username" name="username" required>
         
-        const cartItemsContainer = document.getElementById('cart-items');
-        const totalPriceElement = document.getElementById('total-price');
-        const checkoutForm = document.getElementById('checkout-form');
-        const tableSelectionContainer = document.getElementById('table-selection');
-        const notificationSound = document.getElementById('notification-sound');
-        const loginConditionalMessage = document.getElementById('login-conditional-message'); // New element
+        <label for="password">Κωδικός:</label>
+        <input type="password" id="password" name="password" required>
         
-        // Function to check if user is logged in
-        function isLoggedIn() {
-            return localStorage.getItem('loggedIn') === 'true';
+        <div class="modal-buttons">
+          <button type="button" class="secondary-button" onclick="closeLoginModal()">Άκυρο</button>
+          <button type="submit" class="submit-btn">Σύνδεση</button>
+        </div>
+        <div class="switch-to-login">
+          Δεν έχετε λογαριασμό; <a href="#" onclick="promptSignUp()">Εγγραφείτε</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Audio Element for Notification Sound (Optional) -->
+  <audio id="notification-sound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3" preload="auto"></audio>
+  
+  <!-- JavaScript (Updated to Communicate with Backend & Show Addon Names) -->
+  <script>
+    /**************************************************
+     * 1) Global Variables & DOM References
+     **************************************************/
+    let cart = JSON.parse(localStorage.getItem('cart')) || []
+
+    const cartItemsContainer = document.getElementById('cart-items')
+    const totalPriceElement = document.getElementById('total-price')
+    const checkoutForm = document.getElementById('checkout-form')
+    const tableSelectionContainer = document.getElementById('table-selection')
+    const notificationSound = document.getElementById('notification-sound')
+    const loginConditionalMessage = document.getElementById('login-conditional-message')
+    const authenticatedSection = document.getElementById('authenticated-section')
+    const unauthenticatedSection = document.getElementById('unauthenticated-section')
+
+    /**************************************************
+     * 2) Render Cart
+     **************************************************/
+    function parsePrice(priceInput) {
+      if (typeof priceInput === 'number') return priceInput
+      if (typeof priceInput === 'string') {
+        const sanitized = priceInput.replace(/[^0-9.,]/g, '').replace(',', '.').trim()
+        const parsed = parseFloat(sanitized)
+        return isNaN(parsed) ? 0 : parsed
+      }
+      return 0
+    }
+
+    function renderCart() {
+      cartItemsContainer.innerHTML = ''
+      let total = 0
+
+      if (cart.length === 0) {
+        cartItemsContainer.innerHTML = '<p>Το καλάθι σας είναι κενό.</p>'
+      } else {
+        cart.forEach((item, index) => {
+          // Fallback: if no name_el or name_en, show empty string
+          const itemName = item.name_el || item.name_en || ''
+          const itemQuantity = parseInt(item.quantity) || 1
+          const itemPrice = parsePrice(item.price) || 0
+
+          const itemDiv = document.createElement('div')
+          itemDiv.classList.add('cart-item')
+
+          const detailsDiv = document.createElement('div')
+          detailsDiv.classList.add('item-details')
+
+          // Name
+          const nameP = document.createElement('p')
+          nameP.classList.add('item-name')
+          // Show itemName and quantity
+          nameP.textContent = itemQuantity > 1 ? `${itemName} x${itemQuantity}` : itemName
+          detailsDiv.appendChild(nameP)
+
+          // If item.addOns
+          if (item.addOns && Array.isArray(item.addOns) && item.addOns.length > 0) {
+            const addOnsList = document.createElement('div')
+            addOnsList.classList.add('item-addons')
+
+            item.addOns.forEach(addon => {
+              // Use addon.addon_name_el or addon.addon_name_en, fallback: empty
+              const addonName = addon.addon_name_el || addon.addon_name_en || ''
+              const addonPrice = parsePrice(addon.price) || 0
+              const addonP = document.createElement('p')
+              // If no name, we skip or just show price
+              if (addonName) {
+                addonP.textContent = `• ${addonName} (+${addonPrice.toFixed(2)}€)`
+              } else {
+                // If there's truly no name, maybe show "Πρόσθετο (+x.xx€)" or skip
+                addonP.textContent = `• Πρόσθετο (+${addonPrice.toFixed(2)}€)`
+              }
+              addOnsList.appendChild(addonP)
+            })
+            detailsDiv.appendChild(addOnsList)
+          }
+
+          // Price
+          const priceP = document.createElement('p')
+          priceP.classList.add('item-price')
+          const totalItemPrice = itemPrice * itemQuantity
+          priceP.textContent = `${totalItemPrice.toFixed(2)}€`
+          detailsDiv.appendChild(priceP)
+
+          itemDiv.appendChild(detailsDiv)
+
+          // Delete btn
+          const deleteBtn = document.createElement('button')
+          deleteBtn.classList.add('delete-btn')
+          deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Διαγραφή'
+          deleteBtn.addEventListener('click', () => deleteCartItem(index))
+
+          itemDiv.appendChild(deleteBtn)
+          cartItemsContainer.appendChild(itemDiv)
+
+          total += totalItemPrice
+        })
+      }
+
+      if (isNaN(total)) total = 0
+      totalPriceElement.textContent = `${total.toFixed(2)}€`
+    }
+
+    function deleteCartItem(index) {
+      if (index >= 0 && index < cart.length) {
+        // We'll also display the name in Greek or fallback to English in the notification
+        const itemName = cart[index].name_el || cart[index].name_en || 'Προϊόν'
+        cart.splice(index, 1)
+        localStorage.setItem('cart', JSON.stringify(cart))
+        renderCart()
+        showNotification('Διαγράφηκε', `${itemName} αφαιρέθηκε από το καλάθι.`)
+        playNotificationSound()
+      }
+    }
+
+    function showNotification(title, message) {
+      const container = document.getElementById('notification-container')
+      const notification = document.createElement('div')
+      notification.classList.add('notification')
+      notification.innerHTML = `<strong>${title}</strong><br>${message}`
+
+      container.appendChild(notification)
+      setTimeout(() => {
+        notification.classList.add('fade-out')
+        notification.addEventListener('animationend', () => {
+          notification.remove()
+        })
+      }, 3000)
+    }
+
+    function playNotificationSound() {
+      notificationSound.currentTime = 0
+      notificationSound.play().catch(err => console.error('Error playing notification sound:', err))
+    }
+
+    /**************************************************
+     * 3) Table Selection
+     **************************************************/
+    function renderTables() {
+      tableSelectionContainer.innerHTML = ''
+      // Suppose we have 11 tables, from 1 to 11
+      for (let i = 1; i <= 11; i++) {
+        const label = document.createElement('label')
+        label.classList.add('table-option')
+        label.setAttribute('for', `table-${i}`)
+
+        const input = document.createElement('input')
+        input.type = 'radio'
+        input.name = 'table'
+        input.id = `table-${i}`
+        input.value = `Τραπέζι ${i}`
+        input.required = true
+
+        const icon = document.createElement('i')
+        icon.classList.add('fas', 'fa-chair')
+
+        const span = document.createElement('span')
+        span.textContent = `Τραπέζι ${i}`
+
+        label.appendChild(input)
+        label.appendChild(icon)
+        label.appendChild(span)
+
+        input.addEventListener('change', () => toggleActiveClass('table-option', label))
+        tableSelectionContainer.appendChild(label)
+      }
+    }
+
+    function toggleActiveClass(className, selectedElement) {
+      const allOptions = document.querySelectorAll(`.${className}`)
+      allOptions.forEach(option => {
+        if (option === selectedElement) {
+          option.classList.add('active')
+        } else {
+          option.classList.remove('active')
         }
+      })
+    }
 
-        // Function to prompt login if not logged in
-        function ensureLoggedIn() {
-            if (!isLoggedIn()) {
-                // Show login modal
-                openLoginModal();
-                // Disable the checkout form
-                checkoutForm.classList.add('disabled');
-                // Show the conditional message in login form
-                showConditionalLoginMessage();
-            }
+    /**************************************************
+     * 4) Authentication Check
+     **************************************************/
+    async function checkAuthStatus() {
+      try {
+        const response = await fetch('/api/auth/status', {
+          method: 'GET',
+          credentials: 'include'
+        })
+        const result = await response.json()
+
+        if (response.ok && result.authenticated) {
+          // User is authenticated
+          authenticatedSection.style.display = 'block'
+          unauthenticatedSection.style.display = 'none'
+        } else {
+          // Not authenticated
+          authenticatedSection.style.display = 'none'
+          unauthenticatedSection.style.display = 'block'
         }
+      } catch (err) {
+        console.error('Error checking auth status:', err)
+        authenticatedSection.style.display = 'none'
+        unauthenticatedSection.style.display = 'block'
+      }
+    }
 
-        // Call ensureLoggedIn on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            ensureLoggedIn();
-            renderCart();
-            renderTables();
-        });
+    /**************************************************
+     * 5) Order Submission
+     **************************************************/
+    async function handleFormSubmit(e) {
+      e.preventDefault()
 
-        // Function to enable the checkout form after login
-        function enableCheckoutForm() {
-            checkoutForm.classList.remove('disabled');
-            // Hide the conditional message in login form
-            hideConditionalLoginMessage();
+      if (cart.length === 0) {
+        showError('Το καλάθι σας είναι κενό!')
+        return
+      }
+
+      const selectedTable = document.querySelector('input[name="table"]:checked')
+      const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked')
+      const tipValue = document.getElementById('tip').value
+      const tip = tipValue ? parseFloat(tipValue) : 0
+      const comments = document.getElementById('comments').value
+
+      if (!selectedTable) {
+        showError('Παρακαλώ επιλέξτε τραπέζι.')
+        return
+      }
+      if (!selectedPaymentMethod) {
+        showError('Παρακαλώ επιλέξτε μέθοδο πληρωμής.')
+        return
+      }
+      if (isNaN(tip) || tip < 0) {
+        showError('Παρακαλώ εισάγετε ένα έγκυρο ποσό φιλοδωρήματος.')
+        return
+      }
+
+      // Compute item total from cart
+      const itemsTotal = cart.reduce((sum, item) => {
+        const basePrice = parsePrice(item.price) || 0
+        const addOnsTotal = Array.isArray(item.addOns)
+          ? item.addOns.reduce((acc, addon) => acc + parsePrice(addon.price || 0), 0)
+          : 0
+        const quantity = parseInt(item.quantity) || 1
+        return sum + (basePrice + addOnsTotal) * quantity
+      }, 0)
+      const total = itemsTotal + tip
+
+      // Build the order object
+      // We'll use itemName with fallback for Greek or English but no "Χωρίς Όνομα"
+      const order = {
+        timestamp: new Date().toISOString(),
+        items: cart.map(item => ({
+          name: item.name_el || item.name_en || '',
+          quantity: parseInt(item.quantity) || 1,
+          price: parsePrice(item.price) || 0,
+          addOns: (item.addOns || []).map(addon => ({
+            // fallback to addon.addon_name_el or addon.addon_name_en, or blank
+            name: addon.addon_name_el || addon.addon_name_en || '',
+            price: parsePrice(addon.price) || 0
+          }))
+        })),
+        total: parseFloat(total.toFixed(2)),
+        tip: parseFloat(tip.toFixed(2)),
+        paymentMethod: selectedPaymentMethod.value,
+        table: selectedTable.value,
+        comments: comments.trim() || 'N/A'
+      }
+
+      // Show confirmation modal
+      openModal('confirmation-modal')
+      window.pendingOrder = order
+    }
+
+    function showError(message) {
+      const errorMessage = document.getElementById('error-message')
+      errorMessage.textContent = message
+      openModal('error-modal')
+    }
+
+    async function submitOrder() {
+      closeModal('confirmation-modal')
+      const order = window.pendingOrder
+      if (!order) {
+        showError('Δεν υπάρχει παραγγελία για επεξεργασία.')
+        return
+      }
+
+      try {
+        const response = await fetch('/api/orders', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(order),
+          credentials: 'include'
+        })
+        const result = await response.json()
+
+        if (response.ok) {
+          // Clear cart
+          cart = []
+          localStorage.setItem('cart', JSON.stringify(cart))
+          renderCart()
+          window.pendingOrder = null
+
+          openModal('order-confirmation-modal')
+          showNotification('Παραγγελία Επιτυχής', 'Η παραγγελία σας έχει καταχωρηθεί.')
+          playNotificationSound()
+        } else {
+          throw new Error(result.error || 'Παρουσιάστηκε σφάλμα κατά την καταχώρηση της παραγγελίας.')
         }
+      } catch (err) {
+        console.error('Error submitting order:', err)
+        showError(err.message)
+      }
+    }
 
-        // Function to parse price inputs
-        function parsePrice(priceInput) {
-            if (typeof priceInput === 'number') {
-                return priceInput;
-            }
-            if (typeof priceInput === 'string') {
-                const sanitized = priceInput.replace(/[^0-9.,]/g, '').replace(',', '.').trim();
-                const parsed = parseFloat(sanitized);
-                return isNaN(parsed) ? 0 : parsed;
-            }
-            return 0;
-        }
+    /**************************************************
+     * 6) Modals + Login Logic
+     **************************************************/
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId)
+      modal.classList.add('active')
+    }
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId)
+      modal.classList.remove('active')
+    }
 
-        // Function to render the cart items
-        function renderCart() {
-            cartItemsContainer.innerHTML = '';
-            let total = 0;
-            
-            if (cart.length === 0) {
-                cartItemsContainer.innerHTML = '<p>Το καλάθι σας είναι κενό.</p>';
+    function openLoginModal() {
+      const loginModal = document.getElementById('login-modal')
+      loginModal.classList.add('active')
+      showConditionalLoginMessage()
+    }
+    function closeLoginModal() {
+      const loginModal = document.getElementById('login-modal')
+      loginModal.classList.remove('active')
+      hideConditionalLoginMessage()
+      // Re-check auth status
+      checkAuthStatus()
+    }
+
+    function promptSignUp() {
+      alert('Παρακαλώ επισκεφθείτε τη σελίδα εγγραφής: [Σύνδεσμος Εγγραφής]')
+      // Or window.location.href = '/register.html'
+    }
+
+    function showConditionalLoginMessage() {
+      if (loginConditionalMessage) {
+        loginConditionalMessage.classList.add('active')
+      }
+    }
+    function hideConditionalLoginMessage() {
+      if (loginConditionalMessage) {
+        loginConditionalMessage.classList.remove('active')
+      }
+    }
+
+    window.openModal = openModal
+    window.closeModal = closeModal
+    window.openLoginModal = openLoginModal
+    window.closeLoginModal = closeLoginModal
+    window.submitOrder = submitOrder
+    window.promptSignUp = promptSignUp
+
+    // Handle login form submission
+    const loginForm = document.getElementById('login-form')
+    if (loginForm) {
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+
+        try {
+          const response = await fetch('/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+            credentials: 'include'
+          })
+          const result = await response.json()
+
+          if (response.ok) {
+            showNotification('Σύνδεση Επιτυχής', 'Έχετε συνδεθεί επιτυχώς.')
+            if (username === 'dashboard_user') {
+              window.location.href = '/dashboard.html'
             } else {
-                cart.forEach((item, index) => {
-                    const itemName = item.name || item.Name || "Unnamed Product";
-                    let itemQuantity = parseInt(item.quantity) || parseInt(item.Qty) || 1;
-                    let itemPrice = parsePrice(item.price) || parsePrice(item.Price) || 0;
-                    
-                    if (!itemName || isNaN(itemQuantity) || isNaN(itemPrice)) {
-                        console.error(`Invalid item structure at index ${index}:`, item);
-                        return;
-                    }
-                    
-                    const itemDiv = document.createElement('div');
-                    itemDiv.classList.add('cart-item');
-                    
-                    const itemDetailsDiv = document.createElement('div');
-                    itemDetailsDiv.classList.add('item-details');
-                    
-                    const itemNameP = document.createElement('p');
-                    itemNameP.classList.add('item-name');
-                    itemNameP.textContent = `${itemName} x${itemQuantity}`;
-                    
-                    itemDetailsDiv.appendChild(itemNameP);
-                    
-                    if (item.addOns && Array.isArray(item.addOns) && item.addOns.length > 0) {
-                        const addOnsList = document.createElement('div');
-                        addOnsList.classList.add('item-addons');
-                        
-                        item.addOns.forEach(addon => {
-                            const addonName = addon.name || addon.addonName || "Unnamed Add-On";
-                            const addonPrice = parsePrice(addon.price) || parsePrice(addon.addonPrice) || 0;
-                            
-                            const addonP = document.createElement('p');
-                            addonP.textContent = `• ${addonName} (+${addonPrice.toFixed(2)}€)`;
-                            addOnsList.appendChild(addonP);
-                        });
-                        
-                        itemDetailsDiv.appendChild(addOnsList);
-                    }
-                    
-                    const itemPriceP = document.createElement('p');
-                    itemPriceP.classList.add('item-price');
-                    
-                    const totalItemPrice = (itemPrice) * itemQuantity;
-                    itemPriceP.textContent = `${totalItemPrice.toFixed(2)}€`;
-                    
-                    itemDetailsDiv.appendChild(itemPriceP);
-                    
-                    itemDiv.appendChild(itemDetailsDiv);
-                    
-                    const deleteBtn = document.createElement('button');
-                    deleteBtn.classList.add('delete-btn');
-                    deleteBtn.innerHTML = '<i class="fas fa-trash-alt"></i> Διαγραφή';
-                    deleteBtn.setAttribute('aria-label', `Διαγραφή ${itemName} από το καλάθι`);
-                    deleteBtn.addEventListener('click', () => {
-                        deleteCartItem(index);
-                    });
-                    
-                    itemDiv.appendChild(deleteBtn);
-                    
-                    cartItemsContainer.appendChild(itemDiv);
-                    
-                    total += totalItemPrice;
-                });
+              window.location.href = '/menuel.html'
             }
-            
-            if (isNaN(total)) {
-                total = 0;
-                console.error('Total calculation resulted in NaN. Resetting to 0.');
-            }
-            
-            totalPriceElement.textContent = `${total.toFixed(2)}€`;
-            console.log('Cart rendered with total:', total);
+          } else {
+            showError(result.error || 'Η σύνδεση απέτυχε. Παρακαλώ προσπαθήστε ξανά.')
+          }
+        } catch (err) {
+          console.error('Error:', err)
+          showError('Παρουσιάστηκε σφάλμα. Παρακαλώ προσπαθήστε ξανά.')
         }
+      })
+    }
 
-        // Function to delete a cart item
-        function deleteCartItem(index) {
-            if (index >= 0 && index < cart.length) {
-                const itemName = cart[index].name || cart[index].Name || "Unnamed Product";
-                cart.splice(index, 1);
-                localStorage.setItem('cart', JSON.stringify(cart));
-                renderCart();
-                showNotification("Διαγράφηκε", `${itemName} διαγράφηκε από το καλάθι.`);
-                playNotificationSound();
-                console.log(`Item "${itemName}" deleted from cart.`);
-            } else {
-                console.error('Invalid cart item index:', index);
-            }
-        }
+    // On page load
+    document.addEventListener('DOMContentLoaded', () => {
+      renderCart()
+      renderTables()
+      checkAuthStatus()
+    })
 
-        // Function to render table options
-        function renderTables() {
-            tableSelectionContainer.innerHTML = '';
-            for (let i = 1; i <= 11; i++) {
-                const tableLabel = document.createElement('label');
-                tableLabel.classList.add('table-option');
-                tableLabel.setAttribute('for', `table-${i}`);
-                
-                const tableInput = document.createElement('input');
-                tableInput.type = 'radio';
-                tableInput.name = 'table';
-                tableInput.id = `table-${i}`;
-                tableInput.value = `Τραπέζι ${i}`;
-                tableInput.required = true;
-                tableInput.setAttribute('aria-required', 'true');
-                
-                const tableIcon = document.createElement('i');
-                tableIcon.classList.add('fas', 'fa-chair');
-                tableIcon.setAttribute('aria-hidden', 'true');
-                
-                const tableSpan = document.createElement('span');
-                tableSpan.textContent = `Τραπέζι ${i}`;
-                
-                tableLabel.appendChild(tableInput);
-                tableLabel.appendChild(tableIcon);
-                tableLabel.appendChild(tableSpan);
-                
-                tableInput.addEventListener('change', () => {
-                    toggleActiveClass('table-option', tableLabel);
-                });
-                
-                tableSelectionContainer.appendChild(tableLabel);
-            }
-        }
-
-        // Function to validate order data
-        function validateOrder(order) {
-            if (!order.timestamp) return false;
-            if (!Array.isArray(order.items) || order.items.length === 0) return false;
-            if (typeof order.total !== 'number' || order.total < 0) return false;
-            if (typeof order.tip !== 'number' || order.tip < 0) return false;
-            if (!order.paymentMethod || !order.table) return false;
-            return true;
-        }
-
-        // Function to open a modal
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('active');
-            trapFocus(modal);
-        }
-
-        // Function to close a modal
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('active');
-        }
-
-        // Function to trap focus within a modal for accessibility
-        function trapFocus(modal) {
-            const focusableElements = modal.querySelectorAll('button, [href], input, textarea, [tabindex]:not([tabindex="-1"])');
-            const firstElement = focusableElements[0];
-            const lastElement = focusableElements[focusableElements.length - 1];
-            
-            function handleKeyDown(e) {
-                const isTabPressed = (e.key === 'Tab' || e.keyCode === 9);
-                if (!isTabPressed) return;
-
-                if (e.shiftKey) { // Shift + Tab
-                    if (document.activeElement === firstElement) {
-                        lastElement.focus();
-                        e.preventDefault();
-                    }
-                } else { // Tab
-                    if (document.activeElement === lastElement) {
-                        firstElement.focus();
-                        e.preventDefault();
-                    }
-                }
-            }
-
-            modal.addEventListener('keydown', handleKeyDown);
-
-            firstElement.focus();
-
-            function removeTrap() {
-                modal.removeEventListener('keydown', handleKeyDown);
-                modal.removeEventListener('transitionend', removeTrap);
-            }
-
-            modal.addEventListener('transitionend', removeTrap);
-        }
-
-        // Function to handle form submission
-        function handleFormSubmit(e) {
-            e.preventDefault();
-            
-            // Check if user is logged in
-            if (!isLoggedIn()) {
-                showError('Παρακαλώ συνδεθείτε για να κάνετε παραγγελία.');
-                openLoginModal();
-                return;
-            }
-
-            if (cart.length === 0) {
-                showError('Το καλάθι σας είναι κενό!');
-                return;
-            }
-            
-            const selectedTable = document.querySelector('input[name="table"]:checked');
-            const selectedPaymentMethod = document.querySelector('input[name="payment-method"]:checked');
-            const tipInput = document.getElementById('tip').value;
-            const tip = tipInput ? parseFloat(tipInput) : 0;
-            const comments = document.getElementById('comments').value;
-            
-            if (!selectedTable) {
-                showError('Παρακαλώ επιλέξτε τραπέζι.');
-                return;
-            }
-
-            if (!selectedPaymentMethod) {
-                showError('Παρακαλώ επιλέξτε μέθοδο πληρωμής.');
-                return;
-            }
-            
-            if (isNaN(tip) || tip < 0) {
-                showError('Παρακαλώ εισάγετε ένα έγκυρο ποσό φιλοδωρήματος.');
-                return;
-            }
-            
-            const itemsTotal = cart.reduce((sum, item) => {
-                const basePrice = parsePrice(item.price) || parsePrice(item.Price) || 0;
-                const addOnsTotal = item.addOns && Array.isArray(item.addOns)
-                    ? item.addOns.reduce((a, b) => a + (parsePrice(b.price) || parsePrice(b.addonPrice) || 0), 0)
-                    : 0;
-                return sum + (basePrice + addOnsTotal) * itemQuantity(item);
-            }, 0);
-            const total = itemsTotal + tip;
-            
-            const order = {
-                timestamp: new Date().toISOString(),
-                items: cart.map(item => ({
-                    name: item.name || item.Name || "Unnamed Product",
-                    quantity: item.quantity || item.Qty || 1,
-                    price: parsePrice(item.price) || parsePrice(item.Price) || 0,
-                    addOns: item.addOns ? item.addOns.map(addon => ({
-                        name: addon.name || addon.addonName || "Unnamed Add-On",
-                        price: parsePrice(addon.price) || parsePrice(addon.addonPrice) || 0
-                    })) : []
-                })),
-                total: parseFloat(total.toFixed(2)),
-                tip: parseFloat(tip.toFixed(2)),
-                paymentMethod: selectedPaymentMethod.value,
-                table: selectedTable.value,
-                comments: comments.trim() || 'N/A'
-            };
-            
-            console.log('Order to be placed:', order);
-            
-            if (!validateOrder(order)) {
-                showError('Υπήρξε ένα πρόβλημα με την παραγγελία σας. Παρακαλώ ελέγξτε τις εισαγωγές σας.');
-                console.error('Invalid order data:', order);
-                return;
-            }
-            
-            openModal('confirmation-modal');
-            window.pendingOrder = order;
-        }
-
-        // Function to show error modal
-        function showError(message) {
-            const errorMessage = document.getElementById('error-message');
-            errorMessage.textContent = message;
-            openModal('error-modal');
-        }
-
-        // Function to submit the order after confirmation
-        function submitOrder() {
-            closeModal('confirmation-modal');
-            const order = window.pendingOrder;
-
-            if (!order) {
-                showError('Δεν υπάρχει παραγγελία για επεξεργασία.');
-                return;
-            }
-
-            let orders = JSON.parse(localStorage.getItem('orders')) || [];
-            orders.push(order);
-            localStorage.setItem('orders', JSON.stringify(orders));
-            console.log('Orders updated:', orders);
-            
-            cart = [];
-            localStorage.setItem('cart', JSON.stringify(cart));
-            renderCart();
-            console.log('Cart cleared after order placement.');
-            
-            window.pendingOrder = null;
-            
-            openModal('order-confirmation-modal');
-            playNotificationSound();
-        }
-
-        // Function to toggle active class for selected options
-        function toggleActiveClass(className, selectedElement) {
-            const allOptions = document.querySelectorAll(`.${className}`);
-            allOptions.forEach(option => {
-                if (option === selectedElement) {
-                    option.classList.add('active');
-                } else {
-                    option.classList.remove('active');
-                }
-            });
-        }
-
-        // Function to play notification sound
-        function playNotificationSound() {
-            notificationSound.currentTime = 0;
-            notificationSound.play().catch(error => {
-                console.error('Error playing notification sound:', error);
-            });
-        }
-
-        // Function to get item quantity
-        function itemQuantity(item) {
-            return parseInt(item.quantity) || parseInt(item.Qty) || 1;
-        }
-
-        // Event Listener for Checkout Form Submission
-        checkoutForm.addEventListener('submit', handleFormSubmit);
-
-        // Function to open a modal
-        function openLoginModal() {
-            const loginModal = document.getElementById('login-modal');
-            loginModal.classList.add('active');
-            // Disable the checkout form
-            checkoutForm.classList.add('disabled');
-            // Show the conditional message in login form
-            showConditionalLoginMessage();
-        }
-
-        // Function to close the login modal
-        function closeLoginModal() {
-            const loginModal = document.getElementById('login-modal');
-            loginModal.classList.remove('active');
-            // Hide the conditional message in login form
-            hideConditionalLoginMessage();
-            // Re-enable the checkout form if the user is logged in
-            if (isLoggedIn()) {
-                enableCheckoutForm();
-            }
-        }
-
-        // Function to show conditional login message
-        function showConditionalLoginMessage() {
-            if (loginConditionalMessage) {
-                loginConditionalMessage.classList.add('active');
-            }
-        }
-
-        // Function to hide conditional login message
-        function hideConditionalLoginMessage() {
-            if (loginConditionalMessage) {
-                loginConditionalMessage.classList.remove('active');
-            }
-        }
-
-        // JavaScript for Login Form Submission
-        const loginForm = document.getElementById('login-form');
-
-        if (loginForm) {
-            loginForm.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-
-                try {
-                    const response = await fetch('/login', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ username, password }),
-                    });
-
-                    if (response.ok) {
-                        // Set login status in localStorage
-                        localStorage.setItem('loggedIn', 'true');
-                        // Close the login modal
-                        closeLoginModal();
-                        // Enable the checkout form
-                        enableCheckoutForm();
-                        // Optionally, show a success notification
-                        showNotification("Σύνδεση Επιτυχής", "Έχετε συνδεθεί επιτυχώς.");
-                    } else {
-                        const error = await response.json();
-                        showError(error.error || 'Η σύνδεση απέτυχε. Παρακαλώ προσπαθήστε ξανά.');
-                    }
-                } catch (err) {
-                    console.error('Error:', err);
-                    showError('Παρουσιάστηκε σφάλμα. Παρακαλώ προσπαθήστε ξανά.');
-                }
-            });
-        }
-
-        // Function to show general notifications
-        function showNotification(title, message) {
-            const container = document.getElementById('notification-container');
-            const notification = document.createElement('div');
-            notification.classList.add('notification');
-            notification.innerHTML = `<strong>${title}</strong><br>${message}`;
-            
-            container.appendChild(notification);
-
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.classList.add('fade-out');
-                notification.addEventListener('animationend', () => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                });
-            }, 3000);
-        }
-
-        // Optional: Logout Functionality (If Needed)
-        function logout() {
-            localStorage.removeItem('loggedIn');
-            // Optionally, redirect to login page or show login modal
-            openLoginModal();
-            // Show a logout notification
-            showNotification("Έξοδος", "Έχετε αποσυνδεθεί επιτυχώς.");
-        }
-    </script>
+    checkoutForm.addEventListener('submit', handleFormSubmit)
+  </script>
 </body>
 </html>

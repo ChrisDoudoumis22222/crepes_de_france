@@ -200,13 +200,21 @@
                 const response = await fetch('/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username, password, rememberMe })
+                    body: JSON.stringify({ username, password, rememberMe }),
+                    credentials: 'include' // Include cookies in the request
                 });
 
-                if (response.redirected) {
-                    window.location.href = response.url;
-                } else if (!response.ok) {
-                    const data = await response.json().catch(() => ({}));
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.username === 'dashboard_user') {
+                        // Redirect to dashboard.html
+                        window.location.href = '/dashboard.html';
+                    } else {
+                        // Redirect to menuel.html
+                        window.location.href = '/menuel.html';
+                    }
+                } else {
+                    const data = await response.json();
                     showError(data.error || 'Μη έγκυρο όνομα χρήστη ή κωδικός.');
                 }
             } catch (error) {
