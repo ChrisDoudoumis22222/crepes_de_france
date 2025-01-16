@@ -15,6 +15,7 @@
     "body-parser": "^1.20.3",
     "connect-flash": "^0.1.1",
     "connect-pg-simple": "^9.0.1",
+    "cors": "^2.8.5",
     "crepes_de_france1": "file:",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
