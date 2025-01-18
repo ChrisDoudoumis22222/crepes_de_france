@@ -464,15 +464,29 @@
 
     /* Print Receipt Media Query */
     @media print {
+      /* Remove colors and set everything to black */
+      * {
+        color: #000 !important;
+        background: none !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+      }
+
+      /* Use system font for better clarity */
+      body {
+        font-family: Arial, sans-serif !important;
+      }
+
       @page {
-        size: 80mm auto;
-        margin: 0;
+        size: auto; /* Let the browser decide the size */
+        margin: 10mm; /* Add some margin for print */
       }
       html, body {
-        width: 80mm;
+        width: auto;
         margin: 0 !important;
         padding: 0 !important;
         overflow: visible;
+        background: none !important;
       }
       body > *:not(#order-modal) {
         display: none !important;
@@ -482,7 +496,7 @@
         position: static !important;
         display: block !important;
         width: 100% !important;
-        max-width: 80mm !important;
+        max-width: none !important;
         background: none !important;
         box-shadow: none !important;
         top: 0 !important;
@@ -493,14 +507,13 @@
         margin: 0 auto;
       }
       .modal-content {
-        border-radius: 0;
-        box-shadow: none;
-        max-width: 80mm;
+        border-radius: 0 !important;
+        box-shadow: none !important;
         width: 100%;
-        max-height: none;
-        padding: 10mm;
-        font-size: 12pt;
-        font-weight: bold;
+        max-width: none !important;
+        padding: 10mm !important;
+        font-size: 12pt !important;
+        font-weight: normal !important;
         page-break-inside: avoid;
         text-align: left;
         margin: 0;
@@ -509,29 +522,21 @@
         display: none !important;
       }
       .modal-content h3 {
-        border-bottom: 2px solid var(--primary-color);
+        border-bottom: 2px solid #000 !important;
         padding-bottom: 5mm;
         margin-bottom: 10mm;
-        font-size: 14pt;
+        font-size: 14pt !important;
         text-align: center;
-        font-weight: bold;
+        font-weight: bold !important;
       }
       .modal-content:before {
-        content: "";
-        display: block;
-        background-image: url("https://cdn.e-food.gr/shop/762805/logo?t=1647428522");
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        width: 40mm;
-        height: 40mm;
-        margin: 0 auto 10mm auto;
+        display: none !important; /* Remove logo image from print */
       }
       .modal-content p,
       .modal-content ul,
       .modal-content li {
-        font-size: 12pt;
-        font-weight: bold;
+        font-size: 12pt !important;
+        font-weight: normal !important;
         margin: 0 0 5mm 0;
         text-align: left;
         width: 100%;
@@ -542,7 +547,7 @@
         margin-bottom: 10mm;
       }
       .modal-content ul li {
-        border-bottom: 1px solid var(--light-gray);
+        border-bottom: 1px solid #000 !important; /* Use black lines */
         margin-bottom: 3mm;
         padding-bottom: 2mm;
       }
@@ -551,14 +556,25 @@
         display: block;
         text-align: center;
         margin-top: 15mm;
-        font-size: 12pt;
-        color: #666;
-        font-weight: bold;
+        font-size: 12pt !important;
+        color: #000 !important;
+        font-weight: bold !important;
       }
       table, tr, td, th {
         page-break-inside: avoid;
-        font-size: 12pt;
-        font-weight: bold;
+        font-size: 12pt !important;
+        font-weight: normal !important;
+        border: 1px solid #000 !important; /* Black borders */
+      }
+      th {
+        background-color: #fff !important; /* White background for headers */
+        color: #000 !important;
+      }
+      tr:nth-child(even) {
+        background-color: #fff !important; /* Remove alternate row coloring */
+      }
+      tr:hover {
+        background-color: #fff !important; /* Remove hover effects */
       }
     }
 
