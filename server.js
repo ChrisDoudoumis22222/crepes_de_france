@@ -17,16 +17,32 @@ const app = express();
  **************************************/
 const PORT = process.env.PORT || 5000;
 const SESSION_SECRET = process.env.SESSION_SECRET || 'fallback_secret';
-const DATABASE_URL = process.env.DATABASE_URL; // Supabase / PostgreSQL connection string from .env
+
+// Choose the database connection string in order of preference:
+// 1. DATABASE_URL (if set directly)
+// 2. DATABASE_URL_TRANSACTION_POOLER (recommended for IPv4 compatibility)
+// 3. DATABASE_URL_DIRECT
+// 4. DATABASE_URL_SESSION_POOLER
+const DATABASE_URL =
+  process.env.DATABASE_URL ||
+  process.env.DATABASE_URL_TRANSACTION_POOLER ||
+  process.env.DATABASE_URL_DIRECT ||
+  process.env.DATABASE_URL_SESSION_POOLER;
+
+if (!DATABASE_URL) {
+  console.error('No DATABASE_URL configuration found in environment variables.');
+  process.exit(1);
+}
+
+// Configure SSL based on DATABASE_SSL setting (set to "true" to enable)
+const useSSL = process.env.DATABASE_SSL === 'true';
 
 /**************************************
  * 2) Initialize PostgreSQL Pool
  **************************************/
 const pool = new Pool({
   connectionString: DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false // Typically used with Supabase / Heroku
-  }
+  ssl: useSSL ? { rejectUnauthorized: false } : false,
 });
 
 /**************************************
