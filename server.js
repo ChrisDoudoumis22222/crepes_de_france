@@ -30,8 +30,11 @@ const DATABASE_URL =
   process.env.DATABASE_URL_SESSION_POOLER;
 
 if (!DATABASE_URL) {
-  console.error('No DATABASE_URL configuration found in environment variables.');
+  console.error('❌ No DATABASE_URL configuration found in environment variables.');
   process.exit(1);
+} else {
+  // Truncate the URL for logging (avoid printing full credentials)
+  console.log('ℹ️ Using DATABASE_URL:', DATABASE_URL.substring(0, 30) + '...');
 }
 
 // Configure SSL based on DATABASE_SSL setting (set to "true" to enable)
@@ -44,6 +47,18 @@ const pool = new Pool({
   connectionString: DATABASE_URL,
   ssl: useSSL ? { rejectUnauthorized: false } : false,
 });
+
+// Test the connection before initializing tables
+pool.connect()
+  .then(client => {
+    console.log('✅ Successfully connected to PostgreSQL database.');
+    client.release();
+  })
+  .catch(err => {
+    console.error('❌ Error connecting to PostgreSQL:', err.message);
+    // If connection fails, exit to avoid further errors
+    process.exit(1);
+  });
 
 /**************************************
  * 3) Middleware & Session Configuration
@@ -84,10 +99,12 @@ app.use(express.static(path.join(__dirname, 'public')));
  **************************************/
 async function initializeDatabase() {
   try {
-    // Enable pgcrypto extension (if needed for UUID or cryptographic functions)
+    console.log('ℹ️ Initializing database structures...');
+
+    // Enable pgcrypto extension (if you have privileges)
     await pool.query('CREATE EXTENSION IF NOT EXISTS pgcrypto;');
 
-    // Create users table (if not exists)
+    // Create users table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.users (
         id SERIAL PRIMARY KEY,
@@ -97,7 +114,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create orders table (if not exists)
+    // Create orders table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.orders (
         id SERIAL PRIMARY KEY,
@@ -112,13 +129,11 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create order_items table (if not exists)
+    // Create order_items table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.order_items (
         id SERIAL PRIMARY KEY,
-        order_id INTEGER 
-          REFERENCES public.orders(id) 
-          NOT NULL,
+        order_id INTEGER REFERENCES public.orders(id) NOT NULL,
         name VARCHAR(255) NOT NULL,
         quantity INTEGER NOT NULL,
         price NUMERIC(10,2) NOT NULL,
@@ -126,7 +141,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create item_addons table with ON DELETE RESTRICT (if not exists)
+    // Create item_addons table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.item_addons (
         id SERIAL PRIMARY KEY,
@@ -141,7 +156,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create session table (if not exists, required by connect-pg-simple)
+    // Session table required by connect-pg-simple
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.session (
         "sid" varchar NOT NULL COLLATE "default" PRIMARY KEY,
@@ -156,7 +171,7 @@ async function initializeDatabase() {
       ON public.session ("expire");
     `);
 
-    // Create menu_items table (if not exists)
+    // Create menu_items table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.menu_items (
         id SERIAL PRIMARY KEY,
@@ -170,7 +185,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create addons table (if not exists)
+    // Create addons table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.addons (
         id SERIAL PRIMARY KEY,
@@ -181,7 +196,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Create many-to-many relationship table menu_item_addons2 (if not exists)
+    // many-to-many relationship table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS public.menu_item_addons2 (
         id SERIAL PRIMARY KEY,
@@ -198,7 +213,7 @@ async function initializeDatabase() {
       );
     `);
 
-    // Insert hardcoded users (if not exists)
+    // Insert hardcoded users
     const hardcodedUsers = {
       thanasis: 'thanasis123',
       dimitris: 'dimitrisPass!',
@@ -208,10 +223,7 @@ async function initializeDatabase() {
     };
 
     for (const [username, password] of Object.entries(hardcodedUsers)) {
-      const userCheck = await pool.query(
-        'SELECT * FROM public.users WHERE username = $1',
-        [username]
-      );
+      const userCheck = await pool.query('SELECT * FROM public.users WHERE username = $1', [username]);
       if (userCheck.rows.length === 0) {
         const saltRounds = 10;
         const hashedPassword = await bcrypt.hash(password, saltRounds);
@@ -219,15 +231,16 @@ async function initializeDatabase() {
           'INSERT INTO public.users (username, password_hash) VALUES ($1, $2)',
           [username, hashedPassword]
         );
-        console.log(`Inserted hardcoded user: ${username}`);
+        console.log(`✅ Inserted hardcoded user: ${username}`);
       } else {
-        console.log(`User already exists: ${username}`);
+        console.log(`ℹ️ User already exists: ${username}`);
       }
     }
 
-    console.log('Database initialized successfully.');
+    console.log('✅ Database initialized successfully.');
   } catch (err) {
-    console.error('Error initializing database:', err);
+    console.error('❌ Error initializing database:', err);
+    // Exit if you want to stop the server on DB init failure
     process.exit(1);
   }
 }
@@ -256,7 +269,7 @@ app.post('/register', async (req, res) => {
     );
     res.status(201).json({ message: 'User registered successfully.' });
   } catch (err) {
-    console.error('Error during registration:', err);
+    console.error('❌ Error during registration:', err);
     res.status(500).json({ error: 'Internal server error.' });
   }
 });
@@ -282,14 +295,12 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password.' });
     }
 
-    // Session
+    // Store session data
     req.session.userId = user.id;
     req.session.username = user.username;
-
-    // Return username to frontend
     res.status(200).json({ message: 'Login successful.', username: user.username });
   } catch (err) {
-    console.error('Error during login:', err);
+    console.error('❌ Error during login:', err);
     res.status(500).json({ error: 'Internal server error.' });
   }
 });
@@ -301,7 +312,7 @@ app.post('/logout', (req, res) => {
   if (req.session) {
     req.session.destroy(err => {
       if (err) {
-        console.error('Error destroying session:', err);
+        console.error('❌ Error destroying session:', err);
         return res.status(500).json({ error: 'Could not log out. Please try again.' });
       } else {
         res.clearCookie('connect.sid');
@@ -340,7 +351,6 @@ function isAuthenticated(req, res, next) {
  **************************************/
 app.get('/api/menu', async (req, res) => {
   try {
-    // We join menu_items with menu_item_addons2 and addons
     const query = `
       SELECT
         mi.id AS menu_item_id,
@@ -364,10 +374,8 @@ app.get('/api/menu', async (req, res) => {
         ON mia2.addon_id = a.id
       ORDER BY mi.id ASC, mia2.id ASC
     `;
-
     const { rows } = await pool.query(query);
 
-    // Group them by menu_item_id
     const itemsMap = new Map();
     rows.forEach(row => {
       if (!itemsMap.has(row.menu_item_id)) {
@@ -384,8 +392,7 @@ app.get('/api/menu', async (req, res) => {
         });
       }
       if (row.addon_id) {
-        const menuItem = itemsMap.get(row.menu_item_id);
-        menuItem.addons.push({
+        itemsMap.get(row.menu_item_id).addons.push({
           addon_id: row.addon_id,
           group_id: row.group_id,
           addon_name_el: row.addon_name_el,
@@ -398,7 +405,7 @@ app.get('/api/menu', async (req, res) => {
     const items = Array.from(itemsMap.values());
     res.status(200).json({ items });
   } catch (err) {
-    console.error('Error fetching menu items with addons:', err);
+    console.error('❌ Error fetching menu items with addons:', err);
     res.status(500).json({ error: 'Internal server error.' });
   }
 });
@@ -406,11 +413,6 @@ app.get('/api/menu', async (req, res) => {
 /**************************************
  * 12) Orders (Protected Routes)
  **************************************/
-
-/* 
-   Note: The existing POST /api/orders route has been **replaced** 
-   with the custom implementation provided by the user.
-*/
 
 // GET /api/orders
 app.get('/api/orders', isAuthenticated, async (req, res) => {
@@ -470,7 +472,6 @@ app.get('/api/orders', isAuthenticated, async (req, res) => {
       `, [req.session.userId]);
     }
 
-    // Group by order
     const ordersMap = new Map();
     ordersResult.rows.forEach(row => {
       if (!ordersMap.has(row.id)) {
@@ -512,7 +513,7 @@ app.get('/api/orders', isAuthenticated, async (req, res) => {
     const orders = Array.from(ordersMap.values());
     res.status(200).json({ orders });
   } catch (err) {
-    console.error('Error fetching orders:', err);
+    console.error('❌ Error fetching orders:', err);
     res.status(500).json({ error: 'Internal server error.' });
   }
 });
@@ -550,50 +551,53 @@ app.post('/api/orders', isAuthenticated, async (req, res) => {
     return res.status(400).json({ error: 'Invalid total or tip value.' });
   }
 
+  const client = await pool.connect();
   try {
-    await pool.query('BEGIN'); // Start transaction
+    await client.query('BEGIN'); // Start transaction
 
     // Insert into orders
-    const orderResult = await pool.query(
+    const orderResult = await client.query(
       `INSERT INTO orders (user_id, timestamp, total, tip, payment_method, table_number, comments)
        VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`,
       [req.session.userId, timestamp, computedTotal, parsedTip, paymentMethod, table, comments]
     );
 
     const orderId = orderResult.rows[0].id;
-    console.log(`Order inserted successfully with ID: ${orderId}`);
+    console.log(`✅ Order inserted successfully with ID: ${orderId}`);
 
     // Insert order items
     for (const item of items) {
       const { name, quantity, price } = item;
-      const orderItemResult = await pool.query(
+      const orderItemResult = await client.query(
         `INSERT INTO order_items (order_id, name, quantity, price)
          VALUES ($1, $2, $3, $4) RETURNING id`,
         [orderId, name, quantity, price]
       );
       const orderItemId = orderItemResult.rows[0].id;
-      console.log(`Inserted item: ${name} with ID: ${orderItemId}`);
+      console.log(`✅ Inserted item: ${name} with ID: ${orderItemId}`);
 
       // Insert add-ons for each order item
       if (item.addOns && Array.isArray(item.addOns)) {
         for (const addon of item.addOns) {
           const { name: addonName, price: addonPrice } = addon;
-          await pool.query(
+          await client.query(
             `INSERT INTO item_addons (order_item_id, name, price)
              VALUES ($1, $2, $3)`,
             [orderItemId, addonName, addonPrice]
           );
-          console.log(`Inserted add-on: ${addonName} for order item ID: ${orderItemId}`);
+          console.log(`✅ Inserted add-on: ${addonName} for order item ID: ${orderItemId}`);
         }
       }
     }
 
-    await pool.query('COMMIT'); // Commit transaction
+    await client.query('COMMIT'); // Commit transaction
     res.status(201).json({ message: 'Order submitted successfully.' });
   } catch (err) {
-    await pool.query('ROLLBACK'); // Rollback transaction on error
-    console.error('Error submitting order:', err);
+    await client.query('ROLLBACK'); // Rollback transaction on error
+    console.error('❌ Error submitting order:', err);
     res.status(500).json({ error: 'Internal server error.' });
+  } finally {
+    client.release();
   }
 });
 
@@ -607,7 +611,6 @@ app.delete('/api/orders/:id', isAuthenticated, async (req, res) => {
   }
 
   const client = await pool.connect();
-
   try {
     await client.query('BEGIN'); // Start transaction
 
@@ -623,7 +626,7 @@ app.delete('/api/orders/:id', isAuthenticated, async (req, res) => {
       return res.status(404).json({ error: 'Order not found or unauthorized.' });
     }
 
-    // Step 1: Delete from item_addons
+    // Delete from item_addons
     const deleteItemAddonsQuery = `
       DELETE FROM item_addons
       WHERE order_item_id IN (
@@ -632,13 +635,13 @@ app.delete('/api/orders/:id', isAuthenticated, async (req, res) => {
     `;
     await client.query(deleteItemAddonsQuery, [orderId]);
 
-    // Step 2: Delete from order_items
+    // Delete from order_items
     const deleteOrderItemsQuery = `
       DELETE FROM order_items WHERE order_id = $1
     `;
     await client.query(deleteOrderItemsQuery, [orderId]);
 
-    // Step 3: Delete from orders
+    // Delete from orders
     const deleteOrdersQuery = `
       DELETE FROM orders WHERE id = $1
     `;
@@ -652,7 +655,7 @@ app.delete('/api/orders/:id', isAuthenticated, async (req, res) => {
     res.status(200).json({ message: 'Order and related records deleted successfully.' });
   } catch (err) {
     await client.query('ROLLBACK');
-    console.error('Error deleting order:', err);
+    console.error('❌ Error deleting order:', err);
     res.status(500).json({ error: 'Failed to delete order. Please try again.' });
   } finally {
     client.release();
@@ -663,5 +666,5 @@ app.delete('/api/orders/:id', isAuthenticated, async (req, res) => {
  * 13) Start the Server
  **************************************/
 app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
